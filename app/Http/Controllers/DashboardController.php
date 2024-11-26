@@ -9,7 +9,7 @@ class DashboardController extends Controller
      /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * View\Factory
      */
     public function index(Request $request)
     {         
