@@ -1,10 +1,9 @@
-
 @extends('layouts/admin_layout')
 @section('main')
  <!-- Hoverable Table rows -->
- <hr class="my-12" />
  <div class="card">
-    <h5 class="card-header">REPORT - LOC [November] </h5>
+  <input class="form-control" type="date" id="html5-date-input">
+    {{-- <h5 class="card-header">REPORT - LOC [November] </h5> --}}
     <div class="table-responsive text-nowrap">
       <table class="table table-hover">
         <thead>
@@ -24,20 +23,15 @@
         <tbody class="table-border-bottom-0">
           <tr>
             {{-- <td><i class="ri-suitcase-2-line ri-22px text-danger me-4"></i><span>#191817</span></td> --}}
-            <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="#1989273"></td>
-            <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="Done"></td>
-            <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="11 File"></td>
-            <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="97"></td>
-            <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="67"></td>
-            <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="32"></td>
-            <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="32"></td>
-            <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="132"></td>
-            <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="2024:11:22 11:22:11"></td>
-
-            <hr class="my-12" />
-
-
-
+            <td><a href="">#1989273</a></td>
+            <td>Done</td>
+            <td>11 File</td>
+            <td>97</td>
+            <td>67</td>
+            <td>32</td>
+            <td>32</td>
+            <td>132</td>
+            <td>2024:11:22 11:22:11</td>
             {{-- <td>
               <ul class="list-unstyled m-0 avatar-group d-flex align-items-center">
                 <li
@@ -72,13 +66,13 @@
                   <i class="ri-more-2-line"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0);"
+                  <a class="dropdown-item" href="{{Route('loc.edit')}}"
                     ><i class="ri-pencil-line me-1"></i> Edit</a
                   >
                   {{-- <a class="dropdown-item" href="javascript:void(0);"
                     ><i class="ri-delete-bin-6-line me-1"></i> Delete</a
                   > --}}
-                  <a class="dropdown-item" href="javascript:void(0);"
+                  <a class="dropdown-item" href="{{Route('loc.detail')}}"
                     ><i class="ri-information-fill  me-1"></i> info</a
                   >
                   
@@ -91,9 +85,4 @@
     </div>
   </div>
   <!--/ Hoverable Table rows -->
-
- <!-- Config child table -->
- 
- <!-- Config child table -->
-
 @stop()

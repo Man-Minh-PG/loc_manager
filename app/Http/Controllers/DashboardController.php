@@ -13,6 +13,6 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {         
-        return view('dashboard/index');
+        return view('dashboard/index'); // View temp change after complete
     }
 }
