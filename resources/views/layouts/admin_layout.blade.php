@@ -136,7 +136,7 @@
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-home-smile-line"></i>
-                <div data-i18n="Dashboards">Dashboards</div>
+                <div data-i18n="Dashboards">Dashboards PW</div>
                 {{-- <div class="badge bg-danger rounded-pill ms-auto">5</div>--}} {{-- Notifications --}}
               </a>
               <ul class="menu-sub">
@@ -246,7 +246,67 @@
             <!-- Components -->
             {{-- <li class="menu-header mt-7"><span class="menu-header-text">Components</span></li> --}}
 
-         
+            <li class="menu-header mt-7"><span class="menu-header-text">Beer</span></li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ri-home-smile-line"></i>
+                <div data-i18n="Dashboards">Dashboards Beer</div>
+                {{-- <div class="badge bg-danger rounded-pill ms-auto">5</div>--}} {{-- Notifications --}}
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a
+                    href="{{Route('dashboard.index')}}"
+                    target="_blank"
+                    class="menu-link">
+                    <div data-i18n="CRM">Analytics</div>
+                   {{--  <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>{{-- Notifications --}}
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{{Route('loc.index')}}" class="menu-link">
+                    <div data-i18n="Analytics">LOC sumary</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="{{Route('loc.create')}}"
+                    target="_blank"
+                    class="menu-link">
+                    <div data-i18n="eCommerce">Import LOC</div>
+                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="{{Route('loc.show')}}"
+                    target="_blank"
+                    class="menu-link">
+                    <div data-i18n="eCommerce">All LOC</div>
+                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                  </a>
+                </li>
+                {{-- <li class="menu-item">
+                  <a
+                    href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-logistics-dashboard.html"
+                    target="_blank"
+                    class="menu-link">
+                    <div data-i18n="Logistics">Logistics</div>
+                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-academy-dashboard.html"
+                    target="_blank"
+                    class="menu-link">
+                    <div data-i18n="Academy">Academy</div>
+                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                  </a>
+                </li> --}}
+              </ul>
+            </li>
+
 
             <!-- Misc -->
             <li class="menu-header mt-7"><span class="menu-header-text">Misc</span></li>

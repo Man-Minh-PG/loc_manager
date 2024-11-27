@@ -2,7 +2,10 @@
 @section('main')
  <!-- Hoverable Table rows -->
  <div class="card">
-  <input class="form-control" type="date" id="html5-date-input">
+  <input class="form-control" type="date" id="html5-date-input" style="width: 50%;"> 
+  <button type="button" class="btn btn-secondary waves-effect waves-light" style="width: 50%;">
+    <span class="tf-icons ri-notification-4-line ri-8px me-1_5"></span>Find
+  </button>
     {{-- <h5 class="card-header">REPORT - LOC [November] </h5> --}}
     <div class="table-responsive text-nowrap">
       <table class="table table-hover">

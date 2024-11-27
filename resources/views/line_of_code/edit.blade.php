@@ -18,6 +18,7 @@
             <th>TPL</th>
             <th>Total</th>
             <th>Create at</th>
+            <th>Branch</th>
             <th>Note</th>
           </tr>
         </thead>
@@ -32,6 +33,7 @@
             <td>32</td>
             <td>132</td>
             <td>2024:11:22 11:22:11</td>
+            <th>Branch123</th>
             <td>note 123</td>
           </tr>
         </tbody>
@@ -51,7 +53,8 @@
             <th>TPL</th>
             <th>Total</th>
             <th>Create at</th>
-            <th>Actions</th>
+            <th>Branch</th>
+            <th>Note</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
@@ -73,6 +76,9 @@
             <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="32"></td>
             <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="132"></td>
             <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="2024:11:22 11:22:11"></td>
+            <td>
+              <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" placeholder="Branch..."></textarea>
+            </td>
             <td>
               <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" placeholder="Comments here..."></textarea>
             </td>

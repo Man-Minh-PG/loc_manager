@@ -22,6 +22,9 @@ $(document).ready(function() {
                         <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="32"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="32"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="132"></td>
+                         <td>
+                            <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" placeholder="Branch..."></textarea>
+                        </td>
                         <td>
                             <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" placeholder="Comments here..."></textarea>
                         </td>

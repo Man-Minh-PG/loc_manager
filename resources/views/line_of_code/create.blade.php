@@ -32,8 +32,8 @@
             <th>CSS</th>
             <th>TPL</th>
             <th>Total</th>
-           
-            <th>Actions</th>
+            <th>Branch</th>
+            <th>Notes</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
@@ -57,7 +57,9 @@
             <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="32"></td>
             <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="32"></td>
             <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="132"></td>
-         
+            <td>
+                <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" placeholder="Branch..."></textarea>
+              </td>
             <td>
               <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" placeholder="Comments here..."></textarea>
             </td>
@@ -66,7 +68,6 @@
           
         </tbody>
                      
-      
       </table>
       <!-- Config child table -->
     </div>

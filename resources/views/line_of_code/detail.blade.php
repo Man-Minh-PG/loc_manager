@@ -19,6 +19,7 @@
             <th>TPL</th>
             <th>Total</th>
             <th>Create at</th>
+            <th>Branch</th>
             <th>Notes</th>
           </tr>
         </thead>
@@ -34,7 +35,7 @@
             <td>32</td>
             <td>122</td>
             <td>2024:11:22 11:22:11</td>
-
+            <td>Branch 123</td>
             <td>Note 123</td>
           </tr>
         </tbody>
@@ -54,6 +55,7 @@
             <th>TPL</th>
             <th>Total</th>
             <th>Create at</th>
+            <th>Branch</th>
             <th>Notes</th>
           </tr>
         </thead>
@@ -69,7 +71,7 @@
             <td>32</td>
             <td>122</td>
             <td>2024:11:22 11:22:11</td>
-
+            <td>Branch</td>
             <td>Note 123</td>
           </tr>
         </tbody>
