@@ -172,6 +172,15 @@
                     <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
                   </a>
                 </li>
+                <li class="menu-item">
+                  <a
+                    href="{{Route('loc.re_edit', ['type' => '1'])}}"
+                    target="_blank"
+                    class="menu-link">
+                    <div data-i18n="eCommerce">Re update</div>
+                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                  </a>
+                </li>
                 {{-- <li class="menu-item">
                   <a
                     href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-logistics-dashboard.html"
@@ -283,6 +292,15 @@
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="eCommerce">All LOC</div>
+                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a
+                    href="{{Route('loc.re_edit', ['type' => '2'])}}"
+                    target="_blank"
+                    class="menu-link">
+                    <div data-i18n="eCommerce">Re update</div>
                     <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
                   </a>
                 </li>

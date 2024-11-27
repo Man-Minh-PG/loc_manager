@@ -69,6 +69,14 @@ class LineOfCodeController extends Controller
         return view('line_of_code/edit');
     }
 
+    public function re_edit($type) 
+    {
+        if($type == LineOfCodeController::BEER) {
+            return view('line_of_code_beer/detail_all');
+        }
+        return view('line_of_code/detail_all');
+    }
+
     public function show($type)
     {
         if($type == LineOfCodeController::BEER) {

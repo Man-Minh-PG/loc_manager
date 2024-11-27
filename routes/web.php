@@ -32,4 +32,5 @@ Route::group(['prefix' => '_admin/loc', 'controller'  => LineOfCodeController::c
     Route::get('/detail_beer/123', 'detail_beer')->name('loc.detail_beer');
     Route::get('/edit/{type}/123', 'edit')->name('loc.edit');
     Route::get('/create/{type}', 'create')->name('loc.create');
+    Route::get('/re_edit/{type}', 're_edit')->name('loc.re_edit');
 }); 
