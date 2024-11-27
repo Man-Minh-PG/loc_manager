@@ -94,12 +94,9 @@
       <div class="row row-bordered g-0">
         <div class="col-lg-4 p-6">
           <button type="button" class="btn rounded-pill btn-outline-primary waves-effect">
-            <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Save
+            <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Update
           </button>
 
-          <button type="button" class="btn btn-icon btn-outline-secondary waves-effect" id="addRowBtn">
-            <span class="tf-icons line ri-22px"> + </span>
-          </button>
           </div>
         </div>
       </div>
@@ -109,7 +106,3 @@
   <!--/ Hoverable Table rows -->
    
 @stop()
-
-@section('js')
-<script src="{{asset('../assets/js/loc/edit_ui.js')}}"></script>
-@stop

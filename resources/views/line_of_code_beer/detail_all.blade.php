@@ -41,6 +41,7 @@
             <th>STT</th>
             <th>Parent task</th>
             <th>Child task</th>
+            <th>Type</th>
             <th>Status</th>
             <th>File_CH</th>
             <th>PHP</th>
@@ -58,6 +59,7 @@
             <td>1</td>
             <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="#1989273"></td>
             <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="#1989273"></td>
+            <td><input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" value="sys"></td>
             <td>
               <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
                 <option selected="">Status</option>
@@ -94,11 +96,7 @@
       <div class="row row-bordered g-0">
         <div class="col-lg-4 p-6">
           <button type="button" class="btn rounded-pill btn-outline-primary waves-effect">
-            <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Save
-          </button>
-
-          <button type="button" class="btn btn-icon btn-outline-secondary waves-effect" id="addRowBtn">
-            <span class="tf-icons line ri-22px"> + </span>
+            <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Update
           </button>
           </div>
         </div>
@@ -109,7 +107,3 @@
   <!--/ Hoverable Table rows -->
    
 @stop()
-
-@section('js')
-<script src="{{asset('../assets/js/loc/edit_ui.js')}}"></script>
-@stop
