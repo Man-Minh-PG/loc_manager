@@ -421,7 +421,7 @@
 
     <!-- Main JS -->
     <script src="{{asset('../assets/js/main.js')}}"></script>
-
+    @yield('js')
     <!-- Page JS -->
 
     <!-- Place this tag before closing body tag for github widget button. -->
