@@ -26,9 +26,10 @@ Route::group(['prefix' => '_admin/dashboard', 'controller'  => DashboardControll
 });
 
 Route::group(['prefix' => '_admin/loc', 'controller'  => LineOfCodeController::class], function(){
-    Route::get('/index', 'index')->name('loc.index'); // temp URL - phare2 update in branh update
-    Route::get('/index/show_all', 'show')->name('loc.show');
-    Route::get('/detail/123', 'detail')->name('loc.detail');
-    Route::get('/edit/123', 'edit')->name('loc.edit');
-    Route::get('/create', 'create')->name('loc.create');
+    Route::get('/index/{type}', 'index')->name('loc.index'); // temp URL - phare2 update in branh update
+    Route::get('/index/show_all/{type}', 'show')->name('loc.show');
+    Route::get('/detail_pw/123', 'detail')->name('loc.detail');
+    Route::get('/detail_beer/123', 'detail_beer')->name('loc.detail_beer');
+    Route::get('/edit/{type}/123', 'edit')->name('loc.edit');
+    Route::get('/create/{type}', 'create')->name('loc.create');
 }); 

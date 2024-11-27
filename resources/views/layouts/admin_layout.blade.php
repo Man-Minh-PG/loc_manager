@@ -150,22 +150,22 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{{Route('loc.index')}}" class="menu-link">
-                    <div data-i18n="Analytics">LOC sumary</div>
+                  <a href="{{Route('loc.index', ['type' => 1])}}" class="menu-link">
+                    <div data-i18n="Analytics">PW sumary</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a
-                    href="{{Route('loc.create')}}"
+                    href="{{Route('loc.create', ['type' => 1])}}"
                     target="_blank"
                     class="menu-link">
-                    <div data-i18n="eCommerce">Import LOC</div>
+                    <div data-i18n="eCommerce">PW Import</div>
                     <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a
-                    href="{{Route('loc.show')}}"
+                    href="{{Route('loc.show', ['type' => 1])}}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="eCommerce">All LOC</div>
@@ -264,13 +264,13 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{{Route('loc.index')}}" class="menu-link">
-                    <div data-i18n="Analytics">LOC sumary</div>
+                  <a href="{{Route('loc.index', ['type' => '2'])}}" class="menu-link">
+                    <div data-i18n="Analytics">Beer sumary</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a
-                    href="{{Route('loc.create')}}"
+                    href="{{Route('loc.create', ['type' => 2])}}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="eCommerce">Import LOC</div>
@@ -279,7 +279,7 @@
                 </li>
                 <li class="menu-item">
                   <a
-                    href="{{Route('loc.show')}}"
+                    href="{{Route('loc.show', ['type' => '2'])}}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="eCommerce">All LOC</div>

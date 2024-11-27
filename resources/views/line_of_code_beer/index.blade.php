@@ -12,6 +12,7 @@
         <thead>
           <tr>
             <th>Parent task</th>
+            <th>Type</th>
             <th>Status</th>
             <th>File_change</th>
             <th>PHP</th>
@@ -27,6 +28,7 @@
           <tr>
             {{-- <td><i class="ri-suitcase-2-line ri-22px text-danger me-4"></i><span>#191817</span></td> --}}
             <td><a href="">#1989273</a></td>
+            <td>Sys</td>
             <td>Done</td>
             <td>11 File</td>
             <td>97</td>
@@ -69,7 +71,7 @@
                   <i class="ri-more-2-line"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{{Route('loc.edit', ['type' => 1])}}"
+                  <a class="dropdown-item" href="{{Route('loc.edit', ['type' => 2])}}"
                     ><i class="ri-pencil-line me-1"></i> Edit</a
                   >
                   {{-- <a class="dropdown-item" href="javascript:void(0);"
