@@ -28,9 +28,9 @@
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
+          @foreach ($lst_parent_locs as $parent_task)
           <tr>
-            @foreach ($lst_parent_locs as $parent_task)
-            
+          
             <td><a href=""> {{ $parent_task->number_task }} </a></td>
             <td> {{$parent_task->status}} </td>
             <td> {{$parent_task->file_change}} File</td>
@@ -62,9 +62,10 @@
                 </div>
               </div>
             </td>
-            @endforeach
-
+            
           </tr>
+          
+          @endforeach
         </tbody>
       </table>
     </div>

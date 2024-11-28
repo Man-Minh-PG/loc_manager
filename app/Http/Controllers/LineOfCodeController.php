@@ -31,15 +31,16 @@ class LineOfCodeController extends Controller
             ];
         }
 
-        $lst_parent_locs = $parentTaskLoc->get_parent_task_with_conditions(
-            ['date' => $search_data['date_search'] ]
-        );
+        $lst_parent_locs = $parentTaskLoc->get_parent_task_with_conditions($conditions);
+        // dd($lst_parent_locs);
+  
 
         if($type == LineOfCodeController::BEER) {
-            return view('line_of_code_beer/index', compact($parent_locs));
+            return view('line_of_code_beer/index', compact('lst_parent_locs'));
         }
+        
 
-        return view('line_of_code/index', $lst_parent_locs);
+        return view('line_of_code/index', compact('lst_parent_locs'));
     }
 
     /**

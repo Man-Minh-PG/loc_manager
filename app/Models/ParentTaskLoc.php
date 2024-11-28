@@ -29,22 +29,24 @@ class ParentTaskLoc extends Model
         'total',
         'branch',
         'notes',
-
+        'created_at', // use for eloquent
+        'updated_at' // use for eloquent
     ];
 
     // Get data only parent task
     public function get_parent_task_with_conditions($conditions = []){
+       
         if(empty($conditions)) {
             $conditions['date']  = Carbon::now()->month;
         } // default get month current
-        
+      
         // --  Use query builder --
         // return DB::table('parent_tasks_loc')
         // ->whereDate('created_at', $conditions['date_search'] )
         // ->get();
-
+        // dd(ParentTaskLoc::whereMonth('created_at', $conditions['date'])->toSql());
         // use Eloquent
-        return ParentTaskLoc::whereDate('created_at', $conditions['date'])->get();
+        return ParentTaskLoc::whereMonth('created_at', $conditions['date'])->get();
     }
 
 
