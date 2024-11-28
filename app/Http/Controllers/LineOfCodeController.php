@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Models\ParentTaskLoc;
 
 class LineOfCodeController extends Controller
 {
@@ -13,18 +13,33 @@ class LineOfCodeController extends Controller
     /**
      * Summary of index
      * Get data of parent task
+     * created_at
      * 
      * Show data parent task in loc
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index($type)
+    public function index($type, Request $request)
     {
-        $currentMonth = Carbon::now()->month;
+        $parentTaskLoc = new ParentTaskLoc();
+        $search_data   = $request->all();
+        $conditions    = [];
+        $parent_locs   = [];
+        
+        if(!empty($search_data['date_search'])){
+            $conditions = [
+                'date' => $search_data['date_search']
+            ];
+        }
+
+        $lst_parent_locs = $parentTaskLoc->get_parent_task_with_conditions(
+            ['date' => $search_data['date_search'] ]
+        );
 
         if($type == LineOfCodeController::BEER) {
-            return view('line_of_code_beer/index');
+            return view('line_of_code_beer/index', compact($parent_locs));
         }
-        return view('line_of_code/index');
+
+        return view('line_of_code/index', $lst_parent_locs);
     }
 
     /**

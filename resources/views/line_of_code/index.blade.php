@@ -1,11 +1,15 @@
 @extends('layouts/admin_layout')
 @section('main')
  <!-- Hoverable Table rows -->
+ 
  <div class="card">
-  <input class="form-control" type="date" id="html5-date-input" style="width: 50%;"> 
-  <button type="button" class="btn btn-secondary waves-effect waves-light" style="width: 50%;">
-    <span class="tf-icons ri-notification-4-line ri-8px me-1_5"></span>Find
-  </button>
+  <form action="{{Route('loc.index', ['type' => 1])}}" method="GET">
+    <input class="form-control" name="date_search" type="date" id="html5-date-input" style="width: 50%;"> 
+    <button type="submit" class="btn btn-secondary waves-effect waves-light" style="width: 50%;">
+      <span class="tf-icons ri-notification-4-line ri-8px me-1_5"></span>Find
+    </button>
+  </form>
+
     {{-- <h5 class="card-header">REPORT - LOC [November] </h5> --}}
     <div class="table-responsive text-nowrap">
       <table class="table table-hover">
@@ -25,44 +29,18 @@
         </thead>
         <tbody class="table-border-bottom-0">
           <tr>
-            {{-- <td><i class="ri-suitcase-2-line ri-22px text-danger me-4"></i><span>#191817</span></td> --}}
-            <td><a href="">#1989273</a></td>
-            <td>Done</td>
-            <td>11 File</td>
-            <td>97</td>
-            <td>67</td>
-            <td>32</td>
-            <td>32</td>
-            <td>132</td>
-            <td>2024:11:22 11:22:11</td>
-            {{-- <td>
-              <ul class="list-unstyled m-0 avatar-group d-flex align-items-center">
-                <li
-                  data-bs-toggle="tooltip"
-                  data-popup="tooltip-custom"
-                  data-bs-placement="top"
-                  class="avatar avatar-xs pull-up"
-                  title="Lilian Fuller">
-                  <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-                </li>
-                <li
-                  data-bs-toggle="tooltip"
-                  data-popup="tooltip-custom"
-                  data-bs-placement="top"
-                  class="avatar avatar-xs pull-up"
-                  title="Sophia Wilkerson">
-                  <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-                </li>
-                <li
-                  data-bs-toggle="tooltip"
-                  data-popup="tooltip-custom"
-                  data-bs-placement="top"
-                  class="avatar avatar-xs pull-up"
-                  title="Christina Parker">
-                  <img src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-                </li>
-              </ul>
-            </td> --}}
+            @foreach ($lst_parent_locs as $parent_task)
+            
+            <td><a href=""> {{ $parent_task->number_task }} </a></td>
+            <td> {{$parent_task->status}} </td>
+            <td> {{$parent_task->file_change}} File</td>
+            <td> {{$parent_task->php}} </td>
+            <td> {{$parent_task->js}} </td>
+            <td> {{$parent_task->css}} </td>
+            <td> {{$parent_task->tpl}} </td>
+            <td> {{$parent_task->total}} </td>
+            <td> {{$parent_task->created_at}} </td>
+            
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -84,6 +62,8 @@
                 </div>
               </div>
             </td>
+            @endforeach
+
           </tr>
         </tbody>
       </table>

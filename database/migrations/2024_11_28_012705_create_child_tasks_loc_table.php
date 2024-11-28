@@ -30,7 +30,7 @@ class CreateChildTasksLocTable extends Migration
             $table->string('notes');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('parent_id')->references('id')->on('loc_parents');
+            $table->foreign('parent_id')->references('id')->on('parent_tasks_loc');
         });
     }
 
