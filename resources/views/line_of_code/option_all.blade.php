@@ -18,54 +18,69 @@
             <thead>
               <tr>
                 <th>Task</th>
+                <th>Task type</th>
+                <th>Status</th>
                 <th>File_change</th>
                 <th>PHP</th>
                 <th>JS</th>
                 <th>CSS</th>
                 <th>TPL</th>
                 <th>Sum</th>
+                <th>Branchs</th>
                 <th>Notes</th>
               </tr>
             </thead>
             <tbody class="table-border-bottom-0">
               <tr class="table-light">
-                <td>(Parent) - <a href="">1111</a></td>
+                <td><a href="">1111</a></td>
+                <td>Parent</td>
+                <td>Done</td>
                 <td>11 File</td>
                 <td>99</td>
                 <td>99</td>
                 <td>99</td>
                 <td>99</td>
-                <th>111</th>
+                <td>111</td>
+                <td>116789_admin_update_database_test_test</td>
                 <td>Note 123</td>
               </tr>
               <tr class="table-primary">
-                <td>Child - <a href="">1111</a></td>
+                <td><a href="">1111</a></td>
+                <td>Child</td>
+                <td>Done</td>
                 <td>11 File</td>
                 <td>99</td>
                 <td>99</td>
                 <td>99</td>
                 <td>99</td>
-                <th>111</th>
+                <td>111</td>
+                <td>116789_admin_update_database_test_test</td>
                 <td>Note 123</td>
               </tr>
               <tr class="table-primary">
-                <td>Child - <a href="">1111</a></td>
+                <td><a href="">1111</a></td>
+                <td>Child</td>
+                <td>Done</td>
                 <td>11 File</td>
                 <td>99</td>
                 <td>99</td>
                 <td>99</td>
                 <td>99</td>
-                <th>111</th>
+                <td>111</td>
+                <td>116789_admin_update_database_test_test</td>
                 <td>Note 123</td>
               </tr>
               <tr class="table-light">
-                <td>(Parent) - <a href="">1111</a></td>
+                <td><a href="">1111</a></td>
+                <td>Parent</td>
+                <td>Done</td>
                 <td>11 File</td>
                 <td>99</td>
                 <td>99</td>
                 <td>99</td>
                 <td>99</td>
-                <th>111</th>
+                <td>111</td>
+                <td>116789_admin_update_database_test_test</td>
                 <td>Note 123</td>
               </tr>
             </tbody>

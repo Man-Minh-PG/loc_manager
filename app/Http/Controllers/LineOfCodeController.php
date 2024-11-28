@@ -14,7 +14,7 @@ class LineOfCodeController extends Controller
     /**
      * Summary of index
      * Get data of parent task
-     * created_at
+     * conditions get data created_at
      * 
      * Show data parent task in loc
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -23,11 +23,13 @@ class LineOfCodeController extends Controller
     {
         $parentTaskLoc = new ParentTaskLoc();
         $searchData    = $request->all();
-        $conditions    = [];
+        $conditions    = [
+            'type' => $type
+        ];
         $statusLabel   = config('common');
 
         if(!empty($searchData['dateSearch'])){
-            $conditions = [
+            $conditions += [
                 'date' =>  Carbon::parse($searchData['dateSearch'])->month
             ];
         }
@@ -112,8 +114,26 @@ class LineOfCodeController extends Controller
      * @param mixed $type
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($type)
+    public function show($type, Request $request)
     {
+        // $parentTaskLoc = new ParentTaskLoc();
+        // $searchData    = $request->all();
+        // $conditions    = [
+        //     'type' => $type
+        // ];
+        // $statusLabel   = config('common');
+
+        // if(!empty($searchData['dateSearch'])){
+        //     $conditions += [
+        //         'date' =>  Carbon::parse($searchData['dateSearch'])->month
+        //     ];
+        // }
+
+        // $lstLocs = $parentTaskLoc->get_data_releated_to_parent($conditions);
+        // dd($lstParentlocs);
+  
+        // compact('lstParentlocs', 'statusLabel')
+
         if($type == LineOfCodeController::BEER) {
             return view('line_of_code_beer/option_all');
         }
