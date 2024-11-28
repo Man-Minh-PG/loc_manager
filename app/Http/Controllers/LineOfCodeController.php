@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class LineOfCodeController extends Controller
 {
@@ -11,11 +12,15 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of index
+     * Get data of parent task
+     * 
      * Show data parent task in loc
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index($type)
     {
+        $currentMonth = Carbon::now()->month;
+
         if($type == LineOfCodeController::BEER) {
             return view('line_of_code_beer/index');
         }
@@ -24,7 +29,7 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of detail
-     * Show data child in loc
+     * Show data child of parent
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function detail()
@@ -35,7 +40,7 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of detail_beer
-     * 
+     * Show data child of parent
      */
     public function detail_beer() 
     {
@@ -69,6 +74,11 @@ class LineOfCodeController extends Controller
         return view('line_of_code/edit');
     }
 
+    /**
+     * Summary of re_edit
+     * @param mixed $type
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function re_edit($type) 
     {
         if($type == LineOfCodeController::BEER) {
@@ -77,6 +87,14 @@ class LineOfCodeController extends Controller
         return view('line_of_code/detail_all');
     }
 
+    /**
+     * Summary of show
+     * 
+     * Show all data with parent and child
+     * 
+     * @param mixed $type
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function show($type)
     {
         if($type == LineOfCodeController::BEER) {
