@@ -17,7 +17,7 @@ class CreateParentTasksLocTable extends Migration
             $table->id();
             $table->unsignedBigInteger('index_key_id');
             $table->smallInteger('project_type');
-            $table->smallInteger('number_task');
+            $table->string('number_task');
             $table->smallInteger('status');
             $table->smallInteger('source_type');
             $table->smallInteger('file_change');

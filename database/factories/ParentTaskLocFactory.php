@@ -21,7 +21,7 @@ class ParentTaskLocFactory extends Factory
         return [
            'index_key_id' => IndexKey::factory(), 
            'project_type' => $this->faker->randomElement([1, 2]), 
-           'number_task'  => $this->faker->randomNumber(4, true), 
+           'number_task'  => $this->faker->randomNumber(7, true), 
            'status'       => $this->faker->randomElement([1,2]),
            'source_type'  => $this->faker->randomElement([1,2]),
            'file_change'  => $this->faker->randomElement([16, 88, 99, 43, 55, 66, 77, 88]),
@@ -30,7 +30,7 @@ class ParentTaskLocFactory extends Factory
            'css'          => $this->faker->randomElement([16, 88, 99, 43, 55, 66, 77, 88]),
            'tpl'          => $this->faker->randomElement([16, 88, 99, 43, 55, 66, 77, 88]),
            'total'        => $this->faker->randomElement([16, 88, 99, 43, 55, 66, 77, 88]),
-           'branch'       => $this->faker->randomElement([16, 88, 99, 43, 55, 66, 77, 88]),
+           'branch'       => $this->faker->domainName,
            'notes'        => $this->faker->company,
         //    'remember_token' => Str::random(10), 
         //    'created_at' => now(), // Thời gian tạo bản ghi

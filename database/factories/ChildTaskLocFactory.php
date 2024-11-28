@@ -19,7 +19,7 @@ class ChildTaskLocFactory extends Factory
     {
         return [
            'parent_id'    => ParentTaskLoc::factory(),
-           'child_id'     => $this->faker->randomNumber(4, true),
+           'number_task'  => $this->faker->randomNumber(7, true),
            'project_type' => $this->faker->randomElement([1,2]), 
            'status'       => $this->faker->randomElement([1,2]),
            'source_type'  => $this->faker->randomElement([1,2]),
@@ -29,7 +29,7 @@ class ChildTaskLocFactory extends Factory
            'css'          => $this->faker->randomElement([16, 88, 99, 43, 55, 66, 77, 88]),
            'tpl'          => $this->faker->randomElement([16, 88, 99, 43, 55, 66, 77, 88]),
            'total'        => $this->faker->randomElement([16, 88, 99, 43, 55, 66, 77, 88]),
-           'branch'       => $this->faker->randomElement([16, 88, 99, 43, 55, 66, 77, 88]),
+           'branch'       => $this->faker->domainName,
            'notes'        => $this->faker->company,
         ];
     }
