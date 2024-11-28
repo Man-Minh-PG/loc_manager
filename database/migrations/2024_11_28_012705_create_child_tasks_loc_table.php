@@ -16,7 +16,7 @@ class CreateChildTasksLocTable extends Migration
         Schema::create('child_tasks_loc', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('parent_id');
-            $table->unsignedBigInteger('child_id');
+            $table->string('number_task');
             $table->smallInteger('project_type');
             $table->smallInteger('status');
             $table->smallInteger('source_type');
