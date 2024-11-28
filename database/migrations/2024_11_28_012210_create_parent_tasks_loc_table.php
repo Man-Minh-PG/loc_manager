@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChildParentsTable extends Migration
+class CreateParentTasksLocTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateChildParentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('child_parents', function (Blueprint $table) {
+        Schema::create('parent_tasks_loc', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parent_id');
-            $table->unsignedBigInteger('child_id');
+            $table->unsignedBigInteger('index_key_id');
             $table->smallInteger('project_type');
+            $table->smallInteger('number_task');
             $table->smallInteger('status');
             $table->smallInteger('source_type');
             $table->smallInteger('file_change');
@@ -30,7 +30,7 @@ class CreateChildParentsTable extends Migration
             $table->string('notes');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('parent_id')->references('id')->on('loc_parents');
+            $table->foreign('index_key_id')->references('id')->on('index_key');
         });
     }
 
@@ -41,6 +41,6 @@ class CreateChildParentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('child_parents');
+        Schema::dropIfExists('parent_tasks_loc');
     }
 }
