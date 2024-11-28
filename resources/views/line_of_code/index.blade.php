@@ -4,7 +4,7 @@
  
  <div class="card">
   <form action="{{Route('loc.index', ['type' => 1])}}" method="GET">
-    <input class="form-control" name="date_search" type="date" id="html5-date-input" style="width: 50%;"> 
+    <input class="form-control" name="dateSearch" type="date" id="html5-date-input" style="width: 50%;"> 
     <button type="submit" class="btn btn-secondary waves-effect waves-light" style="width: 50%;">
       <span class="tf-icons ri-notification-4-line ri-8px me-1_5"></span>Find
     </button>
@@ -28,18 +28,28 @@
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-          @foreach ($lst_parent_locs as $parent_task)
+          @foreach ($lstParentlocs as $parentTask)
           <tr>
           
-            <td><a href=""> {{ $parent_task->number_task }} </a></td>
-            <td> {{$parent_task->status}} </td>
-            <td> {{$parent_task->file_change}} File</td>
-            <td> {{$parent_task->php}} </td>
-            <td> {{$parent_task->js}} </td>
-            <td> {{$parent_task->css}} </td>
-            <td> {{$parent_task->tpl}} </td>
-            <td> {{$parent_task->total}} </td>
-            <td> {{$parent_task->created_at}} </td>
+            <td><a href=""> {{ $parentTask->number_task }} </a></td>
+            <td>
+              @if ($parentTask->status == config('common.new'))
+                <span class="badge bg-label-warning rounded-pill">New</span>
+              @elseif ($parentTask->status == config('common.inProgress'))
+                <span class="badge bg-label-info rounded-pill">In Progress</span>
+              @elseif ($parentTask->status == config('common.completed'))
+                <span class="badge bg-label-success rounded-pill">Completed</span>
+              @elseif ($parentTask->status == config('common.close'))
+                <span class="badge bg-label-secondary rounded-pill">Close</span>
+              @endif
+            </td>
+            <td> {{$parentTask->file_change}} File</td>
+            <td> {{$parentTask->php}} </td>
+            <td> {{$parentTask->js}} </td>
+            <td> {{$parentTask->css}} </td>
+            <td> {{$parentTask->tpl}} </td>
+            <td> {{$parentTask->total}} </td>
+            <td> {{$parentTask->created_at}} </td>
             
             <td>
               <div class="dropdown">

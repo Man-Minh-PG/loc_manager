@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ParentTaskLoc;
+use Carbon\Carbon;
 
 class LineOfCodeController extends Controller
 {
@@ -21,26 +22,26 @@ class LineOfCodeController extends Controller
     public function index($type, Request $request)
     {
         $parentTaskLoc = new ParentTaskLoc();
-        $search_data   = $request->all();
+        $searchData    = $request->all();
         $conditions    = [];
-        $parent_locs   = [];
-        
-        if(!empty($search_data['date_search'])){
+        $statusLabel   = config('common');
+
+        if(!empty($searchData['dateSearch'])){
             $conditions = [
-                'date' => $search_data['date_search']
+                'date' =>  Carbon::parse($searchData['dateSearch'])->month
             ];
         }
 
-        $lst_parent_locs = $parentTaskLoc->get_parent_task_with_conditions($conditions);
-        // dd($lst_parent_locs);
+        $lstParentlocs = $parentTaskLoc->get_parent_task_with_conditions($conditions);
+        // dd($lstParentlocs);
   
 
         if($type == LineOfCodeController::BEER) {
-            return view('line_of_code_beer/index', compact('lst_parent_locs'));
+            return view('line_of_code_beer/index', compact('lstParentlocs', 'statusLabel'));
         }
         
 
-        return view('line_of_code/index', compact('lst_parent_locs'));
+        return view('line_of_code/index', compact('lstParentlocs', 'statusLabel'));
     }
 
     /**
