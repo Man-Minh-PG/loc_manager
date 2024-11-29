@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ParentTaskLoc;
+use App\Models\ChildTaskLoc;
 use Carbon\Carbon;
 
 class LineOfCodeController extends Controller
@@ -30,9 +31,10 @@ class LineOfCodeController extends Controller
 
         if(!empty($searchData['dateSearch'])){
             $conditions += [
-                'date' =>  Carbon::parse($searchData['dateSearch'])->month
+                'month' => Carbon::parse($searchData['dateSearch'])->month,
+                'year'  => Carbon::parse($searchData['dateSearch'])->year
             ];
-        }
+        } // set conditions db
 
         $lstParentlocs = $parentTaskLoc->get_parent_task_with_conditions($conditions);
         // dd($lstParentlocs);
@@ -116,29 +118,25 @@ class LineOfCodeController extends Controller
      */
     public function show($type, Request $request)
     {
-        // $parentTaskLoc = new ParentTaskLoc();
-        // $searchData    = $request->all();
-        // $conditions    = [
-        //     'type' => $type
-        // ];
-        // $statusLabel   = config('common');
+        $parentTaskLoc = new ParentTaskLoc();
+        $searchData    = $request->all();
+        $lstLocs       = [];
+        $conditions    = [
+            'type' => $type
+        ];
+        $statusLabel   = config('common');
 
-        // if(!empty($searchData['dateSearch'])){
-        //     $conditions += [
-        //         'date' =>  Carbon::parse($searchData['dateSearch'])->month
-        //     ];
-        // }
-
-        // $lstLocs = $parentTaskLoc->get_data_releated_to_parent($conditions);
-        // dd($lstParentlocs);
-  
-        // compact('lstParentlocs', 'statusLabel')
+        if(!empty($searchData['dateSearch'])){
+            $conditions += [
+                'month' => Carbon::parse($searchData['dateSearch'])->month,
+                'year'  => Carbon::parse($searchData['dateSearch'])->year
+            ];
+        } // set conditions db
+        $lstLocs  = $parentTaskLoc->get_info_releated_loc($conditions);
 
         if($type == LineOfCodeController::BEER) {
-            return view('line_of_code_beer/option_all');
+            return view('line_of_code_beer/option_all', compact('lstLocs', 'statusLabel'));
         }
-        return view('line_of_code/option_all');
-    }
-
-    
+        return view('line_of_code/option_all', compact('lstLocs', 'statusLabel'));
+    }    
 }

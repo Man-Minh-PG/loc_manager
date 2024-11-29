@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ChildTaskLoc;
+use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
 
@@ -34,18 +35,37 @@ class ParentTaskLoc extends Model
         'updated_at' // use for eloquent
     ];
 
+    /**
+    * Relationship: Get the parent of this task.
+    */
+    public function childTask()
+    {
+        return $this->hasOne(ChildTaskLoc::class);
+    }
+
+    /**
+    * Relationship: Get the parent of this task.
+    */
+    public function childTasks()
+    {
+        return $this->hasMany(ChildTaskLoc::class, 'parent_id', 'id');
+    }
+
     // Get data only parent task
     public function get_parent_task_with_conditions($conditions = []){
        
-        if(empty($conditions['date'])) {
+        if(empty($conditions['month'])) {
             $conditions += 
             [
-                'date' => Carbon::now()->month
+                'month' => Carbon::now()->month,
+                'year'  => Carbon::now()->year
             ];
         } // default get month current
     
         // use Eloquent
-        return ParentTaskLoc::whereMonth('created_at', $conditions['date'])->where('project_type', $conditions['type'])->get();
+        return ParentTaskLoc::whereYear('created_at', $conditions['year'])
+            ->whereMonth('created_at', $conditions['month'])
+            ->where('project_type', $conditions['type'])->get();
     
         // --  use query builder --
         // return DB::table('parent_tasks_loc')
@@ -55,14 +75,20 @@ class ParentTaskLoc extends Model
         // -- end Use query builder --
     }
 
-
-    // Get data parent task and child task
-    // if flag is true -> get full 
-    // else flag is false get only 
-    // doc: /c/6747ea4b-e724-800a-874c-58e84215a6fb
-    public function get_data_releated_to_parent($get_full = true, $conditions = []) {
-        return $this->hasMany(ChildTaskLoc::class, 'parent_id', 'id')
-        ->where('project_type', $conditions['type']);
+    public function get_info_releated_loc($conditions = []){
+        if(empty($conditions['month'])) {
+            $conditions += 
+            [
+                'month' => Carbon::now()->month,
+                'year'  => Carbon::now()->year
+            ];
+        } // default get month current
+    
+        // use Eloquent
+        return ParentTaskLoc::with('childTasks')
+        ->whereYear('created_at', $conditions['year'])
+        ->whereMonth('created_at', $conditions['month'])
+        ->where('project_type', $conditions['type'])
+        ->get();
     }
-
 }

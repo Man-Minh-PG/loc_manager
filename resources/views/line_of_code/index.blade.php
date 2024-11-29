@@ -5,8 +5,8 @@
  <div class="card">
   <form action="{{Route('loc.index', ['type' => 1])}}" method="GET">
     <input class="form-control" name="dateSearch" type="date" id="html5-date-input" style="width: 50%;"> 
-    <button type="submit" class="btn btn-secondary waves-effect waves-light" style="width: 50%;">
-      <span class="tf-icons ri-notification-4-line ri-8px me-1_5"></span>Find
+    <button type="submit" class="btn btn-primary waves-effect waves-light" style="width: 50%;">
+      <span class="tf-icons ri-search-2-line  ri-8px me-1_5"></span>Find
     </button>
   </form>
 
