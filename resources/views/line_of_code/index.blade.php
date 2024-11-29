@@ -63,7 +63,7 @@
                   {{-- <a class="dropdown-item" href="javascript:void(0);"
                     ><i class="ri-delete-bin-6-line me-1"></i> Delete</a
                   > --}}
-                  <a class="dropdown-item" href="{{Route('loc.detail')}}"
+                  <a class="dropdown-item" href="{{Route('loc.detail', ['id_parent' => $parentTask->id])}}"
                     ><i class="ri-information-fill  me-1"></i> info</a
                   >
                   <a class="dropdown-item" href="javascript:void(0);"
@@ -72,9 +72,7 @@
                 </div>
               </div>
             </td>
-            
           </tr>
-          
           @endforeach
         </tbody>
       </table>

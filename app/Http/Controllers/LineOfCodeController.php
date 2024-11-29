@@ -53,10 +53,13 @@ class LineOfCodeController extends Controller
      * Show data child of parent
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function detail()
+    public function detail($id_parent)
     {
+      
+        $parentTaskLoc = new ParentTaskLoc();
+        $lstLocDetail     = $parentTaskLoc->get_info_releated_loc_with_parent_id($id_parent);
 
-        return view('line_of_code/detail');
+        return view('line_of_code/detail', compact('lstLocDetail'));
     }
 
     /**

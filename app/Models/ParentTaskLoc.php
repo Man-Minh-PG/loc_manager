@@ -91,4 +91,15 @@ class ParentTaskLoc extends Model
         ->where('project_type', $conditions['type'])
         ->get();
     }
+
+    public function get_info_releated_loc_with_parent_id($id_parent) {
+        if(empty($id_parent)) {
+            return [];
+        }
+
+        // use Eloquent
+        return ParentTaskLoc::with('childTasks')
+        ->where('parent_tasks_loc.id', $id_parent)
+        ->get();
+    }
 }
