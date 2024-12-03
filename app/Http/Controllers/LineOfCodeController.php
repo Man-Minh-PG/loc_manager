@@ -93,13 +93,21 @@ class LineOfCodeController extends Controller
      * Return to view edit
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($type, $id)
+    public function edit($type, $id_parent)
     {
+        $parentTaskLoc = new ParentTaskLoc();
+        $lstLocDetail  = $parentTaskLoc->get_info_releated_loc_with_parent_id($id_parent);
+        $lstStatus     = [
+            config('common.new') => 'new',
+            config('common.inProgress') => 'inProgress',
+            config('common.completed') => 'completed',
+            config('common.close') => 'close'
+        ];
 
         if($type == LineOfCodeController::BEER) {
-            return view('line_of_code_beer/edit');
+            return view('line_of_code_beer/edit', compact('lstLocDetail', 'lstStatus'));
         }
-        return view('line_of_code/edit');
+        return view('line_of_code/edit', compact('lstLocDetail', 'lstStatus'));
     }
 
     /**

@@ -73,13 +73,13 @@
                   <i class="ri-more-2-line"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{{Route('loc.edit', ['type' => 1])}}"
+                  <a class="dropdown-item" href="{{Route('loc.edit', ['type' => 1, 'id_parent' => $parentTask->id])}}"
                     ><i class="ri-pencil-line me-1"></i> Edit</a
                   >
                   {{-- <a class="dropdown-item" href="javascript:void(0);"
                     ><i class="ri-delete-bin-6-line me-1"></i> Delete</a
                   > --}}
-                  <a class="dropdown-item" href="{{Route('loc.detail_beer')}}"
+                  <a class="dropdown-item" href="{{Route('loc.detail_beer', ['id_parent' => $parentTask->id])}}"
                     ><i class="ri-information-fill  me-1"></i> info</a
                   >
                   <a class="dropdown-item" href="javascript:void(0);"
