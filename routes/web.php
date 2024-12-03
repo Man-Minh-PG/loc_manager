@@ -29,7 +29,7 @@ Route::group(['prefix' => '_admin/loc', 'controller'  => LineOfCodeController::c
     Route::get('/index/{type}', 'index')->name('loc.index'); // temp URL - phare2 update in branh update
     Route::get('/index/show_all/{type}', 'show')->name('loc.show');
     Route::get('/detail_pw/{id_parent}', 'detail')->name('loc.detail');
-    Route::get('/detail_beer/123', 'detail_beer')->name('loc.detail_beer');
+    Route::get('/detail_beer/{id_parent}', 'detail_beer')->name('loc.detail_beer');
     Route::get('/edit/{type}/123', 'edit')->name('loc.edit');
     Route::get('/create/{type}', 'create')->name('loc.create');
     Route::get('/re_edit/{type}', 're_edit')->name('loc.re_edit');

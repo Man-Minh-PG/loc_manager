@@ -66,8 +66,11 @@ class LineOfCodeController extends Controller
      * Summary of detail_beer
      * Show data child of parent
      */
-    public function detail_beer() 
+    public function detail_beer($id_parent) 
     {
+        $parentTaskLoc = new ParentTaskLoc();
+        $lstLocDetail  = $parentTaskLoc->get_info_releated_loc_with_parent_id($id_parent);
+
         return view('line_of_code/detail');
     }
 
@@ -90,10 +93,11 @@ class LineOfCodeController extends Controller
      * Return to view edit
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($type)
+    public function edit($type, $id)
     {
+
         if($type == LineOfCodeController::BEER) {
-            
+            return view('line_of_code_beer/edit');
         }
         return view('line_of_code/edit');
     }
