@@ -4,8 +4,13 @@
  <!-- Hoverable Table rows -->
  <!-- <hr class="my-12" /> -->
  <div class="card">
-  <h5 class="card-header">Info line of code task: #{{$lstLocDetail[0]->number_task}} [2024 - 11]</h5>
-
+  <!-- Notifications -->
+  <div class="card-body">
+    <h5 class="mb-0">Infomation task # {{$lstLocDetail[0]->number_task}}</h5>
+    <span class="card-subtitle">Date time:
+      <a href="javascript:void(0);" class="notificationRequest"> {{$lstLocDetail[0]->created_at}} </a></span>
+    <div class="error"></div>
+  </div>
     <div class="table-responsive text-nowrap">
       <table class="table table-hover">
         <thead>
@@ -42,7 +47,7 @@
             <td> {{$lstLocDetail[0]->file_change}} File</td>
             <td> {{$lstLocDetail[0]->php}} </td>
             <td> {{$lstLocDetail[0]->js}} </td>
-            <td> {{$lstLocDetail[0]->css}} </td>s
+            <td> {{$lstLocDetail[0]->css}} </td>
             <td> {{$lstLocDetail[0]->tpl}} </td>
             <td> {{$lstLocDetail[0]->total}} </td>
             <td> {{$lstLocDetail[0]->created_at}} </td>
@@ -54,7 +59,7 @@
       </table>
       <hr class="my-12" />
       <!-- Config child table -->
-      @if (isset($lstLocDetail[0]->childTasks))
+      @isset($lstLocDetail[0]->childTasks)
       <table class="table table-hover">
         <thead>
           <tr>
@@ -93,6 +98,7 @@
             <td> {{$child->css}} </td>
             <td> {{$child->tpl}} </td>
             <td> {{$child->total}} </td>
+            <td> {{$child->created_at}} </td>
             <td> {{$child->branch}} </td>
             <td> {{$child->notes}} </td>
           </tr>
@@ -101,7 +107,7 @@
                      
       
       </table>
-      @endif
+      @endisset
       <!-- Config child table -->
     </div>
   </div>

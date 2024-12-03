@@ -57,7 +57,7 @@ class LineOfCodeController extends Controller
     {
       
         $parentTaskLoc = new ParentTaskLoc();
-        $lstLocDetail     = $parentTaskLoc->get_info_releated_loc_with_parent_id($id_parent);
+        $lstLocDetail  = $parentTaskLoc->get_info_releated_loc_with_parent_id($id_parent);
 
         return view('line_of_code/detail', compact('lstLocDetail'));
     }
