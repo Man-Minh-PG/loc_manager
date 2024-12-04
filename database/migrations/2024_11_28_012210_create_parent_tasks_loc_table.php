@@ -26,8 +26,9 @@ class CreateParentTasksLocTable extends Migration
             $table->smallInteger('css');
             $table->smallInteger('tpl');
             $table->smallInteger('total');
-            $table->string('branch');
-            $table->string('notes');
+            $table->string('branch')->nullable(true);
+            $table->string('notes')->nullable(true);
+            $table->string('path')->nullable(true);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('index_key_id')->references('id')->on('index_key');
