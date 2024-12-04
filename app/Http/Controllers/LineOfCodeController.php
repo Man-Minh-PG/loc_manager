@@ -93,8 +93,14 @@ class LineOfCodeController extends Controller
 
     public function importCsv(Request $request)
     {
+        $request->validate([
+            'file' => 'required|mimes:csv,txt|max:2048', // Kiểm tra định dạng file
+        ]);
+
+        $file = $request->file('file');
+
         try {
-            Excel::import(new CsvImport, $request->file('file')); // Reading file csv
+            Excel::import(new CsvImport, $file); // Reading file csv
             return redirect()->back()->with('success', 'File imported successfully!');
         } catch (ValidationException $e) {
             $failures = $e->failures(); // Lấy danh sách lỗi
