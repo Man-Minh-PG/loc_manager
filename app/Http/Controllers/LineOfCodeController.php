@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\ParentTaskLoc;
 use App\Models\ChildTaskLoc;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
+use App\Imports\CsvImport;
 
 class LineOfCodeController extends Controller
 {
@@ -86,6 +89,17 @@ class LineOfCodeController extends Controller
             return view('line_of_code_beer/create');
         }
         return view('line_of_code/create');
+    }
+
+    public function importCsv(Request $request)
+    {
+        try {
+            Excel::import(new CsvImport, $request->file('file')); // Reading file csv
+            return redirect()->back()->with('success', 'File imported successfully!');
+        } catch (ValidationException $e) {
+            $failures = $e->failures(); // Lấy danh sách lỗi
+            return back()->withErrors($failures);
+        }
     }
 
     /**

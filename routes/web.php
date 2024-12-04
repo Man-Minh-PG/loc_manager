@@ -33,4 +33,6 @@ Route::group(['prefix' => '_admin/loc', 'controller'  => LineOfCodeController::c
     Route::get('/edit/{type}/{id_parent}', 'edit')->name('loc.edit');
     Route::get('/create/{type}', 'create')->name('loc.create');
     Route::get('/re_edit/{type}', 're_edit')->name('loc.re_edit');
+    
+    Route::post('/create/import_csv', 'importCsv')->name('loc.import_csv');
 }); 

@@ -4,14 +4,21 @@
  <!-- Hoverable Table rows -->
  <!-- <hr class="my-12" /> -->
  <div class="card">
-  
     
-    <div class="row row-bordered g-0">
-        <h6 class="card-header">Import line of code </h5>
-        <div class="col-lg-4 p-6">
-            <input class="form-control" type="file" id="formFile">
-        </div>
-    </div>
+  <div class="card">
+      <div class="row row-bordered g-0">
+        <form action="{{Route('loc.import_csv')}}" method="POST" enctype="multipart/form-data">
+          @csrf
+          <h6 class="card-header">Import line of code </h5>
+            <div class="col-lg-8 p-4">
+                <input style="display: inline;width: 50%;" name="file" class="form-control" type="file" id="formFile">
+                <button type="submit" class="btn rounded-pill btn-outline-primary waves-effect">
+                  <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Import
+                </button>
+            </div>
+        </form>
+      </div>
+  </div>
 </div>
 
     <div class="card">
