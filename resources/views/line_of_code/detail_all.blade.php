@@ -8,24 +8,26 @@
     
     <div class="row row-bordered g-0">
         <h6 class="card-header">Import line of code </h5>
-        <div class="col-lg-4 p-6">
-            <input class="form-control" type="file" id="formFile">
+        <div class="col-lg-6 p-4">
+            <input name="file" class="form-control form-control-sm mod-inline-50-percent" type="file" id="formFile">
+            <button type="submit" class="btn rounded-pill btn-outline-primary waves-effect">
+              <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Import
+            </button>
         </div>
-        <div class="col-lg-4 p-6">
-        <select id="smallSelect" class="form-select form-select-sm">
+        
+        <div class="col-lg-6 p-4">
+        <select id="smallSelect" class="form-select form-select-sm mod-inline-50-percent">
             <option>Index_group</option>
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
           </select>
          
-        </div>
-        <div class="col-lg-4 p-6">
           <button type="button" class="btn rounded-pill btn-primary waves-effect waves-light">
             <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Fetch
           </button>
-           
         </div>
+       
       
     </div>
 </div>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ParentTaskLoc;
-use App\Models\ChildTaskLoc;
+use App\Models\IndexKey;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
@@ -135,12 +135,32 @@ class LineOfCodeController extends Controller
      * @param mixed $type
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function re_edit($type) 
+    public function re_edit($type, Request $request) 
     {
-        if($type == LineOfCodeController::BEER) {
-            return view('line_of_code_beer/detail_all');
+        $parentTaskLoc = new ParentTaskLoc();
+        $searchData    = $request->all();
+        $lstLocs       = [];
+        $statusLabel   = config('common');
+        $lstIndex = $this->getIndexKeyCurrent($type);
+        if(is_null($lstIndex)) {
+            $lstIndex = [];
         }
-        return view('line_of_code/detail_all');
+        $conditions    = [
+            'type' => $type
+        ];
+
+        if(!empty($searchData['dateSearch'])){
+            $conditions += [
+                'month' => Carbon::parse($searchData['dateSearch'])->month,
+                'year'  => Carbon::parse($searchData['dateSearch'])->year
+            ];
+        } // set conditions db
+        $lstLocs  = $parentTaskLoc->get_info_releated_loc($conditions);
+
+        if($type == LineOfCodeController::BEER) {
+            return view('line_of_code_beer/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel'));
+        }
+        return view('line_of_code/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel'));
     }
 
     /**
@@ -173,5 +193,16 @@ class LineOfCodeController extends Controller
             return view('line_of_code_beer/option_all', compact('lstLocs', 'statusLabel'));
         }
         return view('line_of_code/option_all', compact('lstLocs', 'statusLabel'));
-    }    
+    }
+    
+    private function getIndexKeyCurrent($type){
+        $projectName = $type == config('common.PW') ? "PW" : "BEER";
+        $index       = 1;
+        $month       = Carbon::now()->month;
+        
+        $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
+        
+        $valueIndexKey = IndexKey::where('key_value', 'like', '%'.$key)->first();
+        return $valueIndexKey;
+    }
 }

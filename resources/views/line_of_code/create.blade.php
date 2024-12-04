@@ -9,7 +9,7 @@
         @csrf
         <h6 class="card-header">Import line of code </h5>
           <div class="col-lg-8 p-4">
-              <input style="display: inline;width: 50%;" name="file" class="form-control" type="file" id="formFile">
+              <input name="file" class="form-control mod-inline-50-percent" type="file" id="formFile">
               <button type="submit" class="btn rounded-pill btn-outline-primary waves-effect">
                 <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Import
               </button>
