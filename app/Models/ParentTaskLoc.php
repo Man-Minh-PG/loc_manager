@@ -31,8 +31,7 @@ class ParentTaskLoc extends Model
         'total',
         'branch',
         'notes',
-        'created_at', // use for eloquent
-        'updated_at' // use for eloquent
+        'path'
     ];
 
     /**
