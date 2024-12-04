@@ -31,6 +31,7 @@ class ChildTaskLocFactory extends Factory
            'total'        => $this->faker->randomElement([16, 88, 99, 43, 55, 66, 77, 88]),
            'branch'       => $this->faker->domainName,
            'notes'        => $this->faker->company,
+           'path'         => "D://"
         ];
     }
 }

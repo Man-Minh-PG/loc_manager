@@ -29,7 +29,7 @@ class ParentTaskLoc extends Model
         'total',
         'branch',
         'notes',
-
+        'path'
     ];
 
     // Get data only parent task

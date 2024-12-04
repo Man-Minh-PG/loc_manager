@@ -26,7 +26,8 @@ class ChildTaskLoc extends Model
         'tpl',
         'total',
         'branch',
-        'notes'
+        'notes',
+        'path'
     ];
 
 }
