@@ -141,13 +141,18 @@ class LineOfCodeController extends Controller
         $searchData    = $request->all();
         $lstLocs       = [];
         $statusLabel   = config('common');
-        $lstIndex = $this->getIndexKeyCurrent($type);
+        $lstIndex      = $this->getIndexKeyCurrent($type);
         if(is_null($lstIndex)) {
             $lstIndex = [];
         }
         $conditions    = [
-            'type' => $type
+            'type'         => $type,
+            'index_key_id' => 99999999
         ];
+
+        if(!empty($searchData['indexKey'])) {
+            $conditions['index_key_id'] = $searchData['indexKey'];
+        }
 
         if(!empty($searchData['dateSearch'])){
             $conditions += [
@@ -155,7 +160,7 @@ class LineOfCodeController extends Controller
                 'year'  => Carbon::parse($searchData['dateSearch'])->year
             ];
         } // set conditions db
-        $lstLocs  = $parentTaskLoc->get_info_releated_loc($conditions);
+        $lstLocs  = $parentTaskLoc->get_info_releated_loc_re_edit($conditions);
 
         if($type == LineOfCodeController::BEER) {
             return view('line_of_code_beer/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel'));

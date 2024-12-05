@@ -101,4 +101,22 @@ class ParentTaskLoc extends Model
         ->where('parent_tasks_loc.id', $id_parent)
         ->get();
     }
+
+    public function get_info_releated_loc_re_edit($conditions = []){
+        if(empty($conditions['month'])) {
+            $conditions += 
+            [
+                'month' => Carbon::now()->month,
+                'year'  => Carbon::now()->year,
+            ];
+        } // default get month current
+    
+        // use Eloquent
+        return ParentTaskLoc::with('childTasks')
+        ->whereYear('created_at', $conditions['year'])
+        ->whereMonth('created_at', $conditions['month'])
+        ->where('project_type', $conditions['type'])
+        ->where('index_key_id', $conditions['index_key_id'])
+        ->get();
+    }
 }

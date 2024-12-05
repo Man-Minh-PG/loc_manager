@@ -16,16 +16,18 @@
         </div>
         
         <div class="col-lg-6 p-4">
-        <select id="smallSelect" class="form-select form-select-sm mod-inline-50-percent">
-            <option>Index_group</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-         
-          <button type="button" class="btn rounded-pill btn-primary waves-effect waves-light">
-            <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Fetch
-          </button>
+          <form action="{{Route('loc.re_edit')}}" method="POST" enctype="multipart/form-data">
+              <select id="smallSelect" name="indexKey" class="form-select form-select-sm mod-inline-50-percent">
+                <option>Index_group</option>
+                @foreach($lstIndex as $index)
+                  <option value="{{$index}}"> {{$index}} </option>
+                @endforeach
+              </select>
+            
+              <button type="button" class="btn rounded-pill btn-primary waves-effect waves-light">
+                <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Fetch
+              </button>
+          </form>
         </div>
        
       
@@ -82,8 +84,9 @@
               <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" placeholder="Comments here..."></textarea>
             </td>
           </tr>
-
-          
+          @foreach($lstLocDetail as $parent)
+            
+          @endforeach
         </tbody>
                      
       </table>
