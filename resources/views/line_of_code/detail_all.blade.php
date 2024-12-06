@@ -79,10 +79,10 @@
                 <td><input type="text" class="form-control" id="basic-default-fullname" name="tpl" value="{{$parent->tpl}}"></td>
                 <td><input type="text" class="form-control" id="basic-default-fullname" name="total" value="{{$parent->total}}"></td>
                 <td>
-                    <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="branch" value="{{$parent->branch}}"></textarea>
+                    <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="branch" > {{$parent->branch}} </textarea>
                 </td>
                 <td>
-                    <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="note" value="{{$parent->note}}"></textarea>
+                    <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="note" > {{$parent->notes}} </textarea>
                 </td>
               </tr>
 
@@ -109,10 +109,10 @@
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="tpl" value="{{$child->tpl}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="total" value="{{$child->total}}"></td>
                     <td>
-                        <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="branch" value="{{$child->branch}}"></textarea>
+                        <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="branch"> {{$child->branch}} </textarea>
                     </td>
                     <td>
-                      <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="note" value="{{$child->note}}"></textarea>
+                      <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="note"> {{$child->notes}} </textarea>
                     </td>
                   </tr>
                 @endforeach

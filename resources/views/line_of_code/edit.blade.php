@@ -46,8 +46,8 @@
             <td> <input type="text" class="form-control" id="basic-default-fullname" name="tpl" value="{{$lstLocDetail[0]->tpl}}">  </td>
             <td> <input type="text" class="form-control" id="basic-default-fullname" name="total" value="{{$lstLocDetail[0]->total}}">  </td>
             <td> {{$lstLocDetail[0]->created_at}}</td>
-            <td> <input type="text" class="form-control" id="basic-default-fullname" name="branh" value="{{$lstLocDetail[0]->branch}}">  </td>
-            <td> <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="notes" placeholder="{{$lstLocDetail[0]->notes}}"></textarea>  </td>
+            <td> <input type="text" class="form-control" id="basic-default-fullname" name="branh"> {{$lstLocDetail[0]->branch}} </td>
+            <td> <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="notes" > {{$lstLocDetail[0]->notes}} </textarea>  </td>
           </tr>
         </tbody>
 
@@ -90,8 +90,8 @@
             <td> <input type="text" class="form-control" id="basic-default-fullname" name="tpl" value="{{$lstLocDetail[0]->tpl}}">  </td>
             <td> <input type="text" class="form-control" id="basic-default-fullname" name="total" value="{{$lstLocDetail[0]->total}}">  </td>
             <td> {{$lstLocDetail[0]->created_at}}</td>
-            <td> <input type="text" class="form-control" id="basic-default-fullname" name="branh" value="{{$lstLocDetail[0]->branch}}">  </td>
-            <td> <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="notes" value="{{$lstLocDetail[0]->notes}}"></textarea>  </td>
+            <td> <input type="text" class="form-control" id="basic-default-fullname" name="branh" > {{$lstLocDetail[0]->branch}} </td>
+            <td> <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="notes" > {{$lstLocDetail[0]->notes}} </textarea>  </td>
           </tr>
           @endforeach
         </tbody>
