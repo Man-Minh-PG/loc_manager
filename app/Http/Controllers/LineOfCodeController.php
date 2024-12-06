@@ -142,6 +142,13 @@ class LineOfCodeController extends Controller
         $lstLocs       = [];
         $statusLabel   = config('common');
         $lstIndex      = $this->getIndexKeyCurrent($type);
+       
+        $lstStatus     = [
+            config('common.new') => 'new',
+            config('common.inProgress') => 'inProgress',
+            config('common.completed') => 'completed',
+            config('common.close') => 'close'
+        ];
         if(is_null($lstIndex)) {
             $lstIndex = [];
         }
@@ -163,9 +170,9 @@ class LineOfCodeController extends Controller
         $lstLocs  = $parentTaskLoc->get_info_releated_loc_re_edit($conditions);
 
         if($type == LineOfCodeController::BEER) {
-            return view('line_of_code_beer/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel'));
+            return view('line_of_code_beer/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel', 'lstStatus'));
         }
-        return view('line_of_code/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel'));
+        return view('line_of_code/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel', 'lstStatus'));
     }
 
     /**
@@ -206,8 +213,8 @@ class LineOfCodeController extends Controller
         $month       = Carbon::now()->month;
         
         $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
-        
-        $valueIndexKey = IndexKey::where('key_value', 'like', '%'.$key)->first();
+
+        $valueIndexKey = IndexKey::where('key_value', 'like', '%'.$key)->get();
         return $valueIndexKey;
     }
 }

@@ -102,6 +102,11 @@ class ParentTaskLoc extends Model
         ->get();
     }
 
+    /**
+     * Summary of get_info_releated_loc_re_edit
+     * @param mixed $conditions
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function get_info_releated_loc_re_edit($conditions = []){
         if(empty($conditions['month'])) {
             $conditions += 
@@ -112,11 +117,13 @@ class ParentTaskLoc extends Model
         } // default get month current
     
         // use Eloquent
-        return ParentTaskLoc::with('childTasks')
+        $result = ParentTaskLoc::with('childTasks')
         ->whereYear('created_at', $conditions['year'])
         ->whereMonth('created_at', $conditions['month'])
         ->where('project_type', $conditions['type'])
         ->where('index_key_id', $conditions['index_key_id'])
         ->get();
+
+        return $result;
     }
 }
