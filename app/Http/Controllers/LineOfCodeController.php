@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChildTaskLoc;
 use Illuminate\Http\Request;
 use App\Models\ParentTaskLoc;
 use App\Models\IndexKey;
@@ -216,5 +217,110 @@ class LineOfCodeController extends Controller
 
         $valueIndexKey = IndexKey::where('key_value', 'like', '%'.$key)->get();
         return $valueIndexKey;
+    }
+
+    public function updateLocDate(Request $request){
+        $resultUpdate = false;
+        $data         = $request->all();
+
+        if(!isset($data['isParent']) && !isset($data['id'])) {
+            return response()->json([
+                'success' => false,
+                'message' => 'isParent or id is empty'
+            ]);
+        }
+
+        try{
+            if($data['isParent']) {
+                $parentModel  = new ParentTaskLoc;
+                $resultUpdate = $parentModel::where('id',$data['id'])->first()->updateOrFail(['created_at' => Carbon::now()]);
+            }else {
+                $childModel =  new ChildTaskLoc;   
+                $resultUpdate = $childModel::where('id',$data['id'])->first()->updateOrFail(['created_at' => Carbon::now()]);   
+            }
+
+            return response()->json([
+                'success' => $resultUpdate,
+                'message' => 'Data updated successfully! id_update'.$data['id']
+            ]);
+        } catch (\Exception $e) { 
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong. Please try again.'
+            ]);
+        }
+        // $parent = ParentModel::find($id);
+        // $parent->update($request->all());
+    }
+
+
+    public function updateAllLoc(Request $request)
+    {
+        $data = $request->all();
+        $success = [];
+        $errors = [];
+
+        // debug
+        return response()->json([
+            'success' => $data
+        ]);
+
+        foreach ($data as $id => $fields) {
+            try {
+                if ($fields['typeUpdate'] == 'parent') {
+                    $record = ParentTaskLoc::find($id);
+
+                    if (!$record) {
+                        $errors[] = "Record with ID {$id} not found.";
+                        continue; // Bỏ qua nếu không tìm thấy
+                    }
+
+
+                    $record->status = $fields['status'];
+                    $record->file_change = $fields['file_change'];
+                    $record->php = $fields['php'];
+                    $record->js = $fields['js'];
+                    $record->css = $fields['css'];
+                    $record->tpl = $fields['tpl'];
+                    $record->total = $fields['total'];
+                    $record->total = $fields['branch'];
+                    $record->total = $fields['notes'];
+                    $record->save();
+
+                    $success[] = "Record with ID {$id} updated successfully.";
+                } else {
+                    $record = ChildTaskLoc::find($id);
+
+                    if (!$record) {
+                        $errors[] = "Record with ID {$id} not found.";
+                        continue; // Bỏ qua nếu không tìm thấy
+                    }
+
+
+                    $record->status = $fields['status'];
+                    $record->file_change = $fields['file_change'];
+                    $record->php = $fields['php'];
+                    $record->js = $fields['js'];
+                    $record->css = $fields['css'];
+                    $record->tpl = $fields['tpl'];
+                    $record->total = $fields['total'];
+                    $record->total = $fields['branch'];
+                    $record->total = $fields['notes'];
+                    $record->save();
+
+                    $success[] = "Record with ID {$id} updated successfully.";
+                }
+
+                return response()->json([
+                    'success' => $success,
+                    'errors' => $errors,
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'success' => [],
+                    'errors' => ['Error: ' . $e->getMessage()],
+                ], 500);
+            }
+        }
     }
 }
