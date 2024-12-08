@@ -76,7 +76,7 @@
                         @endforeach
                       </select>
                     </td>
-                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$parent->id}}, false)" name="file_change" value="{{$parent->file_change}}"></td>
+                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$parent->id}}, false)" name="fileChange" value="{{$parent->file_change}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$parent->php}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$parent->js}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$parent->css}}"></td>
@@ -86,7 +86,7 @@
                         <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="branch" > {{$parent->branch}} </textarea>
                     </td>
                     <td>
-                        <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="note" > {{$parent->notes}} </textarea>
+                        <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="notes" > {{$parent->notes}} </textarea>
                     </td>
                     <input type="hidden" style="display:none" name="typeUpdate" value="parent">
                     <input type="hidden" style="display:none" name="id" value="{{$parent->id}}">
@@ -101,13 +101,13 @@
                         <td><input type="text" class="form-control" id="basic-default-fullname" disabled value="{{$parent->number_task}}" name="parentNumber"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" value="{{$child->number_task}}" name="childNumber"></td>
                         <td>
-                          <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+                          <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" name="status">
                             @foreach ($lstStatus as $key => $status)
                               <option value="{{$key}}" @if($child->status == $key) selected="true" @endif> {{ $status }} </option>
                             @endforeach
                           </select>
                         </td>
-                        <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$child->id}}, false)" name="file_change" value="{{$child->file_change}}"></td>
+                        <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$child->id}}, false)" name="fileChange" value="{{$child->file_change}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$child->php}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$child->js}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$child->css}}"></td>
@@ -117,7 +117,7 @@
                             <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="branch"> {{$child->branch}} </textarea>
                         </td>
                         <td>
-                          <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="note"> {{$child->notes}} </textarea>
+                          <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="notes"> {{$child->notes}} </textarea>
                         </td>
                         <input type="hidden" style="display:none" name="typeUpdate" value="child">
                         <input type="hidden" style="display:none" name="id" value="{{$child->id}}">
@@ -199,42 +199,83 @@
 
 
     function updateAll() {
-        const formData = new FormData(document.getElementById('updateForm'));
-        
-        for (const [key, value] of formData.entries()) {
-          console.log(`${key}: ${value}`);
+    const tableRows = document.querySelectorAll('#updateForm table tbody tr');
+    const data = {};
+
+    tableRows.forEach((row) => {
+        // Lấy giá trị của các cột trong mỗi dòng
+        const id = row.querySelector('[name="id"]')?.value;
+        const parentNumber = row.querySelector('[name="parentNumber"]')?.value || '';
+        const childNumber = row.querySelector('[name="childNumber"]')?.value || '';
+        const status = row.querySelector('[name="status"]')?.value || '';
+        const fileChange = row.querySelector('[name="fileChange"]')?.value || '';
+        const php = row.querySelector('[name="php"]')?.value || '';
+        const js = row.querySelector('[name="js"]')?.value || '';
+        const css = row.querySelector('[name="css"]')?.value || '';
+        const tpl = row.querySelector('[name="tpl"]')?.value || '';
+        const total = row.querySelector('[name="total"]')?.value || '';
+        const branch = row.querySelector('[name="branch"]')?.value || '';
+        const notes = row.querySelector('[name="notes"]')?.value || '';
+        const typeUpdate = row.querySelector('[name="typeUpdate"]')?.value || '';
+
+        if (id) {
+            // Gom dữ liệu mỗi dòng thành đối tượng
+            data[id] = {
+                id,
+                parentNumber,
+                childNumber,
+                status,
+                fileChange,
+                php,
+                js,
+                css,
+                tpl,
+                total,
+                branch,
+                notes,
+                typeUpdate,
+            };
         }
-        
-        fetch('/_admin/loc/re_edit/update/update-all', {
-            method: 'POST',
-                    headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Content-Type': 'application/json'
-            },
-            body: formData
+    });
+
+    console.log('Collected data:', data);
+
+    // Gửi dữ liệu lên server
+    fetch('/_admin/loc/re_edit/update/update-all', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                return response.json().then((errData) => {
+                    throw new Error(errData.message || `HTTP Error ${response.status}`);
+                });
+            }
+            return response.json();
         })
-            .then(response => {
-                if (!response.ok) {
-                    // Tạo lỗi nếu HTTP status không phải 2xx
-                    return response.json().then(errData => {
-                        throw new Error(errData.message || `HTTP Error ${response.status}`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Success:', data);
-                if (data.success && data.success.length > 0) {
-                    alert('Updated successfully:\n' + data.success.join('\n'));
-                }
-                if (data.errors && data.errors.length > 0) {
-                    alert('Failed updates:\n' + data.errors.join('\n'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error.message || error);
-                alert('Something went wrong: ' + (error.message || error));
-            });
-    }
+        .then((data) => {
+            console.log('Response from server:', data);
+
+            let successMessages = data.success.join('\n');
+            let errorMessages = data.errors.join('\n');
+
+            if (data.success.length > 0) {
+                alert('Updated successfully:\n' + successMessages);
+            }
+
+            if (data.errors.length > 0) {
+                alert('Failed updates:\n' + errorMessages);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error.message || error);
+            alert('Something went wrong: ' + (error.message || error));
+        });
+}
+
   </script>
 @stop

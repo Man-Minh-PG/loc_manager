@@ -260,11 +260,6 @@ class LineOfCodeController extends Controller
         $success = [];
         $errors = [];
 
-        // debug
-        return response()->json([
-            'success' => $data
-        ]);
-
         foreach ($data as $id => $fields) {
             try {
                 if ($fields['typeUpdate'] == 'parent') {
@@ -272,55 +267,51 @@ class LineOfCodeController extends Controller
 
                     if (!$record) {
                         $errors[] = "Record with ID {$id} not found.";
-                        continue; // Bỏ qua nếu không tìm thấy
+                        continue;
                     }
 
-
                     $record->status = $fields['status'];
-                    $record->file_change = $fields['file_change'];
+                    $record->file_change = $fields['fileChange'];
                     $record->php = $fields['php'];
                     $record->js = $fields['js'];
                     $record->css = $fields['css'];
                     $record->tpl = $fields['tpl'];
                     $record->total = $fields['total'];
-                    $record->total = $fields['branch'];
-                    $record->total = $fields['notes'];
+                    $record->branch = $fields['branch'];
+                    $record->notes = $fields['notes'];
                     $record->save();
 
-                    $success[] = "Record with ID {$id} updated successfully.";
+                    $success[] = "Parent task with ID {$id} updated successfully.";
                 } else {
                     $record = ChildTaskLoc::find($id);
 
                     if (!$record) {
                         $errors[] = "Record with ID {$id} not found.";
-                        continue; // Bỏ qua nếu không tìm thấy
+                        continue;
                     }
 
-
+                    // Cập nhật bản ghi
                     $record->status = $fields['status'];
-                    $record->file_change = $fields['file_change'];
+                    $record->file_change = $fields['fileChange'];
                     $record->php = $fields['php'];
                     $record->js = $fields['js'];
                     $record->css = $fields['css'];
                     $record->tpl = $fields['tpl'];
                     $record->total = $fields['total'];
-                    $record->total = $fields['branch'];
-                    $record->total = $fields['notes'];
+                    $record->branch = $fields['branch'];
+                    $record->notes = $fields['notes'];
                     $record->save();
 
-                    $success[] = "Record with ID {$id} updated successfully.";
+                    $success[] = "Child task with ID {$id} updated successfully.";
                 }
-
-                return response()->json([
-                    'success' => $success,
-                    'errors' => $errors,
-                ]);
             } catch (\Exception $e) {
-                return response()->json([
-                    'success' => [],
-                    'errors' => ['Error: ' . $e->getMessage()],
-                ], 500);
+                $errors[] = "Error updating record with ID {$id}: " . $e->getMessage();
             }
         }
+
+        return response()->json([
+            'success' => $success,
+            'errors' => $errors,
+        ]);
     }
 }
