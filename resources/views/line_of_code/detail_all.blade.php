@@ -153,129 +153,173 @@
    
 @stop()
 @section('js')
-  <script >
-    function updateDateTime(id, isParent){
-        $.ajax({
-            url: 'update/loc_datetime',
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                id: id,
-                isParent : isParent
-            },
-            success: function(response) {
-                if (response.success) {
-                    var alertHtml = `
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            ${response.message}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    `;
-                    $('#alert-container').html(alertHtml);
-                } else {
-                    // Nếu thất bại, hiển thị alert lỗi
-                    var alertHtml = `
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            ${response.message}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    `;
-                    $('#alert-container').html(alertHtml);
-                }
-            },
-            error: function(xhr, status, error) {
-                // Nếu có lỗi trong việc gửi request (không liên quan đến logic của app)
-                console.log('Error:', error);  // In ra thông báo lỗi chi tiết
-                var alertHtml = `
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        Unexpected error occurred. Please try again.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                `;
-                $('#alert-container').html(alertHtml);
-            }
-        })
-    }
+<script>
+  function updateDateTime(id, isParent) {
+      $.ajax({
+          url: 'update/loc_datetime',
+          method: 'POST',
+          data: {
+              _token: '{{ csrf_token() }}',
+              id: id,
+              isParent: isParent
+          },
+          success: function(response) {
+              if (response.success) {
+                  var alertHtml = `
+                      <div class="alert alert-success alert-dismissible fade show" role="alert">
+                          ${response.message}
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                  `;
+                  $('#alert-container').html(alertHtml);
+
+                  addTimeOut();
+              } else {
+                  var alertHtml = `
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                          ${response.message}
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                  `;
+                  $('#alert-container').html(alertHtml);
+              }
+          },
+          error: function(xhr, status, error) {
+              // Nếu có lỗi trong việc gửi request (không liên quan đến logic của app)
+              console.log('Error:', error);
+              var alertHtml = `
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      Unexpected error occurred. Please try again.
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+              `;
+              $('#alert-container').html(alertHtml);
+          }
+      })
+
+      setTimeout(function () {
+            $('#alert-container .alert').alert('close'); // Đóng alert
+      }, 200);
+  }
 
 
-    function updateAll() {
-    const tableRows = document.querySelectorAll('#updateForm table tbody tr');
-    const data = {};
+  function updateAll() {
+      const tableRows = document.querySelectorAll('#updateForm table tbody tr');
+      const data = {};
 
-    tableRows.forEach((row) => {
-        // Lấy giá trị của các cột trong mỗi dòng
-        const id = row.querySelector('[name="id"]')?.value;
-        const parentNumber = row.querySelector('[name="parentNumber"]')?.value || '';
-        const childNumber = row.querySelector('[name="childNumber"]')?.value || '';
-        const status = row.querySelector('[name="status"]')?.value || '';
-        const fileChange = row.querySelector('[name="fileChange"]')?.value || '';
-        const php = row.querySelector('[name="php"]')?.value || '';
-        const js = row.querySelector('[name="js"]')?.value || '';
-        const css = row.querySelector('[name="css"]')?.value || '';
-        const tpl = row.querySelector('[name="tpl"]')?.value || '';
-        const total = row.querySelector('[name="total"]')?.value || '';
-        const branch = row.querySelector('[name="branch"]')?.value || '';
-        const notes = row.querySelector('[name="notes"]')?.value || '';
-        const typeUpdate = row.querySelector('[name="typeUpdate"]')?.value || '';
+      tableRows.forEach((row) => {
+          const id           = row.querySelector('[name="id"]')?.value;
+          const parentNumber = row.querySelector('[name="parentNumber"]')?.value || '';
+          const childNumber  = row.querySelector('[name="childNumber"]')?.value || '';
+          const status       = row.querySelector('[name="status"]')?.value || '';
+          const fileChange   = row.querySelector('[name="fileChange"]')?.value || '';
+          const php          = row.querySelector('[name="php"]')?.value || '';
+          const js           = row.querySelector('[name="js"]')?.value || '';
+          const css          = row.querySelector('[name="css"]')?.value || '';
+          const tpl          = row.querySelector('[name="tpl"]')?.value || '';
+          const total        = row.querySelector('[name="total"]')?.value || '';
+          const branch       = row.querySelector('[name="branch"]')?.value || '';
+          const notes        = row.querySelector('[name="notes"]')?.value || '';
+          const typeUpdate   = row.querySelector('[name="typeUpdate"]')?.value || '';
 
-        if (id) {
-            // Gom dữ liệu mỗi dòng thành đối tượng
-            data[id] = {
-                id,
-                parentNumber,
-                childNumber,
-                status,
-                fileChange,
-                php,
-                js,
-                css,
-                tpl,
-                total,
-                branch,
-                notes,
-                typeUpdate,
-            };
-        }
+          if (id) {
+              // Group data
+              data[id] = {
+                  id,
+                  parentNumber,
+                  childNumber,
+                  status,
+                  fileChange,
+                  php,
+                  js,
+                  css,
+                  tpl,
+                  total,
+                  branch,
+                  notes,
+                  typeUpdate,
+              };
+          }
+      });
+
+      console.log('Collected data:', data);
+
+      fetch('/_admin/loc/re_edit/update/update-all', {
+              method: 'POST',
+              headers: {
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+          })
+          .then((response) => {
+              if (!response.ok) {
+                  return response.json().then((errData) => {
+                      throw new Error(errData.message || `HTTP Error ${response.status}`);
+                  });
+              }
+              return response.json();
+          })
+          .then((data) => {
+              console.log('Response from server:', data);
+
+              let successMessages = data.success.join('\n');
+              let errorMessages = data.errors.join('\n');
+
+              if (data.success.length > 0) {
+                  alert('Updated successfully:\n' + successMessages);
+              }
+
+              if (data.errors.length > 0) {
+                  alert('Failed updates:\n' + errorMessages);
+              }
+          })
+          .catch((error) => {
+              console.error('Error:', error.message || error);
+              alert('Something went wrong: ' + (error.message || error));
+          });      
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('#updateForm table tbody tr');
+  
+    rows.forEach(row => {
+      // const rowId = row.id;
+  
+      const phpInput   = row.querySelector('input[name="php"]');
+      const jsInput    = row.querySelector('input[name="js"]');
+      const cssInput   = row.querySelector('input[name="css"]');
+      const tplInput   = row.querySelector('input[name="tpl"]');
+      const totalInput = row.querySelector('input[name="total"]');
+    
+      function updateTotal() {
+        const phpValue = parseInt(phpInput.value) || 0;
+        const jsValue  = parseInt(jsInput.value) || 0;
+        const cssValue = parseInt(cssInput.value) || 0;
+        const tplValue = parseInt(tplInput.value) || 0;
+        
+        const total = phpValue + jsValue + cssValue + tplValue;
+        
+        totalInput.value = total;
+        // totalInput.value = total.toFixed(2);
+      }
+
+      // Listening 'input' at input php, js, css, tpl in row current !
+      phpInput.addEventListener('input', updateTotal);
+      jsInput.addEventListener('input', updateTotal);
+      cssInput.addEventListener('input', updateTotal);
+      tplInput.addEventListener('input', updateTotal);
+      
+      // Process caculator data when Firt Load !
+      updateTotal();
     });
+  });
 
-    console.log('Collected data:', data);
+  function addTimeOut(){
+    setTimeout(function () {
+                      $('#alert-container .alert').alert('close');
+    }, 2000); // 2 giây
+  }
 
-    // Gửi dữ liệu lên server
-    fetch('/_admin/loc/re_edit/update/update-all', {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-        .then((response) => {
-            if (!response.ok) {
-                return response.json().then((errData) => {
-                    throw new Error(errData.message || `HTTP Error ${response.status}`);
-                });
-            }
-            return response.json();
-        })
-        .then((data) => {
-            console.log('Response from server:', data);
-
-            let successMessages = data.success.join('\n');
-            let errorMessages = data.errors.join('\n');
-
-            if (data.success.length > 0) {
-                alert('Updated successfully:\n' + successMessages);
-            }
-
-            if (data.errors.length > 0) {
-                alert('Failed updates:\n' + errorMessages);
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error.message || error);
-            alert('Something went wrong: ' + (error.message || error));
-        });
-}
-
-  </script>
+</script>
 @stop

@@ -92,7 +92,7 @@
                   <td  style="padding-right: 0px; padding-left: 0px;"> {{$parent->number_task}} </td>
                   {{-- different with PW --}}
                   <td>
-                    @if($parent->source_type == config('common.PW'))
+                    @if($child->source_type == config('common.Sys'))
                     <div class="d-flex align-items-center">
                       <i class="ri-shield-star-line  ri-13px text-danger me-2"></i>
                       <span>Sys</span>

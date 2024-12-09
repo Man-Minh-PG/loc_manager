@@ -81,14 +81,14 @@ class CsvImport implements ToCollection, WithHeadingRow
                             'number_task'  => $row['parent_task'],
                             'status'       => $row['status'] ?? 1,
                             'source_type'  => $row['source_type'],
-                            'file_change'  => $row['file_change'],
-                            'php'          => $row['php'],
-                            'js'           => $row['js'],
-                            'css'          => $row['css'],
-                            'tpl'          => $row['tpl'],
-                            'total'        => $row['total'],
-                            'branch'       => $row['branch'],
-                            'notes'        => $row['notes'],
+                            'file_change'  => $row['file_change'] ?? 0,
+                            'php'          => $row['php'] ?? 0,
+                            'js'           => $row['js'] ?? 0,
+                            'css'          => $row['css'] ?? 0,
+                            'tpl'          => $row['tpl'] ?? 0,
+                            'total'        => $row['total'] ?? 0,
+                            'branch'       => $row['branch'] ?? 'temp',
+                            'notes'        => $row['notes'] ?? 'temp',
                             'path'         => CsvImport::processPath($month, $valueIndexKey, $row['parent_task'], $row['source_type']),
                         ]
                     );
@@ -104,21 +104,20 @@ class CsvImport implements ToCollection, WithHeadingRow
                         'project_type' => $row['project_type'],
                         'status'       => $row['status'] ?? 1,
                         'source_type'  => $row['source_type'],
-                        'file_change'  => $row['file_change'],
-                        'php'          => $row['php'],
-                        'js'           => $row['js'],
-                        'css'          => $row['css'],
-                        'tpl'          => $row['tpl'],
-                        'total'        => $row['total'],
-                        'branch'       => $row['branch'],
-                        'notes'        => $row['notes'],
+                        'file_change'  => $row['file_change'] ?? 0,
+                        'php'          => $row['php'] ?? 0,
+                        'js'           => $row['js'] ?? 0,
+                        'css'          => $row['css'] ?? 0,
+                        'tpl'          => $row['tpl'] ?? 0,
+                        'total'        => $row['total'] ?? 0,
+                        'branch'       => $row['branch'] ?? 'temp',
+                        'notes'        => $row['notes'] ?? 'temp',
                         'path'         => CsvImport::processPath($month, $valueIndexKey, $row['child_task'], $row['source_type']),
                     ]);
                 }
 
                 DB::commit();
 
-               
             }
         } catch (\Exception $e) { 
             DB::rollBack();

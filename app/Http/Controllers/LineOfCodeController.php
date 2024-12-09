@@ -214,12 +214,13 @@ class LineOfCodeController extends Controller
     
     private function getIndexKeyCurrent($type){
         $projectName = $type == config('common.PW') ? "PW" : "BEER";
-        $index       = 1;
+        // $index       = 1;
         $month       = Carbon::now()->month;
         
-        $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
+        // $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
+        $key = $projectName.'_'.$month;//"pw_11_01"
 
-        $valueIndexKey = IndexKey::where('key_value', 'like', '%'.$key)->get();
+        $valueIndexKey = IndexKey::where('key_value', 'like', '%'.$key.'%')->get();
         return $valueIndexKey;
     }
 
@@ -239,7 +240,7 @@ class LineOfCodeController extends Controller
                 $parentModel  = new ParentTaskLoc;
                 $resultUpdate = $parentModel::where('id',$data['id'])->first()->updateOrFail(['created_at' => Carbon::now()]);
             }else {
-                $childModel =  new ChildTaskLoc;   
+                $childModel =  new ChildTaskLoc;
                 $resultUpdate = $childModel::where('id',$data['id'])->first()->updateOrFail(['created_at' => Carbon::now()]);   
             }
 
