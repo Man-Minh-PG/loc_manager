@@ -152,7 +152,7 @@
                 </li>
                 <li class="menu-item">
                   <a href="{{Route('loc.index', ['type' => 1])}}" class="menu-link">
-                    <div data-i18n="Analytics">PW sumary</div>
+                    <div data-i18n="Analytics">Sumary</div>
                   </a>
                 </li>
                 <li class="menu-item">
@@ -275,7 +275,7 @@
                 </li>
                 <li class="menu-item">
                   <a href="{{Route('loc.index', ['type' => '2'])}}" class="menu-link">
-                    <div data-i18n="Analytics">Beer sumary</div>
+                    <div data-i18n="Analytics">Sumary</div>
                   </a>
                 </li>
                 <li class="menu-item">

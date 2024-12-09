@@ -14,7 +14,7 @@
 </div>
 <div class="col-md-12 mb-6">
     <div class="card">
-        <h5 class="card-header">November Work Report</h5>
+        <h5 class="card-header">{{$monthName}} Work Report</h5>
         <div class="table-responsive text-nowrap">
           <table class="table table-sm">
             <thead>

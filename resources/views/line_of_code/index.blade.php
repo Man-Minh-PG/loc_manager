@@ -44,7 +44,7 @@
             <th>CSS</th>
             <th>TPL</th>
             <th>Total</th>
-            <th>Create at</th>
+            <th>Execution time</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -52,7 +52,7 @@
           @foreach ($lstParentlocs as $parentTask)
           <tr>
           
-            <td><a href=""> {{ $parentTask->number_task }} </a></td>
+            <td><a target="_blank" href="https://project.lampart-vn.com/issues/{{$parentTask->number_task}}"> {{ $parentTask->number_task }} </a></td>
             <td>
               @if ($parentTask->status == config('common.new'))
                 <span class="badge bg-label-warning rounded-pill">New</span>
@@ -70,7 +70,13 @@
             <td> {{$parentTask->css}} </td>
             <td> {{$parentTask->tpl}} </td>
             <td> {{$parentTask->total}} </td>
-            <td> {{$parentTask->created_at}} </td>
+            <td> 
+              @if(!is_null($parentTask->run_time))
+                {{$parentTask->run_time}}
+              @else
+                Updated....
+              @endif
+            </td>
             
             <td>
               <div class="dropdown">

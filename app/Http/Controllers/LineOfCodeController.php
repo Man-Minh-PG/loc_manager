@@ -193,6 +193,10 @@ class LineOfCodeController extends Controller
         $parentTaskLoc = new ParentTaskLoc();
         $searchData    = $request->all();
         $lstLocs       = [];
+        $month         = Carbon::now()->month;
+        $lstMonthName = config('months');
+        $monthName    = $lstMonthName[$month];
+
         $conditions    = [
             'type' => $type
         ];
@@ -207,9 +211,9 @@ class LineOfCodeController extends Controller
         $lstLocs  = $parentTaskLoc->get_info_releated_loc($conditions);
 
         if($type == LineOfCodeController::BEER) {
-            return view('line_of_code_beer/option_all', compact('lstLocs', 'statusLabel'));
+            return view('line_of_code_beer/option_all', compact('lstLocs', 'statusLabel', 'monthName'));
         }
-        return view('line_of_code/option_all', compact('lstLocs', 'statusLabel'));
+        return view('line_of_code/option_all', compact('lstLocs', 'statusLabel','monthName'));
     }
     
     private function getIndexKeyCurrent($type){
@@ -238,10 +242,10 @@ class LineOfCodeController extends Controller
         try{
             if($data['isParent']) {
                 $parentModel  = new ParentTaskLoc;
-                $resultUpdate = $parentModel::where('id',$data['id'])->first()->updateOrFail(['created_at' => Carbon::now()]);
+                $resultUpdate = $parentModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);
             }else {
                 $childModel =  new ChildTaskLoc;
-                $resultUpdate = $childModel::where('id',$data['id'])->first()->updateOrFail(['created_at' => Carbon::now()]);   
+                $resultUpdate = $childModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);   
             }
 
             return response()->json([
