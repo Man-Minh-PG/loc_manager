@@ -31,7 +31,8 @@ class ParentTaskLoc extends Model
         'total',
         'branch',
         'notes',
-        'path'
+        'path',
+        'run_time'
     ];
 
     /**
