@@ -160,8 +160,8 @@
                     href="{{Route('loc.create', ['type' => 1])}}"
                     target="_blank"
                     class="menu-link">
-                    <div data-i18n="eCommerce">PW Import</div>
-                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                    <div data-i18n="eCommerce">Add data</div>
+                    {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">CC</div> --}}
                   </a>
                 </li>
                 <li class="menu-item">
@@ -169,8 +169,8 @@
                     href="{{Route('loc.show', ['type' => 1])}}"
                     target="_blank"
                     class="menu-link">
-                    <div data-i18n="eCommerce">All LOC</div>
-                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                    <div data-i18n="eCommerce">Report</div>
+                    {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> --}}
                   </a>
                 </li>
                 <li class="menu-item">
@@ -283,8 +283,8 @@
                     href="{{Route('loc.create', ['type' => 2])}}"
                     target="_blank"
                     class="menu-link">
-                    <div data-i18n="eCommerce">Import LOC</div>
-                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                    <div data-i18n="eCommerce">Add data</div>
+                    {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> --}}
                   </a>
                 </li>
                 <li class="menu-item">
@@ -292,8 +292,8 @@
                     href="{{Route('loc.show', ['type' => '2'])}}"
                     target="_blank"
                     class="menu-link">
-                    <div data-i18n="eCommerce">All LOC</div>
-                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                    <div data-i18n="eCommerce">Report</div>
+                    {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> --}}
                   </a>
                 </li>
                 <li class="menu-item">
@@ -329,6 +329,12 @@
 
             <!-- Misc -->
             <li class="menu-header mt-7"><span class="menu-header-text">Misc</span></li>
+            <li class="menu-item">
+              <a href="{{Route('loc.importFile')}}" class="menu-link">
+                <i class="menu-icon tf-icons ri-remixicon-line"></i>
+                <div data-i18n="Icons">CSV Import</div>
+              </a>
+            </li>
             <li class="menu-item">
               <a
                 href="https://github.com/themeselection/materio-bootstrap-html-admin-template-free/issues"

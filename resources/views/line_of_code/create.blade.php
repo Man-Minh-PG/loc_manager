@@ -3,7 +3,9 @@
 @section('main')
  <!-- Hoverable Table rows -->
  <!-- <hr class="my-12" /> -->
- <div class="card">
+
+ {{-- !! Note: temp move process --}}
+ {{-- <div class="card">
     <div class="row row-bordered g-0">
       <form action="{{Route('loc.import_csv')}}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -27,7 +29,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   @endif
-</div>
+</div> --}}
 
 
     <div class="card">

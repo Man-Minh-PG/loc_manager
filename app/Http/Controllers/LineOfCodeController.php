@@ -92,6 +92,10 @@ class LineOfCodeController extends Controller
         return view('line_of_code/create');
     }
 
+    public function showUiCSV(){
+        return view('orther/import_csv');
+    } 
+    
     public function importCsv(Request $request)
     {
         $request->validate([
