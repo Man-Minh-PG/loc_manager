@@ -67,7 +67,7 @@
                     {{-- <td><i class="ri-suitcase-2-line ri-22px text-danger me-4"></i><span>#191817</span></td> --}}
                    
                     <td> {{$counter}} </td>
-                    <td><input type="text" class="form-control" id="basic-default-fullname" value="{{$parent->number_task}}" name="parentNumber"></td>
+                    <td><input type="text" class="form-control" id="basic-default-fullname" disabled value="{{$parent->number_task}}" name="parentNumber"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" disabled value="" name="childNumber"></td>
                     <td>
                       <select class="form-select" id="exampleFormControlSelect1" name="status" aria-label="Default select example">
@@ -99,7 +99,7 @@
                       <tr>
                         <td> {{$counter}} </td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" disabled value="{{$parent->number_task}}" name="parentNumber"></td>
-                        <td><input type="text" class="form-control" id="basic-default-fullname" value="{{$child->number_task}}" name="childNumber"></td>
+                        <td><input type="text" class="form-control" id="basic-default-fullname" disabled value="{{$child->number_task}}" name="childNumber"></td>
                         <td>
                           <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" name="status">
                             @foreach ($lstStatus as $key => $status)
