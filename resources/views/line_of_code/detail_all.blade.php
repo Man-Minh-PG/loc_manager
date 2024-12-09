@@ -122,8 +122,9 @@
                         <input type="hidden" style="display:none" name="typeUpdate" value="child">
                         <input type="hidden" style="display:none" name="id" value="{{$child->id}}">
                       </tr>
+                      @php $counter++; @endphp
                     @endforeach
-                  @php $counter++; @endphp
+               
                   @endif
                   
                 @endforeach

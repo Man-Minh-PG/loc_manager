@@ -19,6 +19,7 @@
           <table class="table table-sm">
             <thead>
               <tr>
+                <th>STT</th>
                 <th>Task</th>
                 <th>Task type</th>
                 <th style="padding-right: 0px; padding-left: 0px;">Child of task</th>
@@ -35,8 +36,10 @@
               </tr>
             </thead>
             <tbody class="table-border-bottom-0">
+              @php $counter = 1; @endphp
               @foreach ($lstLocs as $parent)
               <tr class="">
+                <td> {{ $counter }} </td>
                 <td><a href=""> {{ $parent->number_task }} </a></td>
                 <td>
                   <div class="d-flex align-items-center">
@@ -79,9 +82,14 @@
                 <td> {{ $parent->total}} </td>
                 <td> {{ $parent->branch}} </td>
                 <td> {{ $parent->notes}} </td>
+                @php $counter++; @endphp
               </tr>
+
+              @if(isset($parent->childTasks))
+
                 @foreach ($parent->childTasks as $child)
                 <tr class="table-primary"> 
+                  <td> {{ $counter }} </td>
                   <td><a href=""> {{ $child->number_task }} </a></td>
                   <td>
                     <div class="d-flex align-items-center">
@@ -124,8 +132,11 @@
                   <td> {{ $child->total}} </td>
                   <td> {{ $child->branch}} </td>
                   <td> {{ $child->notes}} </td>
+                  @php $counter++; @endphp
                 </tr>
                 @endforeach
+                @endif
+
               @endforeach
             </tbody>
           </table>
