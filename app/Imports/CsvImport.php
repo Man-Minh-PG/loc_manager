@@ -29,6 +29,7 @@ class CsvImport implements ToCollection, WithHeadingRow
         $projectName = $collection[0]['project_type'] == config('common.PW') ? "PW" : "BEER";
         $index       = 1;
         $month       = Carbon::now()->month;
+        $tempId      = 0; // Fix insert duplication
         
         $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
         
@@ -73,23 +74,27 @@ class CsvImport implements ToCollection, WithHeadingRow
                 //     ]
                 // );
 
-                $parent = ParentTaskLoc::create([
-                        'index_key_id' => $idKey['id'], // syntax 2
-                        'project_type' => $row['project_type'],
-                        'number_task'  => $row['parent_task'],
-                        'status'       => $row['status'] ?? 1,
-                        'source_type'  => $row['source_type'],
-                        'file_change'  => $row['file_change'],
-                        'php'          => $row['php'],
-                        'js'           => $row['js'],
-                        'css'          => $row['css'],
-                        'tpl'          => $row['tpl'],
-                        'total'        => $row['total'],
-                        'branch'       => $row['branch'],
-                        'notes'        => $row['notes'],
-                        'path'         => CsvImport::processPath($month, $valueIndexKey, $row['parent_task'], $row['source_type']),
-                    ]
-                );
+                if($tempId != $row['parent_task']) {
+                        $parent = ParentTaskLoc::create([
+                            'index_key_id' => $idKey['id'], // syntax 2
+                            'project_type' => $row['project_type'],
+                            'number_task'  => $row['parent_task'],
+                            'status'       => $row['status'] ?? 1,
+                            'source_type'  => $row['source_type'],
+                            'file_change'  => $row['file_change'],
+                            'php'          => $row['php'],
+                            'js'           => $row['js'],
+                            'css'          => $row['css'],
+                            'tpl'          => $row['tpl'],
+                            'total'        => $row['total'],
+                            'branch'       => $row['branch'],
+                            'notes'        => $row['notes'],
+                            'path'         => CsvImport::processPath($month, $valueIndexKey, $row['parent_task'], $row['source_type']),
+                        ]
+                    );
+                }
+                
+                $tempId = $row['parent_task'];
 
                 // if parent task has child task
                 if (!empty($row['child_task'])) {
