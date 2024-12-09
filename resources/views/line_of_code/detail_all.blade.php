@@ -63,7 +63,7 @@
               @if(!empty($lstLocs))
                 @php $counter = 1; @endphp
                 @foreach($lstLocs as $parent)
-                  <tr>
+                  <tr class="{{$parent->id}}">
                     {{-- <td><i class="ri-suitcase-2-line ri-22px text-danger me-4"></i><span>#191817</span></td> --}}
                    
                     <td> {{$counter}} </td>
@@ -76,7 +76,7 @@
                         @endforeach
                       </select>
                     </td>
-                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$parent->id}}, false)" name="fileChange" value="{{$parent->file_change}}"></td>
+                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime($parent, false)" name="fileChange" value="{{$parent->file_change}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$parent->php}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$parent->js}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$parent->css}}"></td>
@@ -96,7 +96,7 @@
                   {{-- if isset parent has child task render html --}}
                   @if(!empty( $parent->childTasks))
                     @foreach($parent->childTasks as $child)
-                      <tr>
+                      <tr class="child_{{$parent->id}}">
                         <td> {{$counter}} </td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" disabled value="{{$parent->number_task}}" name="parentNumber"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" disabled value="{{$child->number_task}}" name="childNumber"></td>
@@ -321,6 +321,29 @@
                       $('#alert-container .alert').alert('close');
     }, 2000); // 2 giây
   }
+
+  function updateTotal(row) {
+    // Lấy các giá trị của các input cần thiết (php, js, css)
+    let php = parseFloat(row.querySelector('input[name="php"]').value) || 0;
+    let js = parseFloat(row.querySelector('input[name="js"]').value) || 0;
+    let css = parseFloat(row.querySelector('input[name="css"]').value) || 0;
+    let tpl = parseFloat(row.querySelector('input[name="tpl"]').value) || 0;
+
+    // Tính tổng
+    let total = php + js + css + tpl;
+
+    // Cập nhật giá trị vào ô input tổng
+    row.querySelector('input[name="total"]').value = total.toFixed(2);
+}
+
+// Thêm sự kiện onchange cho các trường input
+document.querySelectorAll('input[name="php"], input[name="js"], input[name="css"], input[name="tpl"]').forEach(input => {
+    input.addEventListener('input', function() {
+        let row = this.closest('tr'); // Tìm dòng <tr> chứa input
+        updateTotal(row);
+    });
+});
+
 
 </script>
 @stop
