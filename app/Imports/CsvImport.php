@@ -136,26 +136,27 @@ class CsvImport implements ToCollection, WithHeadingRow
      * HOT FIX PROCESS FOR PW
      */
     public function csvUpdateData(Collection $collection) {
-        $projectName = "PW";
-        $index       = 1;
-        $month       = Carbon::now()->month;
-        $tempId      = 0; // Fix insert duplication
-        $errors      = [];
+        // $projectName = "PW";
+        // $index       = 1;
+        // $month       = Carbon::now()->month;
+        // $tempId      = 0; // Fix insert duplication
+        // $errors      = [];
+        // $success = [];
         
-        $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
+        // $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
         
-        $valueIndexKey = IndexKey::where('key_value', $key)->first();
+        // $valueIndexKey = IndexKey::where('key_value', $key)->first();
 
-        // set index
-        if(is_null($valueIndexKey)) {
-            $valueIndexKey = $key;
-        }else {
-            $lastIndex = substr($valueIndexKey['key_value'], -1, 2);
+        // // set index
+        // if(is_null($valueIndexKey)) {
+        //     $valueIndexKey = $key;
+        // }else {
+        //     $lastIndex = substr($valueIndexKey['key_value'], -1, 2);
     
-            $key           = $projectName.'_'.$month.'_'.intval($lastIndex) + $index;
-            $valueIndexKey = $key;
-            unset($key);
-        }
+        //     $key           = $projectName.'_'.$month.'_'.intval($lastIndex) + $index;
+        //     $valueIndexKey = $key;
+        //     unset($key);
+        // }
 
         DB::beginTransaction();
 
@@ -178,6 +179,7 @@ class CsvImport implements ToCollection, WithHeadingRow
                         'tpl' => $tpl,
                         'total' => $total
                     ]);
+
                 } else {
 
                     $fileChange = $row['file_change'];
@@ -201,10 +203,21 @@ class CsvImport implements ToCollection, WithHeadingRow
                         $errors[] = "Không tìm thấy bản ghi với task: $task ";
                         continue; // Bỏ qua dòng này, chuyển sang dòng tiếp theo
                     }
-                }
 
-                DB::commit();
+                    
+                }
+               
             } 
+            // $success[] = "Parent task with ID {$id} updated successfully.";
+
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => $success,
+            // ]);
+            DB::commit();
+
+            // Bạn có thể trả về một phản hồi hoặc làm gì đó ở đây sau khi commit thành công.
+            return response()->json(['success' => true, 'message' => 'Records updated successfully.']);
         }catch (\Exception $e) { 
             DB::rollBack();
             \Log::error('Error occurred: ' . $e->getMessage());
