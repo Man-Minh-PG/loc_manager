@@ -272,7 +272,8 @@ class LineOfCodeController extends Controller
         foreach ($data as $id => $fields) {
             try {
                 if ($fields['typeUpdate'] == 'parent') {
-                    $record = ParentTaskLoc::find($id);
+                    // $record = ParentTaskLoc::find($id);
+                    $record = ParentTaskLoc::where('number_task', $id)->first();
 
                     if (!$record) {
                         $errors[] = "Record with ID {$id} not found.";
@@ -288,11 +289,16 @@ class LineOfCodeController extends Controller
                     $record->total = $fields['total'];
                     $record->branch = $fields['branch'];
                     $record->notes = $fields['notes'];
-                    $record->save();
+                    
+                    if (!$record->save()) {
+                        $errors[] = "Failed to update record with ID {$id}.";
+                        continue;
+                    }
 
                     $success[] = "Parent task with ID {$id} updated successfully.";
                 } else {
-                    $record = ChildTaskLoc::find($id);
+                    // $record = ChildTaskLoc::find($id);
+                    $record = ChildTaskLoc::where('number_task', $id)->first();
 
                     if (!$record) {
                         $errors[] = "Record with ID {$id} not found.";
@@ -309,7 +315,11 @@ class LineOfCodeController extends Controller
                     $record->total = $fields['total'];
                     $record->branch = $fields['branch'];
                     $record->notes = $fields['notes'];
-                    $record->save();
+
+                    if (!$record->save()) {
+                        $errors[] = "Failed to update record with ID {$id}.";
+                        continue;
+                    }
 
                     $success[] = "Child task with ID {$id} updated successfully.";
                 }

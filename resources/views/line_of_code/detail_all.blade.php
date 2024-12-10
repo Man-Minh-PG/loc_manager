@@ -90,6 +90,7 @@
                     </td>
                     <input type="hidden" style="display:none" name="typeUpdate" value="parent">
                     <input type="hidden" style="display:none" name="id" value="{{$parent->id}}">
+                    <input type="hidden" style="display:none" name="numberTask" value="{{$parent->number_task}}"> 
                   </tr>
 
                   @php $counter++; @endphp
@@ -121,6 +122,9 @@
                         </td>
                         <input type="hidden" style="display:none" name="typeUpdate" value="child">
                         <input type="hidden" style="display:none" name="id" value="{{$child->id}}">
+
+                        {{-- fix temp missing submit data --}}
+                        <input type="hidden" style="display:none" name="numberTask" value="{{$child->number_task}}"> 
                       </tr>
                       @php $counter++; @endphp
                     @endforeach
@@ -222,10 +226,11 @@
           const branch       = row.querySelector('[name="branch"]')?.value || '';
           const notes        = row.querySelector('[name="notes"]')?.value || '';
           const typeUpdate   = row.querySelector('[name="typeUpdate"]')?.value || '';
+          const keyGroup     = row.querySelector('[name="numberTask"]')?.value || '';
 
-          if (id) {
+          if (keyGroup) {
               // Group data
-              data[id] = {
+              data[keyGroup] = {
                   id,
                   parentNumber,
                   childNumber,
@@ -239,6 +244,7 @@
                   branch,
                   notes,
                   typeUpdate,
+                  keyGroup
               };
           }
       });
