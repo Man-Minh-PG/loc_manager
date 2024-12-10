@@ -232,6 +232,11 @@ class LineOfCodeController extends Controller
         $resultUpdate = false;
         $data         = $request->all();
 
+        // return response()->json([
+        //     'success' => false,
+        //     'message' =>$data
+        // ]);
+
         if(!isset($data['isParent']) && !isset($data['id'])) {
             return response()->json([
                 'success' => false,
@@ -240,18 +245,25 @@ class LineOfCodeController extends Controller
         }
 
         try{
-            if($data['isParent']) {
-                $parentModel  = new ParentTaskLoc;
-                $resultUpdate = $parentModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);
+            if($data['isParent'] == 1) {
+                // $parentModel  = new ParentTaskLoc;
+                // $resultUpdate = $parentModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);
+
+                $parentModel = ParentTaskLoc::findOrFail($data['id']);
+                $parentModel->update(['run_time' => Carbon::now()]);
             }else {
-                $childModel =  new ChildTaskLoc;
-                $resultUpdate = $childModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);   
+                // $childModel =  new ChildTaskLoc;
+                // $resultUpdate = $childModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);   
+
+                $childModel = ChildTaskLoc::findOrFail($data['id']);
+                $childModel->update(['run_time' => Carbon::now()]);
             }
 
             return response()->json([
-                'success' => $resultUpdate,
+                'success' => true,
                 'message' => 'Data updated successfully! id_update'.$data['id']
             ]);
+          
         } catch (\Exception $e) { 
             return response()->json([
                 'success' => false,

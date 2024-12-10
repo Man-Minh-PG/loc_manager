@@ -76,7 +76,7 @@
                         @endforeach
                       </select>
                     </td>
-                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$parent->id}}, false)" name="fileChange" value="{{$parent->file_change}}"></td>
+                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$parent->id}}, 1)" name="fileChange" value="{{$parent->file_change}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$parent->php}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$parent->js}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$parent->css}}"></td>
@@ -108,7 +108,7 @@
                             @endforeach
                           </select>
                         </td>
-                        <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$child->id}}, false)" name="fileChange" value="{{$child->file_change}}"></td>
+                        <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$child->id}}, 2)" name="fileChange" value="{{$child->file_change}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$child->php}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$child->js}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$child->css}}"></td>
@@ -169,6 +169,7 @@
               isParent: isParent
           },
           success: function(response) {
+            console.log(response);
               if (response.success) {
                   var alertHtml = `
                       <div class="alert alert-success alert-dismissible fade show" role="alert">
