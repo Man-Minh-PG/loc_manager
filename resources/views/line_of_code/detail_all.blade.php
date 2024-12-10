@@ -76,7 +76,7 @@
                         @endforeach
                       </select>
                     </td>
-                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime($parent, false)" name="fileChange" value="{{$parent->file_change}}"></td>
+                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$parent->id}}, false)" name="fileChange" value="{{$parent->file_change}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$parent->php}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$parent->js}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$parent->css}}"></td>
@@ -85,7 +85,7 @@
                     <td>
                         <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="branch" > {{$parent->branch}} </textarea>
                     </td>
-                    <td>
+                    <td>  
                         <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="notes" > {{$parent->notes}} </textarea>
                     </td>
                     <input type="hidden" style="display:none" name="typeUpdate" value="parent">
