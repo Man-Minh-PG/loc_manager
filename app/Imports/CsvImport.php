@@ -25,7 +25,12 @@ class CsvImport implements ToCollection, WithHeadingRow
     */
     public function collection(Collection $collection)
     {
-       
+        if(isset($collection[0]['is_parent'])){
+            CsvImport::csvUpdateData($collection);
+            return;
+        }
+
+        dd('cc');
         $projectName = $collection[0]['project_type'] == config('common.PW') ? "PW" : "BEER";
         $index       = 1;
         $month       = Carbon::now()->month;
@@ -123,6 +128,91 @@ class CsvImport implements ToCollection, WithHeadingRow
             DB::rollBack();
             \Log::error('Error occurred: ' . $e->getMessage());
             return response()->json(['error' => 'Something went wrong, please try again later.'], 500);
+        }
+    }
+
+
+    /**
+     * HOT FIX PROCESS FOR PW
+     */
+    public function csvUpdateData(Collection $collection) {
+        $projectName = "PW";
+        $index       = 1;
+        $month       = Carbon::now()->month;
+        $tempId      = 0; // Fix insert duplication
+        $errors      = [];
+        
+        $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
+        
+        $valueIndexKey = IndexKey::where('key_value', $key)->first();
+
+        // set index
+        if(is_null($valueIndexKey)) {
+            $valueIndexKey = $key;
+        }else {
+            $lastIndex = substr($valueIndexKey['key_value'], -1, 2);
+    
+            $key           = $projectName.'_'.$month.'_'.intval($lastIndex) + $index;
+            $valueIndexKey = $key;
+            unset($key);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            foreach ($collection as $row) { 
+
+                if($row['is_parent'] == 1) {
+                    $fileChange = $row['file_change'];
+                    $php = $row['php'];
+                    $js = $row['js'];
+                    $css = $row['css'];
+                    $tpl = $row['tpl'];
+                    $total = $row['total'];
+                    
+                    $parent = ParentTaskLoc::where('number_task', $row['task'])->update([
+                        'file_change' => $fileChange,
+                        'php' => $php,
+                        'js' => $js,
+                        'css'=> $css,
+                        'tpl' => $tpl,
+                        'total' => $total
+                    ]);
+                } else {
+
+                    $fileChange = $row['file_change'];
+                    $php = $row['php'];
+                    $js = $row['js'];
+                    $css = $row['css'];
+                    $tpl = $row['tpl'];
+                    $total = $row['total'];
+                    
+                    $updated = ChildTaskLoc::where('number_task', $row['task'])->update([
+                        'file_change' => $fileChange,
+                        'php' => $php,
+                        'js' => $js,
+                        'css' => $css,
+                        'tpl' => $tpl,
+                        'total' => $total,
+                    ]);
+                
+                    $task = $row['task'];
+                    if ($updated === 0) {
+                        $errors[] = "Không tìm thấy bản ghi với task: $task ";
+                        continue; // Bỏ qua dòng này, chuyển sang dòng tiếp theo
+                    }
+                }
+
+                DB::commit();
+            } 
+        }catch (\Exception $e) { 
+            DB::rollBack();
+            \Log::error('Error occurred: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong, please try again later.',
+                'error_detail' => $e->getMessage() // Nếu cần hiển thị chi tiết lỗi (tùy theo yêu cầu)
+            ], 500);
         }
     }
 

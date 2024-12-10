@@ -65,7 +65,7 @@
                 <td> {{ $parent->tpl}} </td>
                 <td> {{ $parent->total}} </td>
                 <td> {{ $parent->branch}} </td>
-                <td> {{ $parent->notes}} </td>
+                <td class="text-wrap"> {{ $parent->notes}} </td>
                 @php $counter++; @endphp
               </tr>
 
@@ -87,7 +87,7 @@
                     @elseif ($child->status == config('common.inProgress'))
                       <span class="badge bg-label-info rounded-pill">In Progress</span>
                     @elseif ($child->status == config('common.completed'))
-                      <span class="badge bg-label-success rounded-pill">Completed</span>
+                      <span class="badge bg-label-success rounded-pill">Com pleted</span>
                     @elseif ($child->status == config('common.close'))
                       <span class="badge bg-label-secondary rounded-pill">Close</span>
                     @endif
@@ -99,7 +99,7 @@
                   <td> {{ $child->tpl}} </td>
                   <td> {{ $child->total}} </td>
                   <td> {{ $child->branch}} </td>
-                  <td> {{ $child->notes}} </td>
+                  <td class="text-wrap"> {{ $child->notes}} </td>
                   @php $counter++; @endphp
                 </tr>
                 @endforeach

@@ -11,6 +11,13 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 use App\Imports\CsvImport;
 
+use App\Http\Controllers\ToCollection;
+use App\Http\Controllers\WithHeadingRow;
+use App\Http\Controllers\Collection;
+
+use Illuminate\Support\Facades\DB;
+
+
 class LineOfCodeController extends Controller
 {
     const PW = 1;
@@ -344,5 +351,23 @@ class LineOfCodeController extends Controller
             'success' => $success,
             'errors' => $errors,
         ]);
+    }
+
+
+    public function updateDataCSV(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,txt|max:2048', // Kiểm tra định dạng file
+        ]);
+
+        $file = $request->file('file');
+
+        try {
+            Excel::import(new CsvImport, $file); // Reading file csv
+            return redirect()->back()->with('success', 'File imported successfully!');
+        } catch (ValidationException $e) {
+            $failures = $e->failures(); // Lấy danh sách lỗi
+            return back()->withErrors($failures);
+        }
     }
 }

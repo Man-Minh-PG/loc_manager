@@ -8,14 +8,39 @@
  <!-- <hr class="my-12" /> -->
  <div class="card"> 
     
+    {{-- validation show msg if error  --}}
+    @if ($errors->any())
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Oops! There were some errors:</strong>
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+    
+    {{-- validation show msg if success --}}
+    @if (session('success'))
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+  
+
     <div class="row row-bordered g-0">
+      <form action="{{Route('loc.UpdateCsv')}}" method="POST" enctype="multipart/form-data">
+        @csrf
         <h6 class="card-header">Import line of code </h5>
-        <div class="col-lg-6 p-4">
-            <input name="file" class="form-control form-control-sm mod-inline-50-percent" type="file" id="formFile">
-            <button type="submit" class="btn rounded-pill btn-outline-primary waves-effect">
-              <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Import
-            </button>
-        </div>
+          <div class="col-lg-8 p-4">
+              <input name="file" class="form-control mod-inline-50-percent" type="file" id="formFile">
+              <button type="submit" class="btn rounded-pill btn-outline-primary waves-effect">
+                <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Import
+              </button>
+          </div>
+      </form>
         
         <div class="col-lg-6 p-4">
           <form action="{{Route('loc.re_edit', ['type' => 1])}}" method="GET" enctype="multipart/form-data">
