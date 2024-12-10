@@ -370,4 +370,62 @@ class LineOfCodeController extends Controller
             return back()->withErrors($failures);
         }
     }
+
+    /**
+     * Function temp -> update process after ver2
+     */
+    public function updateToTal($type)
+    {
+        $arrayParent = ParentTaskLoc::where('project_type', $type)->get();
+
+        // Kiểm tra nếu mảng trống
+        if ($arrayParent->isEmpty()) {
+            return back()->withErrors('No records found for this project type.');
+        }
+
+        foreach ($arrayParent as $parent) {
+            try {
+                $childTasks = ChildTaskLoc::where('parent_id', $parent['id'])->get();
+
+                // Khởi tạo biến để lưu tổng cộng dồn các giá trị
+                $totalPhp = 0;
+                $totalJs = 0;
+                $totalCss = 0;
+                $totalTpl = 0;
+                $total = 0;
+
+                foreach ($childTasks as $child) {
+                    $totalPhp += $child->php ?? 0; // Cộng dồn giá trị cột php
+                    $totalJs += $child->js ?? 0;   // Cộng dồn giá trị cột js
+                    $totalCss += $child->css ?? 0; // Cộng dồn giá trị cột css
+                    $totalTpl += $child->tpl ?? 0; // Cộng dồn giá trị cột tpl
+                    $total += $child->total ?? 0; 
+                }
+
+                $parent->update([
+                    'php' => $totalPhp,  // Cập nhật tổng giá trị php
+                    'js' => $totalJs,    // Cập nhật tổng giá trị js
+                    'css' => $totalCss,  // Cập nhật tổng giá trị css
+                    'tpl' => $totalTpl,   // Cập nhật tổng giá trị tpl
+                    'total'=>$total
+                ]);
+            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                // Nếu không tìm thấy bản ghi, tiếp tục với phần tử tiếp theo
+                continue;
+            } catch (\Exception $e) { 
+                // Nếu có lỗi khác, dừng vòng lặp và trả về lỗi
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Something went wrong. Please try again.'
+                ]);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'All records processed successfully.'
+        ]);
+    }
+
+    
 }

@@ -35,6 +35,8 @@ Route::group(['prefix' => '_admin/loc', 'controller'  => LineOfCodeController::c
     Route::get('/re_edit/{type}', 're_edit')->name('loc.re_edit');
     Route::get('/import-file', 'showUiCSV')->name('loc.importFile');
 
+    Route::get('/cacu_total/{type}', 'updateToTal')->name('loc.cacu_total');
+
     Route::post('/update/update_csv', 'updateDataCSV')->name('loc.UpdateCsv');    
     Route::post('/create/import_csv', 'importCsv')->name('loc.import_csv');
     Route::post('/re_edit/update/loc_datetime', 'updateLocDate')->name('loc.reUpdateDateLoc');    // url temp fix after done ver1
