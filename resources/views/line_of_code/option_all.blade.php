@@ -65,7 +65,10 @@
                 <td> {{ $parent->tpl}} </td>
                 <td> {{ $parent->total}} </td>
                 <td> {{ $parent->branch}} </td>
-                <td class="text-wrap"> {{ $parent->notes}} </td>
+                <td style="  max-width: 150px; /* Điều chỉnh kích thước theo ý muốn */
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;"> {{ $parent->notes}} </td>
                 @php $counter++; @endphp
               </tr>
 
@@ -99,7 +102,10 @@
                   <td> {{ $child->tpl}} </td>
                   <td> {{ $child->total}} </td>
                   <td> {{ $child->branch}} </td>
-                  <td class="text-wrap"> {{ $child->notes}} </td>
+                  <td style="  max-width: 150px; /* Điều chỉnh kích thước theo ý muốn */
+                  white-space: normal;
+                  word-break: break-word;
+                  overflow-wrap: break-word;"> {{ $child->notes}} </td>
                   @php $counter++; @endphp
                 </tr>
                 @endforeach
