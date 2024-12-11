@@ -388,27 +388,32 @@ class LineOfCodeController extends Controller
                 $childTasks = ChildTaskLoc::where('parent_id', $parent['id'])->get();
 
                 // Khởi tạo biến để lưu tổng cộng dồn các giá trị
+                $totalChange = 0;
                 $totalPhp = 0;
                 $totalJs = 0;
                 $totalCss = 0;
                 $totalTpl = 0;
                 $total = 0;
 
-                foreach ($childTasks as $child) {
-                    $totalPhp += $child->php ?? 0; // Cộng dồn giá trị cột php
-                    $totalJs += $child->js ?? 0;   // Cộng dồn giá trị cột js
-                    $totalCss += $child->css ?? 0; // Cộng dồn giá trị cột css
-                    $totalTpl += $child->tpl ?? 0; // Cộng dồn giá trị cột tpl
-                    $total += $child->total ?? 0; 
+                if ($childTasks->count() != 0) {
+                    foreach ($childTasks as $child) {
+                        $totalChange += $child->file_change ?? 0; // Cộng dồn giá trị cột php
+                        $totalPhp += $child->php ?? 0; // Cộng dồn giá trị cột php
+                        $totalJs += $child->js ?? 0;   // Cộng dồn giá trị cột js
+                        $totalCss += $child->css ?? 0; // Cộng dồn giá trị cột css
+                        $totalTpl += $child->tpl ?? 0; // Cộng dồn giá trị cột tpl
+                        $total += $child->total ?? 0; 
+                    }
+    
+                    $parent->update([
+                        'file_change' => $totalChange,
+                        'php' => $totalPhp,  // Cập nhật tổng giá trị php
+                        'js' => $totalJs,    // Cập nhật tổng giá trị js
+                        'css' => $totalCss,  // Cập nhật tổng giá trị css
+                        'tpl' => $totalTpl,   // Cập nhật tổng giá trị tpl
+                        'total'=>$total
+                    ]);
                 }
-
-                $parent->update([
-                    'php' => $totalPhp,  // Cập nhật tổng giá trị php
-                    'js' => $totalJs,    // Cập nhật tổng giá trị js
-                    'css' => $totalCss,  // Cập nhật tổng giá trị css
-                    'tpl' => $totalTpl,   // Cập nhật tổng giá trị tpl
-                    'total'=>$total
-                ]);
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
                 // Nếu không tìm thấy bản ghi, tiếp tục với phần tử tiếp theo
                 continue;
