@@ -30,7 +30,6 @@ class CsvImport implements ToCollection, WithHeadingRow
             return;
         }
 
-        dd('cc');
         $projectName = $collection[0]['project_type'] == config('common.PW') ? "PW" : "BEER";
         $index       = 1;
         $month       = Carbon::now()->month;
