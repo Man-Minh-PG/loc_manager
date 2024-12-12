@@ -161,6 +161,12 @@ class LineOfCodeController extends Controller
             config('common.completed') => 'completed',
             config('common.close') => 'close'
         ];
+
+        $lstType     = [
+            config('common.Sys') => 'Sys',
+            config('common.EC')  => 'Ec',
+        ];
+
         if(is_null($lstIndex)) {
             $lstIndex = [];
         }
@@ -179,10 +185,12 @@ class LineOfCodeController extends Controller
                 'year'  => Carbon::parse($searchData['dateSearch'])->year
             ];
         } // set conditions db
-        $lstLocs  = $parentTaskLoc->get_info_releated_loc_re_edit($conditions);
 
+        // dd($conditions);
+        $lstLocs  = $parentTaskLoc->get_info_releated_loc_re_edit($conditions);
+        // dd($lstLocs);
         if($type == LineOfCodeController::BEER) {
-            return view('line_of_code_beer/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel', 'lstStatus'));
+            return view('line_of_code_beer/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel', 'lstStatus', 'lstType'));
         }
         return view('line_of_code/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel', 'lstStatus'));
     }
@@ -308,6 +316,10 @@ class LineOfCodeController extends Controller
                     $record->total = $fields['total'];
                     $record->branch = $fields['branch'];
                     $record->notes = $fields['notes'];
+
+                    if(isset($fields['sourceType']) && !is_null($fields['sourceType']) ){
+                        $record->source_type = $fields['sourceType'];
+                    }
                     
                     if (!$record->save()) {
                         $errors[] = "Failed to update record with ID {$id}.";
@@ -335,6 +347,10 @@ class LineOfCodeController extends Controller
                     $record->branch = $fields['branch'];
                     $record->notes = $fields['notes'];
 
+                    if(isset($fields['sourceType']) && !is_null($fields['sourceType']) ){
+                        $record->source_type = $fields['sourceType'];
+                    }
+                    
                     if (!$record->save()) {
                         $errors[] = "Failed to update record with ID {$id}.";
                         continue;

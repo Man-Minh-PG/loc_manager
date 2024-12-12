@@ -40,7 +40,7 @@
               @foreach ($lstLocs as $parent)
               <tr class="">
                 <td> {{ $counter }} </td>
-                <td><a href=""> {{ $parent->number_task }} </a></td>
+                <td style="color: rgb(140, 86, 255);"> {{ $parent->number_task }} </td>
                 <td>
                   <div class="d-flex align-items-center">
                     <i class="ri-vip-crown-line ri-10px text-primary me-2"></i>
@@ -80,8 +80,14 @@
                 <td> {{ $parent->css}} </td>
                 <td> {{ $parent->tpl}} </td>
                 <td> {{ $parent->total}} </td>
-                <td> {{ $parent->branch}} </td>
-                <td> {{ $parent->notes}} </td>
+                <td  style=" max-width: 280px; /* Điều chỉnh kích thước theo ý muốn */
+                white-space: normal;
+                word-break: break-word;
+                overflow-wrap: break-word;"> {{ $parent->branch}} </td>
+                <td  style="  max-width: 200px; /* Điều chỉnh kích thước theo ý muốn */
+                white-space: normal;
+                word-break: break-word;
+                overflow-wrap: break-word;"> {{ $parent->notes}} </td>
                 @php $counter++; @endphp
               </tr>
 
@@ -90,7 +96,7 @@
                 @foreach ($parent->childTasks as $child)
                 <tr class="table-primary"> 
                   <td> {{ $counter }} </td>
-                  <td><a href=""> {{ $child->number_task }} </a></td>
+                  <td style="color: rgb(140, 86, 255);"> {{ $child->number_task }} </td>
                   <td>
                     <div class="d-flex align-items-center">
                       <i class=" ri-heart-2-fill ri-12px text-success me-2"></i>
@@ -130,8 +136,14 @@
                   <td> {{ $child->css}} </td>
                   <td> {{ $child->tpl}} </td>
                   <td> {{ $child->total}} </td>
-                  <td> {{ $child->branch}} </td>
-                  <td> {{ $child->notes}} </td>
+                  <td  style="  max-width: 280px; /* Điều chỉnh kích thước theo ý muốn */
+                  white-space: normal;
+                  word-break: break-word;
+                  overflow-wrap: break-word;"> {{ $child->branch}} </td>
+                  <td  style="  max-width: 200px; /* Điều chỉnh kích thước theo ý muốn */
+                  white-space: normal;
+                  word-break: break-word;
+                  overflow-wrap: break-word;"> {{ $child->notes}} </td>
                   @php $counter++; @endphp
                 </tr>
                 @endforeach

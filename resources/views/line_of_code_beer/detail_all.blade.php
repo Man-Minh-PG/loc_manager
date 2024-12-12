@@ -43,7 +43,7 @@
       </form>
         
         <div class="col-lg-6 p-4">
-          <form action="{{Route('loc.re_edit', ['type' => 1])}}" method="GET" enctype="multipart/form-data">
+          <form action="{{Route('loc.re_edit', ['type' => 2])}}" method="GET" enctype="multipart/form-data">
               <select id="smallSelect" name="indexKey" class="form-select form-select-sm mod-inline-50-percent">
                 <option>Index_group</option>
                 @foreach($lstIndex as $index)
@@ -74,6 +74,7 @@
                 <th>Parent task</th>
                 <th>Child task</th>
                 <th>Status</th>
+                <th>Type</th>
                 <th>File_CH</th>
                 <th>PHP</th>
                 <th>JS</th>
@@ -98,6 +99,13 @@
                       <select class="form-select" id="exampleFormControlSelect1" name="status" aria-label="Default select example">
                         @foreach ($lstStatus as $key => $status)
                           <option value="{{$key}}" @if($parent->status == $key) selected="true" @endif> {{ $status }} </option>
+                        @endforeach
+                      </select>
+                    </td>
+                    <td>
+                      <select class="custom-select" id="exampleFormControlSelect1" name="sourceType" aria-label="Default select example">
+                        @foreach ($lstType as $key => $type)
+                          <option value="{{$key}}" @if($parent->source_type == $key) selected="true" @endif> {{$type}}  </option>
                         @endforeach
                       </select>
                     </td>
@@ -130,6 +138,13 @@
                           <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" name="status">
                             @foreach ($lstStatus as $key => $status)
                               <option value="{{$key}}" @if($child->status == $key) selected="true" @endif> {{ $status }} </option>
+                            @endforeach
+                          </select>
+                        </td>
+                        <td>
+                          <select class="custom-select" id="exampleFormControlSelect1" name="sourceType" aria-label="Default select example">
+                            @foreach ($lstType as $key => $type)
+                              <option value="{{$key}}" @if($child->source_type == $key) selected="true" @endif> {{$type}}  </option>
                             @endforeach
                           </select>
                         </td>
@@ -253,7 +268,8 @@
           const notes        = row.querySelector('[name="notes"]')?.value || '';
           const typeUpdate   = row.querySelector('[name="typeUpdate"]')?.value || '';
           const keyGroup     = row.querySelector('[name="numberTask"]')?.value || '';
-
+          const sourceType   = row.querySelector('[name="sourceType"]')?.value || '';
+          
           if (keyGroup) {
               // Group data
               data[keyGroup] = {
@@ -270,7 +286,8 @@
                   branch,
                   notes,
                   typeUpdate,
-                  keyGroup
+                  keyGroup,
+                  sourceType
               };
           }
       });
