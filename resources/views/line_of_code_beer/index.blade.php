@@ -1,0 +1,106 @@
+@extends('layouts/admin_layout')
+@section('main')
+ <!-- Hoverable Table rows -->
+ 
+ <div class="card">
+  <form action="{{Route('loc.index', ['type' => 2])}}" method="GET">
+    <input class="form-control" name="dateSearch" type="date" id="html5-date-input" style="width: 50%;"> 
+    <button type="submit" class="btn btn-primary waves-effect waves-light" style="width: 50%;">
+      <span class="tf-icons ri-search-2-line  ri-8px me-1_5"></span>Find
+    </button>
+  </form>
+
+    {{-- <h5 class="card-header">REPORT - LOC [November] </h5> --}}
+    <div class="table-responsive text-nowrap">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Parent task</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th>File_change</th>
+            <th>PHP</th>
+            <th>JS</th>
+            <th>CSS</th>
+            <th>TPL</th>
+            <th>Total</th>
+            <th>Execution time</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          @foreach ($lstParentlocs as $parentTask)
+          <tr>
+          
+            <td><a target="_blank" href="https://project.lampart-vn.com/issues/{{$parentTask->number_task}}"> {{ $parentTask->number_task }} </a></td>
+             {{-- different with PW --}}
+            <td>
+              @if($parentTask->source_type == config('common.PW'))
+              <div class="d-flex align-items-center">
+                <i class="ri-shield-star-line  ri-13px text-danger me-2"></i>
+                  <span>Sys</span>
+              </div>  
+              @else
+                <div class="d-flex align-items-center">
+                  <i class="ri-shopping-basket-line  ri-13px text-warning me-2"></i>
+                  <span>Ec</span>
+                </div>  
+                @endif
+            </td>
+          {{-- different with PW --}}
+            <td>
+              @if ($parentTask->status == config('common.new'))
+                <span class="badge bg-label-warning rounded-pill">New</span>
+              @elseif ($parentTask->status == config('common.inProgress'))
+                <span class="badge bg-label-info rounded-pill">In Progress</span>
+              @elseif ($parentTask->status == config('common.completed'))
+                <span class="badge bg-label-success rounded-pill">Completed</span>
+              @elseif ($parentTask->status == config('common.close'))
+                <span class="badge bg-label-secondary rounded-pill">Close</span>
+              @endif
+            </td>
+            <td> {{$parentTask->file_change}} File</td>
+            <td> {{$parentTask->php}} </td>
+            <td> {{$parentTask->js}} </td>
+            <td> {{$parentTask->css}} </td>
+            <td> {{$parentTask->tpl}} </td>
+            <td> {{$parentTask->total}} </td>
+            <td>
+              @if(!is_null($parentTask->run_time))
+                {{$parentTask->run_time}}
+              @else
+                'Updated....'
+              @endif
+            </td>
+            
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="ri-more-2-line"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{{Route('loc.edit', ['type' => 1, 'id_parent' => $parentTask->id])}}"
+                    ><i class="ri-pencil-line me-1"></i> Edit</a
+                  >
+                  {{-- <a class="dropdown-item" href="javascript:void(0);"
+                    ><i class="ri-delete-bin-6-line me-1"></i> Delete</a
+                  > --}}
+                  <a class="dropdown-item" href="{{Route('loc.detail_beer', ['id_parent' => $parentTask->id])}}"
+                    ><i class="ri-information-fill  me-1"></i> info</a
+                  >
+                  <a class="dropdown-item" href="javascript:void(0);"
+                    ><i class="ri-delete-bin-6-line me-1"></i> Delete</a
+                  >
+                </div>
+              </div>
+            </td>
+            
+          </tr>
+          
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--/ Hoverable Table rows -->
+@stop()
