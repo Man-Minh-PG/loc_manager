@@ -61,7 +61,8 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of detail
-     * Show data child of parent
+     * Redirect to view show data child of parent
+     * 
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function detail($id_parent)
@@ -75,7 +76,7 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of detail_beer
-     * Show data child of parent
+     * Redirect to view show data child of parent
      */
     public function detail_beer($id_parent) 
     {
@@ -87,8 +88,8 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of create
+     * Redirect to view import data for loc
      * 
-     * Show View import data for loc
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create($type)
@@ -96,13 +97,27 @@ class LineOfCodeController extends Controller
         if($type == LineOfCodeController::BEER) {
             return view('line_of_code_beer/create');
         }
+
         return view('line_of_code/create');
     }
 
+    /**
+     * Summary of showUiCSV
+     * Redirect to screen Update CSV use for BEER AND PW
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function showUiCSV(){
         return view('orther/import_csv');
     } 
-    
+   
+    /**
+     * Summary of importCsv
+     * Process logic import data in File CSV 
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function importCsv(Request $request)
     {
         $request->validate([
@@ -122,7 +137,8 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of edit
-     * Return to view edit
+     * Redirect to screen EDIT
+     * 
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit($type, $id_parent)
@@ -130,10 +146,10 @@ class LineOfCodeController extends Controller
         $parentTaskLoc = new ParentTaskLoc();
         $lstLocDetail  = $parentTaskLoc->get_info_releated_loc_with_parent_id($id_parent);
         $lstStatus     = [
-            config('common.new') => 'new',
+            config('common.new')        => 'new',
             config('common.inProgress') => 'inProgress',
-            config('common.completed') => 'completed',
-            config('common.close') => 'close'
+            config('common.completed')  => 'completed',
+            config('common.close')      => 'close'
         ];
 
         if($type == LineOfCodeController::BEER) {
@@ -144,6 +160,8 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of re_edit
+     * Redirect to screen re_edit
+     * 
      * @param mixed $type
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -170,9 +188,10 @@ class LineOfCodeController extends Controller
         if(is_null($lstIndex)) {
             $lstIndex = [];
         }
+        
         $conditions    = [
             'type'         => $type,
-            'index_key_id' => 99999999
+            'index_key_id' => 99999999 // key temp if not search
         ];
 
         if(!empty($searchData['indexKey'])) {
@@ -197,8 +216,7 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of show
-     * 
-     * Show all data with parent and child
+     * Redirect to screen show all data with parent and child
      * 
      * @param mixed $type
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -231,6 +249,13 @@ class LineOfCodeController extends Controller
         return view('line_of_code/option_all', compact('lstLocs', 'statusLabel','monthName'));
     }
     
+    /**
+     * Summary of getIndexKeyCurrent
+     * Process create indexKey
+     * 
+     * @param mixed $type
+     * @return IndexKey[]|\Illuminate\Database\Eloquent\Collection
+     */
     private function getIndexKeyCurrent($type){
         $projectName = $type == config('common.PW') ? "PW" : "BEER";
         // $index       = 1;
@@ -243,10 +268,19 @@ class LineOfCodeController extends Controller
         return $valueIndexKey;
     }
 
+
+    /**
+     * Summary of updateLocDate
+     * Process update data "Runtime"
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function updateLocDate(Request $request){
         $resultUpdate = false;
         $data         = $request->all();
 
+        // Debug
         // return response()->json([
         //     'success' => false,
         //     'message' =>$data
@@ -285,16 +319,22 @@ class LineOfCodeController extends Controller
                 'message' => 'Something went wrong. Please try again.'
             ]);
         }
-        // $parent = ParentModel::find($id);
-        // $parent->update($request->all());
     }
 
 
+    /**
+     * Summary of updateAllLoc 
+     * Process update all data LOC in UI (call in Ajax)
+     * Screen: _admin/loc/re_edit
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
     public function updateAllLoc(Request $request)
     {
-        $data = $request->all();
+        $data    = $request->all();
         $success = [];
-        $errors = [];
+        $errors  = [];
 
         foreach ($data as $id => $fields) {
             try {
@@ -307,15 +347,15 @@ class LineOfCodeController extends Controller
                         continue;
                     }
 
-                    $record->status = $fields['status'];
+                    $record->status      = $fields['status'];
                     $record->file_change = $fields['fileChange'];
-                    $record->php = $fields['php'];
-                    $record->js = $fields['js'];
-                    $record->css = $fields['css'];
-                    $record->tpl = $fields['tpl'];
-                    $record->total = $fields['total'];
-                    $record->branch = $fields['branch'];
-                    $record->notes = $fields['notes'];
+                    $record->php         = $fields['php'];
+                    $record->js          = $fields['js'];
+                    $record->css         = $fields['css'];
+                    $record->tpl         = $fields['tpl'];
+                    $record->total       = $fields['total'];
+                    $record->branch      = $fields['branch'];
+                    $record->notes       = $fields['notes'];
 
                     if(isset($fields['sourceType']) && !is_null($fields['sourceType']) ){
                         $record->source_type = $fields['sourceType'];
@@ -336,16 +376,15 @@ class LineOfCodeController extends Controller
                         continue;
                     }
 
-                    // Cập nhật bản ghi
-                    $record->status = $fields['status'];
+                    $record->status      = $fields['status'];
                     $record->file_change = $fields['fileChange'];
-                    $record->php = $fields['php'];
-                    $record->js = $fields['js'];
-                    $record->css = $fields['css'];
-                    $record->tpl = $fields['tpl'];
-                    $record->total = $fields['total'];
-                    $record->branch = $fields['branch'];
-                    $record->notes = $fields['notes'];
+                    $record->php         = $fields['php'];
+                    $record->js          = $fields['js'];
+                    $record->css         = $fields['css'];
+                    $record->tpl         = $fields['tpl'];
+                    $record->total       = $fields['total'];
+                    $record->branch      = $fields['branch'];
+                    $record->notes       = $fields['notes'];
 
                     if(isset($fields['sourceType']) && !is_null($fields['sourceType']) ){
                         $record->source_type = $fields['sourceType'];
@@ -365,36 +404,46 @@ class LineOfCodeController extends Controller
 
         return response()->json([
             'success' => $success,
-            'errors' => $errors,
+            'errors'  => $errors,
         ]);
     }
 
 
+    /**
+     * Summary of updateDataCSV
+     * Process update data in CSV into Db
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateDataCSV(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:csv,txt|max:2048', // Kiểm tra định dạng file
+            'file' => 'required|mimes:csv,txt|max:2048',
         ]);
 
         $file = $request->file('file');
 
         try {
-            Excel::import(new CsvImport, $file); // Reading file csv
+            Excel::import(new CsvImport, $file);
             return redirect()->back()->with('success', 'File imported successfully!');
         } catch (ValidationException $e) {
-            $failures = $e->failures(); // Lấy danh sách lỗi
+            $failures = $e->failures();
             return back()->withErrors($failures);
         }
     }
 
     /**
-     * Function temp -> update process after ver2
+     * Summary of updateToTal
+     * Process Caculator total and update total all task
+     * 
+     * @param mixed $type
+     * @return mixed|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function updateToTal($type)
     {
         $arrayParent = ParentTaskLoc::where('project_type', $type)->get();
 
-        // Kiểm tra nếu mảng trống
         if ($arrayParent->isEmpty()) {
             return back()->withErrors('No records found for this project type.');
         }
@@ -403,38 +452,35 @@ class LineOfCodeController extends Controller
             try {
                 $childTasks = ChildTaskLoc::where('parent_id', $parent['id'])->get();
 
-                // Khởi tạo biến để lưu tổng cộng dồn các giá trị
                 $totalChange = 0;
-                $totalPhp = 0;
-                $totalJs = 0;
-                $totalCss = 0;
-                $totalTpl = 0;
-                $total = 0;
+                $totalPhp    = 0;
+                $totalJs     = 0;
+                $totalCss    = 0;
+                $totalTpl    = 0;
+                $total       = 0;
 
                 if ($childTasks->count() != 0) {
                     foreach ($childTasks as $child) {
-                        $totalChange += $child->file_change ?? 0; // Cộng dồn giá trị cột php
-                        $totalPhp += $child->php ?? 0; // Cộng dồn giá trị cột php
-                        $totalJs += $child->js ?? 0;   // Cộng dồn giá trị cột js
-                        $totalCss += $child->css ?? 0; // Cộng dồn giá trị cột css
-                        $totalTpl += $child->tpl ?? 0; // Cộng dồn giá trị cột tpl
-                        $total += $child->total ?? 0; 
+                        $totalChange += $child->file_change ?? 0;
+                        $totalPhp    += $child->php ?? 0;
+                        $totalJs     += $child->js ?? 0;
+                        $totalCss    += $child->css ?? 0;
+                        $totalTpl    += $child->tpl ?? 0;
+                        $total       += $child->total ?? 0;
                     }
     
                     $parent->update([
                         'file_change' => $totalChange,
-                        'php' => $totalPhp,  // Cập nhật tổng giá trị php
-                        'js' => $totalJs,    // Cập nhật tổng giá trị js
-                        'css' => $totalCss,  // Cập nhật tổng giá trị css
-                        'tpl' => $totalTpl,   // Cập nhật tổng giá trị tpl
-                        'total'=>$total
+                        'php'         => $totalPhp,
+                        'js'          => $totalJs,
+                        'css'         => $totalCss,
+                        'tpl'         => $totalTpl,
+                        'total'       => $total
                     ]);
                 }
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-                // Nếu không tìm thấy bản ghi, tiếp tục với phần tử tiếp theo
                 continue;
             } catch (\Exception $e) { 
-                // Nếu có lỗi khác, dừng vòng lặp và trả về lỗi
                 return response()->json([
                     'success' => false,
                     'message' => 'Something went wrong. Please try again.'
@@ -447,6 +493,4 @@ class LineOfCodeController extends Controller
             'message' => 'All records processed successfully.'
         ]);
     }
-
-    
 }

@@ -59,25 +59,6 @@ class CsvImport implements ToCollection, WithHeadingRow
             ]);
        
             foreach ($collection as $row) {
-                // Tạo hoặc tìm parentTask
-                // $parent = ParentTaskLoc::firstOrCreate(
-                //     ['id' => $row['parenttask']],
-                //     [
-                //         'index_key_id'=> $idKey,
-                //         'project_type'=> $row['project_type'],
-                //         'source_type' => $row['sourcetype'],
-                //         'file_change' => $row['filechange'],
-                //         'php'         => $row['php'],
-                //         'js'          => $row['js'],
-                //         'css'         => $row['css'],
-                //         'tpl'         => $row['tpl'],
-                //         'total'       => $row['total'],
-                //         'branch'      => $row['branch'],
-                //         'notes'       => $row['notes'],
-                //         'path'        => $row['path'],
-                //     ]
-                // );
-
                 if($tempId != $row['parent_task']) {
                         $parent = ParentTaskLoc::create([
                             'index_key_id' => $idKey['id'], // syntax 2
@@ -132,30 +113,9 @@ class CsvImport implements ToCollection, WithHeadingRow
 
 
     /**
-     * HOT FIX PROCESS FOR PW
+     * Process update data with file CSV
      */
     public function csvUpdateData(Collection $collection) {
-        // $projectName = "PW";
-        // $index       = 1;
-        // $month       = Carbon::now()->month;
-        // $tempId      = 0; // Fix insert duplication
-        // $errors      = [];
-        // $success = [];
-        
-        // $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
-        
-        // $valueIndexKey = IndexKey::where('key_value', $key)->first();
-
-        // // set index
-        // if(is_null($valueIndexKey)) {
-        //     $valueIndexKey = $key;
-        // }else {
-        //     $lastIndex = substr($valueIndexKey['key_value'], -1, 2);
-    
-        //     $key           = $projectName.'_'.$month.'_'.intval($lastIndex) + $index;
-        //     $valueIndexKey = $key;
-        //     unset($key);
-        // }
 
         DB::beginTransaction();
 
@@ -164,37 +124,37 @@ class CsvImport implements ToCollection, WithHeadingRow
 
                 if($row['is_parent'] == 1) {
                     $fileChange = $row['file_change'];
-                    $php = $row['php'];
-                    $js = $row['js'];
-                    $css = $row['css'];
-                    $tpl = $row['tpl'];
-                    $total = $row['total'];
+                    $php        = $row['php'];
+                    $js         = $row['js'];
+                    $css        = $row['css'];
+                    $tpl        = $row['tpl'];
+                    $total      = $row['total'];
                     
-                    $parent = ParentTaskLoc::where('number_task', $row['task'])->update([
+                    ParentTaskLoc::where('number_task', $row['task'])->update([
                         'file_change' => $fileChange,
-                        'php' => $php,
-                        'js' => $js,
-                        'css'=> $css,
-                        'tpl' => $tpl,
-                        'total' => $total
+                        'php'         => $php,
+                        'js'          => $js,
+                        'css'         => $css,
+                        'tpl'         => $tpl,
+                        'total'       => $total
                     ]);
 
                 } else {
 
                     $fileChange = $row['file_change'];
-                    $php = $row['php'];
-                    $js = $row['js'];
-                    $css = $row['css'];
-                    $tpl = $row['tpl'];
-                    $total = $row['total'];
+                    $php        = $row['php'];
+                    $js         = $row['js'];
+                    $css        = $row['css'];
+                    $tpl        = $row['tpl'];
+                    $total      = $row['total'];
                     
                     $updated = ChildTaskLoc::where('number_task', $row['task'])->update([
                         'file_change' => $fileChange,
-                        'php' => $php,
-                        'js' => $js,
-                        'css' => $css,
-                        'tpl' => $tpl,
-                        'total' => $total,
+                        'php'         => $php,
+                        'js'          => $js,
+                        'css'         => $css,
+                        'tpl'         => $tpl,
+                        'total'       => $total,
                     ]);
                 
                     $task = $row['task'];
@@ -203,7 +163,6 @@ class CsvImport implements ToCollection, WithHeadingRow
                         continue; // Bỏ qua dòng này, chuyển sang dòng tiếp theo
                     }
 
-                    
                 }
                
             } 
@@ -223,7 +182,7 @@ class CsvImport implements ToCollection, WithHeadingRow
             return response()->json([
                 'success' => false,
                 'message' => 'Something went wrong, please try again later.',
-                'error_detail' => $e->getMessage() // Nếu cần hiển thị chi tiết lỗi (tùy theo yêu cầu)
+                'error_detail' => $e->getMessage().'/n'.$errors // Nếu cần hiển thị chi tiết lỗi (tùy theo yêu cầu)
             ], 500);
         }
     }

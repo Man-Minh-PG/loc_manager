@@ -1,7 +1,6 @@
 @extends('layouts/admin_layout')
 @section('main')
  <!-- Hoverable Table rows -->
- 
  <div class="card">
   <form action="{{Route('loc.index', ['type' => 1])}}" method="GET">
     <input class="form-control" name="dateSearch" type="date" id="html5-date-input" style="width: 50%;"> 
