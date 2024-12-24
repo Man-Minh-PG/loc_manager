@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="{{asset('../assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{asset('../assets/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{asset('../assets/css/demo.css')}}" />
+    <link rel="stylesheet" href="{{asset('../assets/css/menubar.css')}}" />
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{asset('../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
@@ -52,9 +53,12 @@
   </head>
 
   <body>
+    {{-- <header class="header" id="header">
+      <div class="header_toggle"> <i class="bx bx-menu" id="header-toggle"></i> </div>
+  </header> --}}
     <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar">
-      <div class="layout-container">
+    <div class="layout-wrapper layout-content-navbar full-screen-card">
+      <div class="layout-container card-body">
         <!-- Menu -->
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -125,12 +129,9 @@
               <span class="app-brand-text demo menu-text fw-semibold ms-2">Line Of Code</span>
             </a>
 
-            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-              <i class="menu-toggle-icon d-xl-block align-middle"></i>
-            </a>
           </div>
 
-          <div class="menu-inner-shadow"></div>
+          <div class="menu-inner-shadow collapse" id="navbarToggleExternalContent"></div>
 
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
@@ -373,6 +374,12 @@
 
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
             <!-- Search -->
+            <nav class="navbar navbar-dark bg-dark">
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            </nav>
+            <i id="navId" class="ri-bar-chart-horizontal-fill ri-22px"></i>
             <div class="navbar-nav align-items-center">
               <div class="nav-item d-flex align-items-center">
                 <i class="ri-search-line ri-22px me-2"></i>
@@ -394,9 +401,7 @@
                   data-icon="octicon-star"
                   data-size="large"
                   data-show-count="true"
-                  aria-label="Star themeselection/materio-bootstrap-html-admin-template-free on GitHub"
-                  >Star</a
-                >
+                  aria-label="Star themeselection/materio-bootstrap-html-admin-template-free on GitHub">Star</a>
               </li>
 
               <!-- User -->
@@ -419,7 +424,7 @@
                           </div>
                         </div>
                         <div class="flex-grow-1">
-                          <h6 class="mb-0 small">John Doe</h6>
+                          <h6 class="mb-0 small">ManMinh</h6>
                           <small class="text-muted">Admin</small>
                         </div>
                       </div>
@@ -491,6 +496,15 @@
       >
     </div> --}}
 
+    {{-- <div class="buy-now">
+      <a
+        href="https://themeselection.com/item/materio-bootstrap-html-admin-template/"
+        target="_blank"
+        class="btn btn-danger btn-buy-now"
+        >Upgrade to Pro</a
+      >
+    </div> --}}
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{{asset('../assets/vendor/libs/jquery/jquery.js')}}"></script>
@@ -506,6 +520,7 @@
 
     <!-- Main JS -->
     <script src="{{asset('../assets/js/main.js')}}"></script>
+    <script src="{{asset('../assets/js/loc/menubar.js')}}"></script>
     @yield('js')
     <!-- Page JS -->
 

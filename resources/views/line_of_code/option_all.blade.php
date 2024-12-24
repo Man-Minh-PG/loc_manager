@@ -65,7 +65,11 @@
                 <td> {{ $parent->tpl}} </td>
                 <td> {{ $parent->total}} </td>
                 <td> {{ $parent->branch}} </td>
-                <td style="  max-width: 150px; /* Điều chỉnh kích thước theo ý muốn */
+                <!-- <td style="  max-width: 150px; /* Điều chỉnh kích thước theo ý muốn */
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;"> {{ $parent->notes}} </td> -->
+                <td style="
     white-space: normal;
     word-break: break-word;
     overflow-wrap: break-word;"> {{ $parent->notes}} </td>
@@ -102,7 +106,11 @@
                   <td> {{ $child->tpl}} </td>
                   <td> {{ $child->total}} </td>
                   <td> {{ $child->branch}} </td>
-                  <td style="  max-width: 150px; /* Điều chỉnh kích thước theo ý muốn */
+                  <!-- <td style="  max-width: 150px; /* Điều chỉnh kích thước theo ý muốn */
+                  white-space: normal;
+                  word-break: break-word;
+                  overflow-wrap: break-word;"> {{ $child->notes}} </td> -->
+                   <td style="
                   white-space: normal;
                   word-break: break-word;
                   overflow-wrap: break-word;"> {{ $child->notes}} </td>

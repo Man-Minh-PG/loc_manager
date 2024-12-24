@@ -27,7 +27,7 @@ Route::group(['prefix' => '_admin/dashboard', 'controller'  => DashboardControll
 
 Route::group(['prefix' => '_admin/loc', 'controller'  => LineOfCodeController::class], function(){
     Route::get('/index/{type}', 'index')->name('loc.index'); // temp URL - phare2 update in branh update
-    Route::get('/index/show_all/{type}', 'show')->name('loc.show');
+    Route::get('/index/report/{type}', 'show')->name('loc.show');
     Route::get('/detail_pw/{id_parent}', 'detail')->name('loc.detail');
     Route::get('/detail_beer/{id_parent}', 'detail_beer')->name('loc.detail_beer');
     Route::get('/edit/{type}/{id_parent}', 'edit')->name('loc.edit');

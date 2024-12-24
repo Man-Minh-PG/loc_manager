@@ -1,0 +1,25 @@
+#layout-menu {
+    transition: transform 0.5s ease-in-out, width 0.5s ease;
+    width: 250px; /* Default width */
+  }
+
+  /* Khi menu ẩn đi */
+  #layout-menu.d-none {
+    transform: translateX(-100%); /* Di chuyển menu ra khỏi màn hình */
+    width: 0;
+  }
+
+  /* Layout-page khi menu ẩn */
+  .layout-page {
+    transition: margin-left 0.5s ease;
+    margin-left: 0; /* Đảm bảo layout-page không bị lấn ra ngoài khi menu ẩn */
+  }
+
+  /* Khi menu hiện */
+  .layout-menu-visible ~ .layout-page {
+    margin-left: 250px; /* Khi menu mở ra, layout-page sẽ đẩy sang phải */
+  }
+
+
+/**/
+
