@@ -101,7 +101,7 @@
                         @endforeach
                       </select>
                     </td>
-                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$parent->id}}, 1)" name="fileChange" value="{{$parent->file_change}}"></td>
+                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$parent->id}}, 1, {{$parent->source_type}})" name="fileChange" value="{{$parent->file_change}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$parent->php}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$parent->js}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$parent->css}}"></td>
@@ -133,7 +133,7 @@
                             @endforeach
                           </select>
                         </td>
-                        <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$child->id}}, 2)" name="fileChange" value="{{$child->file_change}}"></td>
+                        <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$child->id}}, 2, {{$child->source_type}})" name="fileChange" value="{{$child->file_change}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$child->php}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$child->js}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$child->css}}"></td>
@@ -350,7 +350,7 @@
 
   function addTimeOut(){
     setTimeout(function () {
-                      $('#alert-container .alert').alert('close');
+      $('#alert-container .alert').alert('close');
     }, 2000); // 2 giây
   }
 

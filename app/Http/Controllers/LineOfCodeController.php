@@ -161,6 +161,7 @@ class LineOfCodeController extends Controller
     /**
      * Summary of re_edit
      * Redirect to screen re_edit
+     * Screen: _admin/loc/re_edit
      * 
      * @param mixed $type
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -271,7 +272,7 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of updateLocDate
-     * Process update data "Runtime"
+     * Process update data "Runtime" in UI (call in Ajax)
      * 
      * @param \Illuminate\Http\Request $request
      * @return mixed|\Illuminate\Http\JsonResponse
@@ -298,13 +299,22 @@ class LineOfCodeController extends Controller
                 // $parentModel  = new ParentTaskLoc;
                 // $resultUpdate = $parentModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);
 
-                $parentModel = ParentTaskLoc::findOrFail($data['id']);
+                // $parentModel = ParentTaskLoc::findOrFail($data['id']);
+                // $parentModel->update(['run_time' => Carbon::now()]);
+                $parentModel = ParentTaskLoc::where('id', $data['id'])
+                    ->where('source_type', $data['sourceType'])
+                    ->firstOrFail();
                 $parentModel->update(['run_time' => Carbon::now()]);
             }else {
                 // $childModel =  new ChildTaskLoc;
                 // $resultUpdate = $childModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);   
 
-                $childModel = ChildTaskLoc::findOrFail($data['id']);
+                // $childModel = ChildTaskLoc::findOrFail($data['id']);
+                // $childModel->update(['run_time' => Carbon::now()]);
+
+                $childModel = ParentTaskLoc::where('id', $data['id'])
+                    ->where('source_type', $data['sourceType'])
+                    ->firstOrFail();
                 $childModel->update(['run_time' => Carbon::now()]);
             }
 

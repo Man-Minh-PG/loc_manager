@@ -39,6 +39,7 @@ Route::group(['prefix' => '_admin/loc', 'controller'  => LineOfCodeController::c
 
     Route::post('/update/update_csv', 'updateDataCSV')->name('loc.UpdateCsv');    
     Route::post('/create/import_csv', 'importCsv')->name('loc.import_csv');
+    
     Route::post('/re_edit/update/loc_datetime', 'updateLocDate')->name('loc.reUpdateDateLoc');    // url temp fix after done ver1
     Route::post('/re_edit/update/update-all', 'updateAllLoc')->name('loc.reUpdateAllLoc');    // url temp fix after done ver1
 }); 
