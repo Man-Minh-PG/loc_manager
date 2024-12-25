@@ -1,4 +1,3 @@
-
 @extends('layouts/admin_layout')
 @section('main')
  <!-- Hoverable Table rows -->
@@ -16,6 +15,13 @@
           </div>
       </form>
     </div>
+
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
     @if ($errors->any())
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Oops! There were some errors:</strong>
@@ -27,6 +33,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   @endif
+  
 </div>
    
 @stop()
