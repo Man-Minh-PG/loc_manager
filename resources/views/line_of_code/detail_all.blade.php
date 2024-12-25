@@ -186,7 +186,7 @@
 <script>
   function updateDateTime(id, isParent) {
       $.ajax({
-          url: 'update/loc_datetime',
+          url: 'update/runtime',
           method: 'POST',
           data: {
               _token: '{{ csrf_token() }}',

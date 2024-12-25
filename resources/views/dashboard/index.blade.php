@@ -1,5 +1,5 @@
 @extends('layouts/admin_layout')
 @section('main')
-<h1>Waitting</h1>
+<h1>Maintain</h1>
   
 @stop()

@@ -22,4 +22,8 @@
 
 
 /**/
-
+@media (max-width: 1279px) {
+  #navId {
+      display: none;
+  }
+}

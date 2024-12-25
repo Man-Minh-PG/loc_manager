@@ -14,7 +14,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>LOC Manager</title>
+    <title>Lines of code Manager</title>
 
     <meta name="description" content="" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -126,7 +126,7 @@
                   </svg>
                 </span>
               </span>
-              <span class="app-brand-text demo menu-text fw-semibold ms-2">Line Of Code</span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2">LineOfCode</span>
             </a>
 
           </div>
@@ -363,10 +363,10 @@
 
              <!-- Navbar -->
 
-          <nav
-          class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+          <nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
           id="layout-navbar">
-          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+          
+          <div id="menu-fill-custom" class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
             <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
               <i class="ri-menu-fill ri-24px"></i>
             </a>
@@ -374,11 +374,11 @@
 
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
             <!-- Search -->
-            <nav class="navbar navbar-dark bg-dark">
+            <!-- <nav class="navbar navbar-dark bg-dark">
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
-            </nav>
+            </nav> -->
             <i id="navId" class="ri-bar-chart-horizontal-fill ri-22px"></i>
             <div class="navbar-nav align-items-center">
               <div class="nav-item d-flex align-items-center">

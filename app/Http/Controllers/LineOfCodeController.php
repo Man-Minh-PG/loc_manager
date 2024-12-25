@@ -277,7 +277,7 @@ class LineOfCodeController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return mixed|\Illuminate\Http\JsonResponse
      */
-    public function updateLocDate(Request $request){
+    public function updateRuntime(Request $request){
         $resultUpdate = false;
         $data         = $request->all();
 
