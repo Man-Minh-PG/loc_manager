@@ -33,7 +33,7 @@
     <div class="row row-bordered g-0">
       <form action="{{Route('loc.UpdateCsv')}}" method="POST" enctype="multipart/form-data">
         @csrf
-        <h6 class="card-header">Import line of code </h5>
+        <h6 class="card-header">Update line of code with CSV</h5>
           <div class="col-lg-8 p-4">
               <input name="file" class="form-control mod-inline-50-percent" type="file" id="formFile">
               <button type="submit" class="btn rounded-pill btn-outline-primary waves-effect">
@@ -41,10 +41,10 @@
               </button>
           </div>
       </form>
-        
+
         <div class="col-lg-6 p-4">
-          <form action="{{Route('loc.re_edit', ['type' => 1])}}" method="GET" enctype="multipart/form-data">
-              <select id="smallSelect" name="indexKey" class="form-select form-select-sm mod-inline-50-percent">
+          <form class="mod-inline-50-percent" action="{{Route('loc.re_edit', ['type' => 1])}}" method="GET" enctype="multipart/form-data">
+              <select id="smallSelect" name="indexKey" class="form-select form-select-sm mod-inline-30-percent">
                 <option>Index_group</option>
                 @foreach($lstIndex as $index)
                   <option value="{{$index['id']}}"> {{$index['key_value']}} </option>
@@ -53,6 +53,12 @@
             
               <button type="submit" class="btn rounded-pill btn-primary waves-effect waves-light">
                 <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Fetch
+              </button>
+          </form>
+          <form class="mod-inline-50-percent" action="{{Route('loc.cacu_total', ['type' => 1])}}" method="POST" enctype="multipart/form-data">
+            @csrf
+              <button type="submit" class="btn rounded-pill btn-warning waves-effect waves-light">
+                <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Caculator total
               </button>
           </form>
         </div>
@@ -115,6 +121,7 @@
                     </td>
                     <input type="hidden" style="display:none" name="typeUpdate" value="parent">
                     <input type="hidden" style="display:none" name="id" value="{{$parent->id}}">
+                    <input type="hidden" style="display:none" name="numberTask" value="{{$parent->number_task}}">
                     <input type="hidden" style="display:none" name="numberTask" value="{{$parent->number_task}}"> 
                   </tr>
 
@@ -184,14 +191,15 @@
 @stop()
 @section('js')
 <script>
-  function updateDateTime(id, isParent) {
+  function updateDateTime(id, isParent, sourceType) {
       $.ajax({
           url: 'update/runtime',
           method: 'POST',
           data: {
               _token: '{{ csrf_token() }}',
               id: id,
-              isParent: isParent
+              isParent: isParent,
+              sourceType: sourceType
           },
           success: function(response) {
             console.log(response);
@@ -252,7 +260,10 @@
           const branch       = row.querySelector('[name="branch"]')?.value || '';
           const notes        = row.querySelector('[name="notes"]')?.value || '';
           const typeUpdate   = row.querySelector('[name="typeUpdate"]')?.value || '';
-          const keyGroup     = row.querySelector('[name="numberTask"]')?.value || '';
+          const numberTask   = row.querySelector('[name="numberTask"]')?.value || '';
+          const sourceType   = 1;
+
+          const keyGroup = numberTask +'_'+ sourceType;
 
           if (keyGroup) {
               // Group data
@@ -270,7 +281,8 @@
                   branch,
                   notes,
                   typeUpdate,
-                  keyGroup
+                  numberTask,
+                  sourceType
               };
           }
       });

@@ -334,7 +334,7 @@ class LineOfCodeController extends Controller
 
     /**
      * Summary of updateAllLoc 
-     * Process update all data LOC in UI (call in Ajax)
+     * Process update all data LOC in UI (call in Ajax update-all when submit form)
      * Screen: _admin/loc/re_edit
      * 
      * @param \Illuminate\Http\Request $request
@@ -350,7 +350,10 @@ class LineOfCodeController extends Controller
             try {
                 if ($fields['typeUpdate'] == 'parent') {
                     // $record = ParentTaskLoc::find($id);
-                    $record = ParentTaskLoc::where('number_task', $id)->first();
+                    $record = ParentTaskLoc::where([
+                        'number_task' => $fields['numberTask'],
+                        'source_type' => $fields['sourceType']
+                    ])->first();
 
                     if (!$record) {
                         $errors[] = "Record with ID {$id} not found.";
@@ -379,7 +382,10 @@ class LineOfCodeController extends Controller
                     $success[] = "Parent task with ID {$id} updated successfully.";
                 } else {
                     // $record = ChildTaskLoc::find($id);
-                    $record = ChildTaskLoc::where('number_task', $id)->first();
+                    $record = ChildTaskLoc::where([
+                        'number_task' => $fields['numberTask'],
+                        'source_type' => $fields['sourceType']
+                    ])->first();
 
                     if (!$record) {
                         $errors[] = "Record with ID {$id} not found.";
@@ -429,7 +435,7 @@ class LineOfCodeController extends Controller
     public function updateDataCSV(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:csv,txt|max:2048',
+            'file' => 'required|mimes:csv,txt,xlsx|max:2048',
         ]);
 
         $file = $request->file('file');
@@ -447,20 +453,27 @@ class LineOfCodeController extends Controller
      * Summary of updateToTal
      * Process Caculator total and update total all task
      * 
+     * GET REQUEST
+     * 
      * @param mixed $type
      * @return mixed|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function updateToTal($type)
     {
         $arrayParent = ParentTaskLoc::where('project_type', $type)->get();
-
+        
         if ($arrayParent->isEmpty()) {
             return back()->withErrors('No records found for this project type.');
         }
 
         foreach ($arrayParent as $parent) {
             try {
-                $childTasks = ChildTaskLoc::where('parent_id', $parent['id'])->get();
+                $childTasks = ChildTaskLoc::where(
+                    [
+                        'parent_id'   => $parent->id,
+                        'source_type' => $parent->source_type
+                    ]
+                )->get();
 
                 $totalChange = 0;
                 $totalPhp    = 0;
@@ -491,16 +504,18 @@ class LineOfCodeController extends Controller
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
                 continue;
             } catch (\Exception $e) { 
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Something went wrong. Please try again.'
-                ]);
+                // return response()->json([
+                //     'success' => false,
+                //     'message' => 'Something went wrong. Please try again.'
+                // ]);
+                return back()->withErrors("update failed");
+                // return redirect()->back()->with('error', 'Update fail!');
             }
         }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'All records processed successfully.'
-        ]);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'All records processed successfully.'
+        // ]);
+        return redirect()->back()->with('success', 'caculator successfully!');
     }
 }

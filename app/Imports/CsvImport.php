@@ -30,10 +30,11 @@ class CsvImport implements ToCollection, WithHeadingRow
             return;
         }
 
-        $projectName = $collection[0]['project_type'] == config('common.PW') ? "PW" : "BEER";
-        $index       = 1;
-        $month       = Carbon::now()->month;
-        $tempId      = 0; // Fix insert duplication
+        $projectName    = $collection[0]['project_type'] == config('common.PW') ? "PW" : "BEER";
+        $index          = 1;
+        $month          = Carbon::now()->month;
+        $tempId         = 0;// Fix insert duplication
+        $tempSourceType = 0;// Fix insert duplication - fix case special
         
         $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
         
@@ -59,7 +60,7 @@ class CsvImport implements ToCollection, WithHeadingRow
             ]);
        
             foreach ($collection as $row) {
-                if($tempId != $row['parent_task']) {
+                if($tempId != $row['parent_task'] || $tempSourceType != $row['source_type']) {
                         $parent = ParentTaskLoc::create([
                             'index_key_id' => $idKey['id'], // syntax 2
                             'project_type' => $row['project_type'],
@@ -80,6 +81,7 @@ class CsvImport implements ToCollection, WithHeadingRow
                 }
                 
                 $tempId = $row['parent_task'];
+                $tempSourceType = $row['source_type'];
 
                 // if parent task has child task
                 if (!empty($row['child_task'])) {
@@ -113,7 +115,8 @@ class CsvImport implements ToCollection, WithHeadingRow
 
 
     /**
-     * Process update data with file CSV
+     * Process update data into DB with file CSV
+     * Call when submit form CSV
      */
     public function csvUpdateData(Collection $collection) {
 
@@ -121,6 +124,8 @@ class CsvImport implements ToCollection, WithHeadingRow
 
         try {
             foreach ($collection as $row) { 
+        
+                $sourceType = $row['type'] == 'sys' ? config("common.Sys") : config("common.EC");
 
                 if($row['is_parent'] == 1) {
                     $fileChange = $row['file_change'];
@@ -130,14 +135,24 @@ class CsvImport implements ToCollection, WithHeadingRow
                     $tpl        = $row['tpl'];
                     $total      = $row['total'];
                     
-                    ParentTaskLoc::where('number_task', $row['task'])->update([
-                        'file_change' => $fileChange,
-                        'php'         => $php,
-                        'js'          => $js,
-                        'css'         => $css,
-                        'tpl'         => $tpl,
-                        'total'       => $total
-                    ]);
+                    try {
+                        $parentTask = ParentTaskLoc::where('number_task', $row['task'])
+                            ->where('source_type', $sourceType)
+                            ->firstOrFail();
+
+                        $parentTask->update([
+                            'file_change' => $fileChange,
+                            'php'         => $php,
+                            'js'          => $js,
+                            'css'         => $css,
+                            'tpl'         => $tpl,
+                            'total'       => $total
+                        ]);
+                    } catch (\Exception $e) {
+                        $task = $row['task'];
+                        $errors[] = "Không tìm thấy bản ghi với task: $task ";
+                        continue; // Bỏ qua dòng này, chuyển sang dòng tiếp theo
+                    }
 
                 } else {
 
@@ -147,18 +162,22 @@ class CsvImport implements ToCollection, WithHeadingRow
                     $css        = $row['css'];
                     $tpl        = $row['tpl'];
                     $total      = $row['total'];
-                    
-                    $updated = ChildTaskLoc::where('number_task', $row['task'])->update([
-                        'file_change' => $fileChange,
-                        'php'         => $php,
-                        'js'          => $js,
-                        'css'         => $css,
-                        'tpl'         => $tpl,
-                        'total'       => $total,
-                    ]);
-                
-                    $task = $row['task'];
-                    if ($updated === 0) {
+               
+                    try {
+                        $updated = ChildTaskLoc::where('number_task', $row['task'])
+                            ->where('source_type', $sourceType)
+                            ->firstOrFail();
+
+                        $updated->update([
+                            'file_change' => $fileChange,
+                            'php'         => $php,
+                            'js'          => $js,
+                            'css'         => $css,
+                            'tpl'         => $tpl,
+                            'total'       => $total,
+                        ]);
+                    } catch (\Exception $e) {
+                        $task = $row['task'];
                         $errors[] = "Không tìm thấy bản ghi với task: $task ";
                         continue; // Bỏ qua dòng này, chuyển sang dòng tiếp theo
                     }

@@ -41,10 +41,10 @@
               </button>
           </div>
       </form>
-        
-        <div class="col-lg-6 p-4">
-          <form action="{{Route('loc.re_edit', ['type' => 2])}}" method="GET" enctype="multipart/form-data">
-              <select id="smallSelect" name="indexKey" class="form-select form-select-sm mod-inline-50-percent">
+    
+        <div class="col-lg-9 p-4">
+          <form class="mod-inline-50-percent" style="width: 50%; display:inline" action="{{Route('loc.re_edit', ['type' => 1])}}" method="POST" enctype="multipart/form-data">
+              <select id="smallSelect" name="indexKey" class="form-select form-select-sm mod-inline-30-percent">
                 <option>Index_group</option>
                 @foreach($lstIndex as $index)
                   <option value="{{$index['id']}}"> {{$index['key_value']}} </option>
@@ -55,8 +55,14 @@
                 <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Fetch
               </button>
           </form>
+          <form class="mod-inline-50-percent" action="{{Route('loc.cacu_total', ['type' => 2])}}" method="POST" >
+              @csrf
+              <button type="submit" class="btn rounded-pill btn-warning waves-effect waves-light">
+                <span class="tf-icons ri-checkbox-circle-line ri-16px me-1_5"></span>Caculator total
+              </button>
+          </form>
         </div>
-    </div>
+      </div>
 
     <div id="alert-container"></div>
 </div>
@@ -199,14 +205,15 @@
 @stop()
 @section('js')
 <script>
-  function updateDateTime(id, isParent) {
+  function updateDateTime(id, isParent, sourceType) {
       $.ajax({
           url: 'update/runtime',
           method: 'POST',
           data: {
               _token: '{{ csrf_token() }}',
               id: id,
-              isParent: isParent
+              isParent: isParent,
+              sourceType: sourceType
           },
           success: function(response) {
             console.log(response);
@@ -267,9 +274,11 @@
           const branch       = row.querySelector('[name="branch"]')?.value || '';
           const notes        = row.querySelector('[name="notes"]')?.value || '';
           const typeUpdate   = row.querySelector('[name="typeUpdate"]')?.value || '';
-          const keyGroup     = row.querySelector('[name="numberTask"]')?.value || '';
+          const numberTask   = row.querySelector('[name="numberTask"]')?.value || '';
           const sourceType   = row.querySelector('[name="sourceType"]')?.value || '';
           
+          const keyGroup = numberTask +'_'+ sourceType;
+
           if (keyGroup) {
               // Group data
               data[keyGroup] = {
@@ -286,7 +295,7 @@
                   branch,
                   notes,
                   typeUpdate,
-                  keyGroup,
+                  numberTask,
                   sourceType
               };
           }
