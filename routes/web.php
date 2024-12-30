@@ -40,6 +40,6 @@ Route::group(['prefix' => '_admin/loc', 'controller'  => LineOfCodeController::c
     Route::post('/update/update_csv', 'updateDataCSV')->name('loc.UpdateCsv'); // Ajax update data in screen re_edit call from import csv  
     Route::post('/create/import_csv', 'importCsv')->name('loc.import_csv'); // Ajax update data in screen re_edit call from import csv  
     
-    Route::post('/re_edit/update/runtime', 'updateRuntime')->name('loc.reUpdateDateLoc');    // Ajax update data in screen re_edit
+    Route::post(    '/re_edit/update/runtime', 'updateRuntime')->name('loc.reUpdateDateLoc');    // Ajax update data in screen re_edit
     Route::post('/re_edit/update/update-all', 'updateAllLoc')->name('loc.reUpdateAllLoc');    // Ajax update all data in screen re_edit
 }); 

@@ -145,7 +145,7 @@
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a
-                    href="{{Route('dashboard.index')}}"
+                    href="{{ Route('dashboard.index') }}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="CRM">Analytics</div>
@@ -153,13 +153,13 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{{Route('loc.index', ['type' => 1])}}" class="menu-link">
+                  <a href="{{ Route('loc.index', ['type' => config('common.PW')]) }}" class="menu-link">
                     <div data-i18n="Analytics">Sumary</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a
-                    href="{{Route('loc.create', ['type' => 1])}}"
+                    href="{{ Route('loc.create', ['type' => config('common.PW')]) }}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="eCommerce">Add data</div>
@@ -167,8 +167,8 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a
-                    href="{{Route('loc.show', ['type' => 1])}}"
+                  <a 
+                    href="{{ Route('loc.show', ['type' => config('common.PW')]) }}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="eCommerce">Report</div>
@@ -177,7 +177,7 @@
                 </li>
                 <li class="menu-item">
                   <a
-                    href="{{Route('loc.re_edit', ['type' => '1'])}}"
+                    href="{{ Route('loc.re_edit', ['type' => config('common.PW')]) }}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="eCommerce">Re update</div>
@@ -262,13 +262,13 @@
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-home-smile-line"></i>
-                <div data-i18n="Dashboards">Dashboards Beer</div>
+                <div data-i18n="Dashboards">Dashboards Beer</div> 
                 {{-- <div class="badge bg-danger rounded-pill ms-auto">5</div>--}} {{-- Notifications --}}
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a
-                    href="{{Route('dashboard.index')}}"
+                    href="{{ Route('dashboard.index') }}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="CRM">Analytics</div>
@@ -276,13 +276,13 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{{Route('loc.index', ['type' => '2'])}}" class="menu-link">
+                  <a href="{{ Route('loc.index', ['type' => config('common.BEER')]) }}" class="menu-link">
                     <div data-i18n="Analytics">Sumary</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a
-                    href="{{Route('loc.create', ['type' => 2])}}"
+                    href="{{ Route('loc.create', ['type' => config('common.BEER')]) }}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="eCommerce">Add data</div>
@@ -291,7 +291,7 @@
                 </li>
                 <li class="menu-item">
                   <a
-                    href="{{Route('loc.show', ['type' => '2'])}}"
+                    href="{{ Route('loc.show', ['type' => config('common.BEER')]) }}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="eCommerce">Report</div>
@@ -300,7 +300,7 @@
                 </li>
                 <li class="menu-item">
                   <a
-                    href="{{Route('loc.re_edit', ['type' => '2'])}}"
+                    href="{{ Route('loc.re_edit', ['type' => config('common.BEER')]) }}"
                     target="_blank"
                     class="menu-link">
                     <div data-i18n="eCommerce">Re update</div>
@@ -332,7 +332,7 @@
             <!-- Misc -->
             <li class="menu-header mt-7"><span class="menu-header-text">Misc</span></li>
             <li class="menu-item">
-              <a href="{{Route('loc.importFile')}}" class="menu-link">
+              <a href="{{ Route('loc.importFile') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-remixicon-line"></i>
                 <div data-i18n="Icons">CSV Import</div>
               </a>
@@ -380,15 +380,24 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
             </nav> -->
-            <i id="navId" class="ri-bar-chart-horizontal-fill ri-22px"></i>
+            <i id="navId" class="ri-bar-chart-horizontal-fill ri-22px mod-margin-bottom-11 mod-margin-right-12"></i>
             <div class="navbar-nav align-items-center">
               <div class="nav-item d-flex align-items-center">
-                <i class="ri-search-line ri-22px me-2"></i>
+                <i class="ri-search-line ri-22px me-2 mod-margin-bottom-11"></i>
                 <input
                   type="text"
-                  class="form-control border-0 shadow-none"
+                  class="form-control border-0 shadow-none mod-margin-bottom-11"
                   placeholder="Search..."
                   aria-label="Search..." />
+                  
+                <div class="form-check form-check-inline ms-2">
+                  <input class="form-check-input" type="radio" name="sourceType" id="searchCheckboxParent" value="{{ config('common.parentTable') }}">
+                  <label class="form-check-label" for="searchCheckboxParent">Parent</label>
+                </div>
+                <div class="form-check form-check-inline ms-2">
+                  <input class="form-check-input" type="radio" name="sourceType" id="searchCheckboxChild" value="{{ config('common.childTable') }}">
+                  <label class="form-check-label" for="searchCheckboxChild">Child</label>                  
+                </div>
               </div>
             </div>
             <!-- /Search -->
@@ -402,7 +411,7 @@
                   data-icon="octicon-star"
                   data-size="large"
                   data-show-count="true"
-                  aria-label="Star themeselection/materio-bootstrap-html-admin-template-free on GitHub">Star</a>
+                  aria-label="Star themeselection/materio-bootstrap-html-admin-template-free on GitHub">Admin</a>
               </li>
 
               <!-- User -->

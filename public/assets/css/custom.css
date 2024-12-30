@@ -3,4 +3,12 @@
     display: inline;
     width: 30%;
 }
+
+.mod-margin-bottom-11 {
+    margin-bottom: 11px;
+}
+
+.mod-margin-right-12 {
+    margin-right: 12px;
+}
 /*my custom css*/

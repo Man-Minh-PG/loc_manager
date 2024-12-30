@@ -518,4 +518,55 @@ class LineOfCodeController extends Controller
         // ]);
         return redirect()->back()->with('success', 'caculator successfully!');
     }
+
+    public function searchData(Request $request)
+    {
+        $parentTaskLoc = new ParentTaskLoc();
+        $searchData    = $request->all();
+        
+        $lstLocs       = [];
+        $statusLabel   = config('common');
+        $lstIndex      = $this->getIndexKeyCurrent($searchData['type']);
+       
+        $lstStatus     = [
+            config('common.new') => 'new',
+            config('common.inProgress') => 'inProgress',
+            config('common.completed') => 'completed',
+            config('common.close') => 'close'
+        ];
+
+        $lstType     = [
+            config('common.Sys') => 'Sys',
+            config('common.EC')  => 'Ec',
+        ];
+
+        if(is_null($lstIndex)) {
+            $lstIndex = [];
+        }
+        
+        $conditions    = [
+            'type'         => $searchData['type'],
+            'index_key_id' => 99999999 // key temp if not search
+        ];
+
+        if(!empty($searchData['indexKey'])) {
+            $conditions['index_key_id'] = $searchData['indexKey'];
+        }
+
+        if(!empty($searchData['dateSearch'])){
+            $conditions += [
+                'month' => Carbon::parse($searchData['dateSearch'])->month,
+                'year'  => Carbon::parse($searchData['dateSearch'])->year
+            ];
+        } // set conditions db
+
+        // dd($conditions);
+        $lstLocs  = $parentTaskLoc->get_info_releated_loc_re_edit($conditions);
+        // dd($lstLocs);
+        if($searchData['type'] == LineOfCodeController::BEER) {
+            return view('line_of_code_beer/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel', 'lstStatus', 'lstType'));
+        }
+        return view('line_of_code/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel', 'lstStatus'));
+
+    }
 }
