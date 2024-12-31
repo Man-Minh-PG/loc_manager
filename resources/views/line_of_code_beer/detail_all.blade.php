@@ -135,7 +135,7 @@
                   <i class="ri-more-2-line"></i>
                 </button>
                 <div class="dropdown-menu" style="">
-                  <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="getHistoryTask( {{config('common.parentTable')}}, '{{$parent->number_task}}', {{$parent->source_type}})"><i class="ri-hourglass-line me-1"></i> History</a>
+                  <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="getHistoryTask( {{config('common.parentTable')}}, '{{$parent->number_task}}', {{$parent->source_type}}, {{$parent->id}} )"><i class="ri-hourglass-line me-1"></i> History</a>
                   <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="ri-pencil-line me-1"></i> Edit</a>
                   <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="ri-delete-bin-6-line me-1"></i> Delete</a>
                 </div>
@@ -169,7 +169,7 @@
                 @endforeach
               </select>
             </td>
-            <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$child->id}}, 2, {{$child->source_type}})" name="fileChange" value="{{$child->file_change}}"></td>
+            <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$child->id}}, {{config('common.childTable')}}, {{$child->source_type}})" name="fileChange" value="{{$child->file_change}}"></td>
             <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$child->php}}"></td>
             <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$child->js}}"></td>
             <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$child->css}}"></td>
@@ -188,7 +188,7 @@
                   <i class="ri-more-2-line"></i>
                 </button>
                 <div class="dropdown-menu" style="">
-                  <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="getHistoryTask( {{config('common.childTable')}}, '{{$child->number_task}}', {{$child->source_type}})"><i class="ri-hourglass-line me-1"></i> History</a>
+                  <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="getHistoryTask( {{config('common.childTable')}}, '{{$child->number_task}}', {{$child->source_type}} , {{$child->id}})"><i class="ri-hourglass-line me-1"></i> History</a>
                   <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="ri-pencil-line me-1"></i> Edit</a>
                   <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="ri-delete-bin-6-line me-1"></i> Delete</a>
                 </div>
@@ -468,7 +468,7 @@
     });
   });
 
-  function getHistoryTask(isParent, numberTask, sourceType) {
+  function getHistoryTask(isParent, numberTask, sourceType, idTaskUpdate) {
     $.ajax({
         url: '{{ route("loc.getHistory") }}',
         method: 'POST',
@@ -498,7 +498,7 @@
                             <td>${new Date(task.created_at).toLocaleDateString('en-GB')}</td>
                        
                             <td>
-                              <button class="btn btn-sm btn-primary" onclick="editTask(${numberTask}, ${task.number_task}, ${sourceType}, ${isParent})">Edit</button>
+                              <button class="btn btn-sm btn-primary" onclick="editTask(${numberTask}, ${task.number_task}, ${sourceType}, ${isParent}, ${idTaskUpdate})">Edit</button>
                             </td>
                         </tr>
                     `;
@@ -528,7 +528,9 @@
     });
   }
   
-  function editTask(numberTaskUpdate, numberTaskOld, sourceType, isParent) {
+  function editTask(numberTaskUpdate, numberTaskOld, sourceType, isParent, idTaskUpdate) {
+    console.log('numberTaskUpdate', numberTaskUpdate);  
+
     $.ajax({
       url: '{{ route("loc.updateOldData") }}',
       method: 'POST',
@@ -541,16 +543,28 @@
       },
       success: function(response) {
         if (response.success) {
-          $('#historyModal').modal('hide');
-          var alertHtml = `
+            $('#historyModal').modal('hide');
+            var alertHtml = `
             <div class="alert alert-success alert-dismissible fade show" role="alert">
               ${response.message}
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-          `;
-          $('#alert-container').html(alertHtml);       
+            `;
+            $('#alert-container').html(alertHtml);
+
+            // Update the row with the new data
+            const row = $(`tr:has(input[name="numberTask"][value="${numberTaskUpdate}"]):has(input[name="id"][value="${idTaskUpdate}"])`);
+            row.find('input[name="status"]').val(response.data.status);
+            row.find('input[name="fileChange"]').val(response.data.file_change);
+            row.find('input[name="php"]').val(response.data.php);
+            row.find('input[name="js"]').val(response.data.js);
+            row.find('input[name="css"]').val(response.data.css);
+            row.find('input[name="tpl"]').val(response.data.tpl);
+            row.find('input[name="total"]').val(response.data.total);
+            row.find('textarea[name="branch"]').val(response.data.branch);
+            row.find('textarea[name="notes"]').val(response.data.notes);
         } else {
-          var alertHtml = `
+          var alertHtml = ` 
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
               ${response.message}
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

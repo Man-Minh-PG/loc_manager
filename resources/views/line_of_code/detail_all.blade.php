@@ -538,7 +538,20 @@ function getHistoryTask(isParent, numberTask, sourceType) {
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
           `;
-          $('#alert-container').html(alertHtml);       
+          $('#alert-container').html(alertHtml);
+          
+          
+          // Update the row with the new table data
+          const row = $(`tr:has(input[value="${numberTaskUpdate}"]):has(input[value="${sourceType}"])`);
+          row.find('input[name="status"]').val(response.data.status);
+          row.find('input[name="fileChange"]').val(response.data.file_change);
+          row.find('input[name="php"]').val(response.data.php);
+          row.find('input[name="js"]').val(response.data.js);
+          row.find('input[name="css"]').val(response.data.css);
+          row.find('input[name="tpl"]').val(response.data.tpl);
+          row.find('input[name="total"]').val(response.data.total);
+          row.find('textarea[name="branch"]').val(response.data.branch);
+          row.find('textarea[name="notes"]').val(response.data.notes);
         } else {
           var alertHtml = `
             <div class="alert alert-danger alert-dismissible fade show" role="alert">

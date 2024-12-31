@@ -440,7 +440,6 @@ class LineOfCodeController extends Controller
         $request->validate([
             'file' => 'required|mimes:csv,txt,xlsx|max:2048',
         ]);
-
         $file = $request->file('file');
 
         try {
@@ -582,6 +581,7 @@ class LineOfCodeController extends Controller
         $requestData   = $request->all();
         $currentMonth  = Carbon::now()->month;
         $resultUpdate  = false;
+        $updatedData   = null;
 
         if($requestData['isParent'] == config('common.parentTable')) {
             // Get old data       
@@ -596,7 +596,7 @@ class LineOfCodeController extends Controller
             ];
 
             $resultUpdate = $parentTaskLoc->where($conditions)->whereMonth('created_at', $currentMonth)->update(
-[
+              [
                 'file_change' => $oldData['file_change'],
                 'php'         => $oldData['php'],
                 'js'          => $oldData['js'],
@@ -607,6 +607,10 @@ class LineOfCodeController extends Controller
                 'notes'       => "[Dùng lại số đo cũ id: ".$oldData['id'].$oldData['notes']
               ]
             );
+
+            if ($resultUpdate) {
+                $updatedData = $parentTaskLoc->where($conditions)->whereMonth('created_at', $currentMonth)->first();
+            }
         } else {
              // Get old data       
              $oldData = $childTaskLoc->where([
@@ -631,12 +635,17 @@ class LineOfCodeController extends Controller
                 'notes'       => "[Dùng lại số đo cũ id: ".$oldData['id'].$oldData['notes']
               ]
             );
+
+            if ($resultUpdate) {
+                $updatedData = $childTaskLoc->where($conditions)->whereMonth('created_at', $currentMonth)->first();
+            }
         }
 
         if($resultUpdate) {
             return response()->json([
                 'success' => true,
-                'message' => 'Data old updated successfully!'
+                'message' => 'Data old updated successfully!',
+                'data'    => $updatedData
             ]);
         }
         
