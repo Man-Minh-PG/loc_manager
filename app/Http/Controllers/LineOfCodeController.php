@@ -280,6 +280,7 @@ class LineOfCodeController extends Controller
     public function updateRuntime(Request $request){
         $resultUpdate = false;
         $data         = $request->all();
+        $currentMonth = Carbon::now()->month;
 
         // Debug
         // return response()->json([
@@ -295,14 +296,14 @@ class LineOfCodeController extends Controller
         }
 
         try{
-            if($data['isParent'] == 1) {
+            if($data['isParent'] == config('common.parentTable')) {
                 // $parentModel  = new ParentTaskLoc;
                 // $resultUpdate = $parentModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);
 
                 // $parentModel = ParentTaskLoc::findOrFail($data['id']);
                 // $parentModel->update(['run_time' => Carbon::now()]);
                 $parentModel = ParentTaskLoc::where('id', $data['id'])
-                    ->where('source_type', $data['sourceType'])
+                    ->where('source_type', $data['sourceType'])->whereMonth('created_at', $currentMonth)
                     ->firstOrFail();
                 $parentModel->update(['run_time' => Carbon::now()]);
             }else {
@@ -342,6 +343,7 @@ class LineOfCodeController extends Controller
      */
     public function updateAllLoc(Request $request)
     {
+        $currentMonth = Carbon::now()->month;
         $data    = $request->all();
         $success = [];
         $errors  = [];
@@ -352,8 +354,8 @@ class LineOfCodeController extends Controller
                     // $record = ParentTaskLoc::find($id);
                     $record = ParentTaskLoc::where([
                         'number_task' => $fields['numberTask'],
-                        'source_type' => $fields['sourceType']
-                    ])->first();
+                        'source_type' => $fields['sourceType'],
+                    ])->whereMonth('created_at', $currentMonth)->first();
 
                     if (!$record) {
                         $errors[] = "Record with ID {$id} not found.";
@@ -385,7 +387,7 @@ class LineOfCodeController extends Controller
                     $record = ChildTaskLoc::where([
                         'number_task' => $fields['numberTask'],
                         'source_type' => $fields['sourceType']
-                    ])->first();
+                    ])->whereMonth('created_at', $currentMonth)->first();
 
                     if (!$record) {
                         $errors[] = "Record with ID {$id} not found.";
@@ -453,14 +455,15 @@ class LineOfCodeController extends Controller
      * Summary of updateToTal
      * Process Caculator total and update total all task
      * 
-     * GET REQUEST
+     * Caculator total of current date time
      * 
      * @param mixed $type
      * @return mixed|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function updateToTal($type)
     {
-        $arrayParent = ParentTaskLoc::where('project_type', $type)->get();
+        $currentMonth = Carbon::now()->month;
+        $arrayParent  = ParentTaskLoc::where('project_type', $type)->whereMonth('created_at', $currentMonth)->get();
         
         if ($arrayParent->isEmpty()) {
             return back()->withErrors('No records found for this project type.');
@@ -519,54 +522,126 @@ class LineOfCodeController extends Controller
         return redirect()->back()->with('success', 'caculator successfully!');
     }
 
-    public function searchData(Request $request)
+    /**
+     * Summary of getHistoryOfTask
+     * Process get history of task (Call in Ajax)
+     * Route::post('/getHistory', 'getHistoryOfTask')->name('loc.getHistory'); // Ajax get history data in screen re_edit
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getHistoryOfTask(Request $request)
     {
         $parentTaskLoc = new ParentTaskLoc();
-        $searchData    = $request->all();
-        
-        $lstLocs       = [];
-        $statusLabel   = config('common');
-        $lstIndex      = $this->getIndexKeyCurrent($searchData['type']);
-       
-        $lstStatus     = [
-            config('common.new') => 'new',
-            config('common.inProgress') => 'inProgress',
-            config('common.completed') => 'completed',
-            config('common.close') => 'close'
-        ];
+        $childTaskLoc  = new ChildTaskLoc();
+        $request       = $request->all();
+        $lstResult     = [];
 
-        $lstType     = [
-            config('common.Sys') => 'Sys',
-            config('common.EC')  => 'Ec',
-        ];
-
-        if(is_null($lstIndex)) {
-            $lstIndex = [];
-        }
-        
-        $conditions    = [
-            'type'         => $searchData['type'],
-            'index_key_id' => 99999999 // key temp if not search
-        ];
-
-        if(!empty($searchData['indexKey'])) {
-            $conditions['index_key_id'] = $searchData['indexKey'];
-        }
-
-        if(!empty($searchData['dateSearch'])){
-            $conditions += [
-                'month' => Carbon::parse($searchData['dateSearch'])->month,
-                'year'  => Carbon::parse($searchData['dateSearch'])->year
+        if($request['isParent'] == config('common.parentTable')) {
+            $conditions = [
+                'number_task' => $request['numberTask'],
+                'source_type' => $request['sourceType']
             ];
-        } // set conditions db
 
-        // dd($conditions);
-        $lstLocs  = $parentTaskLoc->get_info_releated_loc_re_edit($conditions);
-        // dd($lstLocs);
-        if($searchData['type'] == LineOfCodeController::BEER) {
-            return view('line_of_code_beer/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel', 'lstStatus', 'lstType'));
+            $lstResult = $parentTaskLoc->where($conditions)->get();
+        } else {
+            $conditions = [
+                'number_task' => $request['numberTask'],
+                'source_type' => $request['sourceType']
+            ];
+
+            $lstResult = $childTaskLoc->where($conditions)->get();
         }
-        return view('line_of_code/detail_all', compact('lstLocs', 'lstIndex', 'statusLabel', 'lstStatus'));
 
+        if($lstResult->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No records found for this task.'
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $lstResult
+        ]);
+    }
+
+    /**
+     * Summary of update
+     * Update data current = data old in screen re_edit
+     * Route::post('/update-old-data', 'update')->name('loc.updateOldData');    // Ajax update data in screen re_edit
+     *   
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request)
+    {
+        $parentTaskLoc = new ParentTaskLoc();
+        $childTaskLoc  = new ChildTaskLoc();
+        $requestData   = $request->all();
+        $currentMonth  = Carbon::now()->month;
+        $resultUpdate  = false;
+
+        if($requestData['isParent'] == config('common.parentTable')) {
+            // Get old data       
+            $oldData = $parentTaskLoc->where([
+                'number_task' => $requestData['numberTaskOld'],
+                'source_type' => $requestData['sourceType'],  
+            ])->whereMonth('created_at', $currentMonth)->first();
+
+            $conditions = [
+                'number_task' => $requestData['numberTaskUpdate'],
+                'source_type' => $requestData['sourceType']
+            ];
+
+            $resultUpdate = $parentTaskLoc->where($conditions)->whereMonth('created_at', $currentMonth)->update(
+[
+                'file_change' => $oldData['file_change'],
+                'php'         => $oldData['php'],
+                'js'          => $oldData['js'],
+                'css'         => $oldData['css'],
+                'tpl'         => $oldData['tpl'],
+                'total'       => $oldData['total'],
+                'branch'      => $oldData['branch'],
+                'notes'       => "[Dùng lại số đo cũ id: ".$oldData['id'].$oldData['notes']
+              ]
+            );
+        } else {
+             // Get old data       
+             $oldData = $childTaskLoc->where([
+                'number_task' => $requestData['numberTaskOld'],
+                'source_type' => $requestData['sourceType'],  
+            ])->whereMonth('created_at', $currentMonth)->first();
+
+            $conditions = [
+                'number_task' => $oldData['numberTaskUpdate'],
+                'source_type' => $oldData['sourceType']
+            ];
+
+            $resultUpdate = $childTaskLoc->where($conditions)->whereMonth('created_at', $currentMonth)->update(
+              [
+                'file_change' => $oldData['file_change'],
+                'php'         => $oldData['php'],
+                'js'          => $oldData['js'],
+                'css'         => $oldData['css'],
+                'tpl'         => $oldData['tpl'],
+                'total'       => $oldData['total'],
+                'branch'      => $oldData['branch'],
+                'notes'       => "[Dùng lại số đo cũ id: ".$oldData['id'].$oldData['notes']
+              ]
+            );
+        }
+
+        if($resultUpdate) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data old updated successfully!'
+            ]);
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Something went wrong. Please try again.'
+        ]);
     }
 }
