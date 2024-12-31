@@ -88,6 +88,7 @@
                 <th>Total</th>
                 <th>Branch</th>
                 <th>Notes</th>
+                <th>History</th>
               </tr>
             </thead>
             <tbody class="table-border-bottom-0">
@@ -107,7 +108,7 @@
                         @endforeach
                       </select>
                     </td>
-                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$parent->id}}, 1, {{$parent->source_type}})" name="fileChange" value="{{$parent->file_change}}"></td>
+                    <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$parent->id}}, {{config('common.parentTable')}}, {{$parent->source_type}})" name="fileChange" value="{{$parent->file_change}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$parent->php}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$parent->js}}"></td>
                     <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$parent->css}}"></td>
@@ -119,6 +120,21 @@
                     <td>  
                         <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="notes" > {{$parent->notes}} </textarea>
                     </td>
+                      <!-- action -->
+                    <td>
+                      <div class="dropdown">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="ri-more-2-line"></i>
+                        </button>
+                        <div class="dropdown-menu" style="">
+                          <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="getHistoryTask( {{config('common.parentTable')}}, '{{$parent->number_task}}', {{$parent->source_type}})"><i class="ri-hourglass-line me-1"></i> History</a>
+                          <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="ri-pencil-line me-1"></i> Edit</a>
+                          <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="ri-delete-bin-6-line me-1"></i> Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                    <!-- action -->
+
                     <input type="hidden" style="display:none" name="typeUpdate" value="parent">
                     <input type="hidden" style="display:none" name="id" value="{{$parent->id}}">
                     <input type="hidden" style="display:none" name="numberTask" value="{{$parent->number_task}}">
@@ -140,7 +156,7 @@
                             @endforeach
                           </select>
                         </td>
-                        <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$child->id}}, 2, {{$child->source_type}})" name="fileChange" value="{{$child->file_change}}"></td>
+                        <td><input type="text" class="form-control" id="basic-default-fullname file_change" onchange="updateDateTime({{$child->id}}, {{config('common.childTable')}},{{$child->source_type}})" name="fileChange" value="{{$child->file_change}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="php" value="{{$child->php}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="js" value="{{$child->js}}"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" name="css" value="{{$child->css}}"></td>
@@ -152,6 +168,22 @@
                         <td>
                           <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="notes"> {{$child->notes}} </textarea>
                         </td>
+
+                        <!-- action -->
+                        <td>
+                          <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="ri-more-2-line"></i>
+                            </button>
+                            <div class="dropdown-menu" style="">
+                              <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="getHistoryTask( {{config('common.childTable')}}, '{{$child->number_task}}', {{$child->source_type}})"><i class="ri-hourglass-line me-1"></i> History</a>
+                              <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="ri-pencil-line me-1"></i> Edit</a>
+                              <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="ri-delete-bin-6-line me-1"></i> Delete</a>
+                            </div>
+                          </div>
+                        </td>
+                        <!-- action -->
+
                         <input type="hidden" style="display:none" name="typeUpdate" value="child">
                         <input type="hidden" style="display:none" name="id" value="{{$child->id}}">
 
@@ -187,6 +219,44 @@
     </form>  {{-- form sumary --}}
  
   <!--/ Hoverable Table rows -->
+
+  <!-- Modal for displaying history -->
+  <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg mod-max-width-95-precent">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="historyModalLabel">Task History</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Status</th>
+                <th>Type</th>
+                <th>File Change</th>
+                <th>PHP</th>
+                  <th>JS</th>
+                  <th>CSS</th>
+                  <th>TPL</th>
+                  <th>Total</th>
+                  <th>Created</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <!-- History data will be appended here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
    
 @stop()
 @section('js')
@@ -388,6 +458,108 @@ document.querySelectorAll('input[name="php"], input[name="js"], input[name="css"
     });
 });
 
+function getHistoryTask(isParent, numberTask, sourceType) {
+    $.ajax({
+        url: '{{ route("loc.getHistory") }}',
+        method: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            isParent: isParent,
+            numberTask: numberTask,
+            sourceType: sourceType
+        },
+        success: function(response) {
+            if (response.success) {
+                let historyTableBody = $('#historyTableBody');
+                historyTableBody.empty();
+
+                response.data.forEach(task => {
+                    let row = `
+                        <tr>
+                            <td>${task.number_task}</td>
+                            <td>${task.status}</td>
+                            <td>${task.source_type}</td>
+                            <td>${task.file_change}</td>
+                            <td>${task.php}</td>
+                            <td>${task.js}</td>
+                            <td>${task.css}</td>
+                            <td>${task.tpl}</td>
+                            <td>${task.total}</td>
+                            <td>${new Date(task.created_at).toLocaleDateString('en-GB')}</td>
+                       
+                            <td>
+                              <button class="btn btn-sm btn-primary" onclick="editTask(${numberTask}, ${task.number_task}, ${sourceType}, ${isParent})">Edit</button>
+                            </td>
+                        </tr>
+                    `;
+                    historyTableBody.append(row);
+                });
+
+                $('#historyModal').modal('show');
+            } else {
+                var alertHtml = `
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ${response.message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+                $('#alert-container').html(alertHtml);
+            }
+        },
+        error: function(xhr, status, error) {
+            var alertHtml = `
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Unexpected error occurred. Please try again.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            $('#alert-container').html(alertHtml);
+        }
+    });
+  }
+  
+  function editTask(numberTaskUpdate, numberTaskOld, sourceType, isParent) {
+    $.ajax({
+      url: '{{ route("loc.updateOldData") }}',
+      method: 'POST',
+      data: {
+        _token: '{{ csrf_token() }}',
+        numberTaskUpdate: numberTaskUpdate,
+        numberTaskOld: numberTaskOld,
+        sourceType: sourceType,
+        isParent: isParent
+      },
+      success: function(response) {
+        if (response.success) {
+          $('#historyModal').modal('hide');
+          var alertHtml = `
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              ${response.message}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          `;
+          $('#alert-container').html(alertHtml);       
+        } else {
+          var alertHtml = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              ${response.message}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          `;
+          $('#alert-container').html(alertHtml);
+        }
+      },
+      error: function(xhr, status, error) {
+        var alertHtml = `
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Unexpected error occurred. Please try again.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        `;
+        $('#alert-container').html(alertHtml);
+      }
+    })
+  }
 
 </script>
 @stop

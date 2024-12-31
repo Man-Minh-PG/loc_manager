@@ -194,6 +194,7 @@
                 </div>
               </div>
             </td>
+            <!-- action -->
             <input type="hidden" style="display:none" name="typeUpdate" value="child">
             <input type="hidden" style="display:none" name="id" value="{{$child->id}}">
 

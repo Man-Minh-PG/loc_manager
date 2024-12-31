@@ -297,25 +297,26 @@ class LineOfCodeController extends Controller
 
         try{
             if($data['isParent'] == config('common.parentTable')) {
-                // $parentModel  = new ParentTaskLoc;
+                $parentModel  = new ParentTaskLoc;
                 // $resultUpdate = $parentModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);
 
                 // $parentModel = ParentTaskLoc::findOrFail($data['id']);
                 // $parentModel->update(['run_time' => Carbon::now()]);
-                $parentModel = ParentTaskLoc::where('id', $data['id'])
+                $parentModel = $parentModel::where('id', $data['id'])
                     ->where('source_type', $data['sourceType'])->whereMonth('created_at', $currentMonth)
                     ->firstOrFail();
                 $parentModel->update(['run_time' => Carbon::now()]);
             }else {
-                // $childModel =  new ChildTaskLoc;
+                $childModel =  new ChildTaskLoc;
                 // $resultUpdate = $childModel::where('id',$data['id'])->first()->updateOrFail(['run_time' => Carbon::now()]);   
 
                 // $childModel = ChildTaskLoc::findOrFail($data['id']);
                 // $childModel->update(['run_time' => Carbon::now()]);
 
-                $childModel = ParentTaskLoc::where('id', $data['id'])
+                $childModel = $childModel::where('id', $data['id'])
                     ->where('source_type', $data['sourceType'])
                     ->firstOrFail();
+
                 $childModel->update(['run_time' => Carbon::now()]);
             }
 
@@ -327,7 +328,7 @@ class LineOfCodeController extends Controller
         } catch (\Exception $e) { 
             return response()->json([
                 'success' => false,
-                'message' => 'Something went wrong. Please try again.'
+                'message' => 'Something went wrong. Please try again.'.$e->getMessage()
             ]);
         }
     }
