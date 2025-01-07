@@ -498,7 +498,7 @@
                             <td>${new Date(task.created_at).toLocaleDateString('en-GB')}</td>
                        
                             <td>
-                              <button class="btn btn-sm btn-primary" onclick="editTask(${numberTask}, ${task.number_task}, ${sourceType}, ${isParent}, ${idTaskUpdate})">Edit</button>
+                                <button class="btn btn-sm btn-primary" onclick="editTask(this, '${numberTask}', '${task.id}', '${sourceType}', '${isParent}', '${idTaskUpdate}')">Edit</button>
                             </td>
                         </tr>
                     `;
@@ -528,7 +528,7 @@
     });
   }
   
-  function editTask(numberTaskUpdate, numberTaskOld, sourceType, isParent, idTaskUpdate) {
+  function editTask(trCurrent ,numberTaskUpdate, idTaskOld, sourceType, isParent, idTaskUpdate) {
     console.log('numberTaskUpdate', numberTaskUpdate);  
 
     $.ajax({
@@ -537,13 +537,15 @@
       data: {
         _token: '{{ csrf_token() }}',
         numberTaskUpdate: numberTaskUpdate,
-        numberTaskOld: numberTaskOld,
+        idTaskOld: idTaskOld,
         sourceType: sourceType,
         isParent: isParent
       },
       success: function(response) {
         if (response.success) {
+
             $('#historyModal').modal('hide');
+          
             var alertHtml = `
             <div class="alert alert-success alert-dismissible fade show" role="alert">
               ${response.message}
@@ -553,7 +555,7 @@
             $('#alert-container').html(alertHtml);
 
             // Update the row with the new data
-            const row = $(`tr:has(input[name="numberTask"][value="${numberTaskUpdate}"]):has(input[name="id"][value="${idTaskUpdate}"])`);
+            let row = $(trCurrent).closest('tr');
             row.find('input[name="status"]').val(response.data.status);
             row.find('input[name="fileChange"]').val(response.data.file_change);
             row.find('input[name="php"]').val(response.data.php);

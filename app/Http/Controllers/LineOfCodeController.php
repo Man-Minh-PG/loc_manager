@@ -159,13 +159,14 @@ class LineOfCodeController extends Controller
     }
 
     /**
-     * Summary of re_edit
-     * Redirect to screen re_edit
-     * Screen: _admin/loc/re_edit
-     * 
-     * @param mixed $type
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
+    * Summary of re_edit
+    * Get data - Process show UI screen re_edit
+    * Redirect to screen re_edit
+    * Screen: _admin/loc/re_edit
+    * 
+    * @param mixed $type
+    * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    */
     public function re_edit($type, Request $request) 
     {
         $parentTaskLoc = new ParentTaskLoc();
@@ -175,10 +176,10 @@ class LineOfCodeController extends Controller
         $lstIndex      = $this->getIndexKeyCurrent($type);
        
         $lstStatus     = [
-            config('common.new') => 'new',
+            config('common.new')        => 'new',
             config('common.inProgress') => 'inProgress',
-            config('common.completed') => 'completed',
-            config('common.close') => 'close'
+            config('common.completed')  => 'completed',
+            config('common.close')      => 'close'
         ];
 
         $lstType     = [
@@ -350,6 +351,8 @@ class LineOfCodeController extends Controller
         $errors  = [];
 
         foreach ($data as $id => $fields) {
+            $type = $fields['typeUpdate'];
+
             try {
                 if ($fields['typeUpdate'] == 'parent') {
                     // $record = ParentTaskLoc::find($id);
@@ -359,7 +362,7 @@ class LineOfCodeController extends Controller
                     ])->whereMonth('created_at', $currentMonth)->first();
 
                     if (!$record) {
-                        $errors[] = "Record with ID {$id} not found.";
+                        $errors[] = "Record with ID {$id} not found. type: $type";
                         continue;
                     }
 
@@ -391,7 +394,7 @@ class LineOfCodeController extends Controller
                     ])->whereMonth('created_at', $currentMonth)->first();
 
                     if (!$record) {
-                        $errors[] = "Record with ID {$id} not found.";
+                        $errors[] = "Record with ID {$id} not found. type: $type";
                         continue;
                     }
 
@@ -586,7 +589,7 @@ class LineOfCodeController extends Controller
         if($requestData['isParent'] == config('common.parentTable')) {
             // Get old data       
             $oldData = $parentTaskLoc->where([
-                'number_task' => $requestData['numberTaskOld'],
+                'id' => $requestData['idTaskOld'],
                 'source_type' => $requestData['sourceType'],  
             ])->whereMonth('created_at', $currentMonth)->first();
 
@@ -614,7 +617,7 @@ class LineOfCodeController extends Controller
         } else {
              // Get old data       
              $oldData = $childTaskLoc->where([
-                'number_task' => $requestData['numberTaskOld'],
+                'id' => $requestData['idTaskOld'],
                 'source_type' => $requestData['sourceType'],  
             ])->whereMonth('created_at', $currentMonth)->first();
 
