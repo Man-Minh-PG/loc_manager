@@ -51,7 +51,8 @@
           @foreach ($lstParentlocs as $parentTask)
           <tr>
           
-            <td><a target="_blank" href="https://project.lampart-vn.com/issues/{{$parentTask->number_task}}"> {{ $parentTask->number_task }} </a></td>
+            <!-- <td><a target="_blank" href="https://project.lampart-vn.com/issues/{{$parentTask->number_task}}"> {{ $parentTask->number_task }} </a></td> -->
+            <td><{{ $parentTask->number_task }}</td>
             <td>
               @if ($parentTask->status == config('common.new'))
                 <span class="badge bg-label-warning rounded-pill">New</span>

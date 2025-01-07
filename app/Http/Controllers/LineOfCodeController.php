@@ -477,7 +477,6 @@ class LineOfCodeController extends Controller
                 $childTasks = ChildTaskLoc::where(
                     [
                         'parent_id'   => $parent->id,
-                        'source_type' => $parent->source_type
                     ]
                 )->get();
 

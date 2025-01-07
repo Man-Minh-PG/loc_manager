@@ -119,13 +119,13 @@ class CsvImport implements ToCollection, WithHeadingRow
      * Call when submit form CSV
      */
     public function csvUpdateData(Collection $collection) {
-
+        $month         = Carbon::now()->month;
         DB::beginTransaction();
-
         try {
             foreach ($collection as $row) { 
-        
+                      
                 $sourceType = $row['type'] == 'sys' ? config("common.Sys") : config("common.EC");
+                $errors[] = "$sourceType ";
 
                 if($row['is_parent'] == 1) {
                     $fileChange = $row['file_change'];
@@ -138,6 +138,7 @@ class CsvImport implements ToCollection, WithHeadingRow
                     try {
                         $parentTask = ParentTaskLoc::where('number_task', $row['task'])
                             ->where('source_type', $sourceType)
+                            ->whereMonth('created_at',  $month) // Fix temp 
                             ->firstOrFail();
 
                         $parentTask->update([
@@ -166,8 +167,9 @@ class CsvImport implements ToCollection, WithHeadingRow
                     try {
                         $updated = ChildTaskLoc::where('number_task', $row['task'])
                             ->where('source_type', $sourceType)
+                            ->whereMonth('created_at',  $month) // Fix temp
                             ->firstOrFail();
-
+                        
                         $updated->update([
                             'file_change' => $fileChange,
                             'php'         => $php,
@@ -213,5 +215,16 @@ class CsvImport implements ToCollection, WithHeadingRow
         $typeName     = $sourceType == config("common.Sys") ? 'sys' : 'ec';
 
         return CsvImport::PATH_SAVE_FILE . "\\" . $year . "\\" . $monthName . "\\" . $valueIndexKey . "\\" . $numberTask. '_' .$typeName. '_compare.xlsx';
+    }
+
+    private function getIndexKey($collection){
+        $projectName    =  "BEER";
+        $index          = 1;
+        $month          = Carbon::now()->month;
+        
+        $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
+        
+        $valueIndexKey = IndexKey::where('key_value', $key)->first();
+        return $valueIndexKey;
     }
 }

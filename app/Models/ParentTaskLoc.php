@@ -123,6 +123,7 @@ class ParentTaskLoc extends Model
         ->whereMonth('created_at', $conditions['month'])
         ->where('project_type', $conditions['type'])
         ->where('index_key_id', $conditions['index_key_id'])
+        ->whereNull('deleted_at')
         ->get();
 
         // dd($result);

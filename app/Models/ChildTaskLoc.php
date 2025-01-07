@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ChildTaskLoc extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
      // Chỉ định tên bảng chính xác trong cơ sở dữ liệu
     protected $table = 'child_tasks_loc'; 
@@ -54,5 +55,17 @@ class ChildTaskLoc extends Model
 
         // use Eloquent
         return ParentTaskLoc::whereMonth('created_at', $conditions['date'])->where('project_type', $conditions['type'])->get();
+    }
+
+    public static function getChildTaskWithParent($numberTask)
+    {
+        return self::join('parent_tasks_loc', function($join) {
+                $join->on('parent_tasks_loc.index_key_id', '=', 'BEER_1_1')
+                     ->whereNotNull('parent_tasks_loc.deleted_at');
+            })
+            ->where('child_tasks_loc.number_task', $numberTask)
+            ->whereNotNull('child_tasks_loc.deleted_at')
+            ->select('child_tasks_loc.*', 'parent_tasks_loc.*')
+            ->get();
     }
 }
