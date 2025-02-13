@@ -29,6 +29,7 @@ class CreateChildTasksLocTable extends Migration
             $table->unsignedBigInteger('parent_id');
             $table->string('number_task');
             $table->smallInteger('project_type');
+
             $table->smallInteger('status');
             $table->smallInteger('source_type');
             $table->smallInteger('file_change');
@@ -38,7 +39,7 @@ class CreateChildTasksLocTable extends Migration
             $table->smallInteger('tpl');
             $table->smallInteger('total');
             $table->string('branch')->nullable(true);
-            $table->string('notes')->nullable(true);
+            $table->string('notes', 1000)->nullable(true);
             $table->string('path')->nullable(true);
             $table->string('run_time')->nullable(true);
             $table->timestamps();

@@ -15,4 +15,23 @@
 .mod-max-width-95-precent{
     max-width: 95%;
 }
+
+.mod-max-width-50-precent{
+    max-width: 50%;
+}
+
+.mod-td-table-small{
+    width: 15px;
+    word-break: break-all;
+    text-align: left;
+}
+
+/* Add these styles to handle long text */
+.mod-td-table-small,
+td {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
 /*my custom css*/

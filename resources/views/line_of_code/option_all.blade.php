@@ -64,15 +64,8 @@
                 <td> {{ $parent->css}} </td>
                 <td> {{ $parent->tpl}} </td>
                 <td> {{ $parent->total}} </td>
-                <td> {{ $parent->branch}} </td>
-                <!-- <td style="  max-width: 150px; /* Điều chỉnh kích thước theo ý muốn */
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: break-word;"> {{ $parent->notes}} </td> -->
-                <td style="
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: break-word;"> {{ $parent->notes}} </td>
+                <td style="width: 200px;" class="mod-td-table-small"> {{ $parent->branch}} </td>
+                <td style="width: 300px;" class="mod-td-table-small"> {{ $parent->notes}} </td>
                 @php $counter++; @endphp
               </tr>
 
@@ -94,7 +87,7 @@
                     @elseif ($child->status == config('common.inProgress'))
                       <span class="badge bg-label-info rounded-pill">In Progress</span>
                     @elseif ($child->status == config('common.completed'))
-                      <span class="badge bg-label-success rounded-pill">Com pleted</span>
+                      <span class="badge bg-label-success rounded-pill">Completed</span>
                     @elseif ($child->status == config('common.close'))
                       <span class="badge bg-label-secondary rounded-pill">Close</span>
                     @endif
@@ -105,15 +98,8 @@
                   <td> {{ $child->css}} </td>
                   <td> {{ $child->tpl}} </td>
                   <td> {{ $child->total}} </td>
-                  <td> {{ $child->branch}} </td>
-                  <!-- <td style="  max-width: 150px; /* Điều chỉnh kích thước theo ý muốn */
-                  white-space: normal;
-                  word-break: break-word;
-                  overflow-wrap: break-word;"> {{ $child->notes}} </td> -->
-                   <td style="
-                  white-space: normal;
-                  word-break: break-word;
-                  overflow-wrap: break-word;"> {{ $child->notes}} </td>
+                  <td style="width: 200px;" class="mod-td-table-small"> {{ $child->branch}} </td>
+                  <td style="width: 300px;" class="mod-td-table-small"> {{ $child->notes}} </td>
                   @php $counter++; @endphp
                 </tr>
                 @endforeach

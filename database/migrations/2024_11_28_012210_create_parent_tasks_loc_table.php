@@ -38,7 +38,7 @@ class CreateParentTasksLocTable extends Migration
             $table->smallInteger('tpl');
             $table->smallInteger('total');
             $table->string('branch')->nullable(true);
-            $table->string('notes')->nullable(true);
+            $table->string('notes', 1000)->nullable(true);
             $table->string('path')->nullable(true);
             $table->string('run_time')->nullable(true);
             $table->timestamps();

@@ -137,7 +137,7 @@ class CsvImport implements ToCollection, WithHeadingRow
                     
                     try {
                         $parentTask = ParentTaskLoc::where('number_task', $row['task'])
-                            ->where('source_type', $sourceType)
+                            // ->where('source_type', $sourceType)
                             ->whereMonth('created_at',  $month) // Fix temp 
                             ->firstOrFail();
 
@@ -166,7 +166,7 @@ class CsvImport implements ToCollection, WithHeadingRow
                
                     try {
                         $updated = ChildTaskLoc::where('number_task', $row['task'])
-                            ->where('source_type', $sourceType)
+                            // ->where('source_type', $sourceType)
                             ->whereMonth('created_at',  $month) // Fix temp
                             ->firstOrFail();
                         
