@@ -17,10 +17,11 @@ class CsvImport implements ToCollection, WithHeadingRow
     /**
      * example D:\linesOfCode\2024\December\PW_12_1
      */
-    const PATH_SAVE_FILE = "D:\linesOfCode";
+    const PATH_SAVE_FILE = "D:\line_of_code\data";
 
     /**
-    * Reading csv - insert data into db 
+    * Reading csv
+    * Process INSERT or UPDATE data
     * @param Collection $collection
     */
     public function collection(Collection $collection)
@@ -28,8 +29,9 @@ class CsvImport implements ToCollection, WithHeadingRow
         if(isset($collection[0]['is_parent'])){
             CsvImport::csvUpdateData($collection);
             return;
-        }
+        } // Case UPDATE
 
+        // Process case INSERT below
         $projectName    = $collection[0]['project_type'] == config('common.PW') ? "PW" : "BEER";
         $index          = 1;
         $month          = Carbon::now()->month;
@@ -37,7 +39,6 @@ class CsvImport implements ToCollection, WithHeadingRow
         $tempSourceType = 0;// Fix insert duplication - fix case special
         
         $key = $projectName.'_'.$month.'_'.$index;//"pw_11_01"
-        
         $valueIndexKey = IndexKey::where('key_value', $key)->first();
 
         // set index
