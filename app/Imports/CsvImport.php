@@ -59,35 +59,95 @@ class CsvImport implements ToCollection, WithHeadingRow
             $idKey = IndexKey::create([
                 'key_value' => $valueIndexKey
             ]);
-       
-            foreach ($collection as $row) {
-                if($tempId != $row['parent_task'] || $tempSourceType != $row['source_type']) {
-                        $parent = ParentTaskLoc::create([
-                            'index_key_id' => $idKey['id'], // syntax 2
-                            'project_type' => $row['project_type'],
-                            'number_task'  => $row['parent_task'],
-                            'status'       => $row['status'] ?? 1,
-                            'source_type'  => $row['source_type'],
-                            'file_change'  => $row['file_change'] ?? 0,
-                            'php'          => $row['php'] ?? 0,
-                            'js'           => $row['js'] ?? 0,
-                            'css'          => $row['css'] ?? 0,
-                            'tpl'          => $row['tpl'] ?? 0,
-                            'total'        => $row['total'] ?? 0,
-                            'branch'       => $row['branch'] ?? 'temp',
-                            'notes'        => $row['notes'] ?? 'temp',
-                            'path'         => CsvImport::processPath($month, $valueIndexKey, $row['parent_task'], $row['source_type']),
-                        ]
-                    );
-                }
+           
+            // foreach ($collection as $row) {
+            //     if($tempId != $row['parent_task'] || $tempSourceType != $row['source_type']) {
+            //             $parent = ParentTaskLoc::create([
+            //                 'index_key_id' => $idKey['id'], // syntax 2
+            //                 'project_type' => $row['project_type'],
+            //                 'number_task'  => $row['parent_task'],
+            //                 'status'       => $row['status'] ?? 1,
+            //                 'source_type'  => $row['source_type'],
+            //                 'file_change'  => $row['file_change'] ?? 0,
+            //                 'php'          => $row['php'] ?? 0,
+            //                 'js'           => $row['js'] ?? 0,
+            //                 'css'          => $row['css'] ?? 0,
+            //                 'tpl'          => $row['tpl'] ?? 0,
+            //                 'total'        => $row['total'] ?? 0,
+            //                 'branch'       => $row['branch'] ?? 'temp',
+            //                 'notes'        => $row['notes'] ?? 'temp',
+            //                 'path'         => CsvImport::processPath($month, $valueIndexKey, $row['parent_task'], $row['source_type']),
+            //             ]
+            //         );
+            //     }
                 
-                $tempId = $row['parent_task'];
-                $tempSourceType = $row['source_type'];
+            //     $tempId = $row['parent_task'];
+            //     $tempSourceType = $row['source_type'];
 
-                // if parent task has child task
-                if (!empty($row['child_task'])) {
-                    ChildTaskLoc::create([ 
-                        'parent_id'    => $parent->id, // syntax 1
+            //     // if parent task has child task
+            //     if (!empty($row['child_task'])) {
+            //         ChildTaskLoc::create([ 
+            //             'parent_id'    => $parent->id, // syntax 1
+            //             'number_task'  => $row['child_task'],
+            //             'project_type' => $row['project_type'],
+            //             'status'       => $row['status'] ?? 1,
+            //             'source_type'  => $row['source_type'],
+            //             'file_change'  => $row['file_change'] ?? 0,
+            //             'php'          => $row['php'] ?? 0,
+            //             'js'           => $row['js'] ?? 0,
+            //             'css'          => $row['css'] ?? 0,
+            //             'tpl'          => $row['tpl'] ?? 0,
+            //             'total'        => $row['total'] ?? 0,
+            //             'branch'       => $row['branch'] ?? 'temp',
+            //             'notes'        => $row['notes'] ?? 'temp',
+            //             'path'         => CsvImport::processPath($month, $valueIndexKey, $row['child_task'], $row['source_type']),
+            //         ]);
+            //     }
+
+            //     DB::commit();
+            // }
+
+            /**
+             * Fix bug insert data
+             * 1. Insert data with same parent task and source type
+             * 2. Insert data with same child task and source type
+             */
+
+            $tempKey = [];
+           
+            foreach ($collection as $row) {
+
+                if (empty($row['child_task'])) { // => is Parent
+                    $parent = ParentTaskLoc::create([
+                        'index_key_id' => $idKey['id'], // syntax 2
+                        'project_type' => $row['project_type'],
+                        'number_task'  => $row['parent_task'],
+                        'status'       => $row['status'] ?? 1,
+                        'source_type'  => $row['source_type'],
+                        'file_change'  => $row['file_change'] ?? 0,
+                        'php'          => $row['php'] ?? 0,
+                        'js'           => $row['js'] ?? 0,
+                        'css'          => $row['css'] ?? 0,
+                        'tpl'          => $row['tpl'] ?? 0,
+                        'total'        => $row['total'] ?? 0,
+                        'branch'       => $row['branch'] ?? 'temp',
+                        'notes'        => $row['notes'] ?? 'temp',
+                        'path'         => CsvImport::processPath($month, $valueIndexKey, $row['parent_task'], $row['source_type']),
+                    ]);
+                }
+
+                $tempKey[$row['parent_task']] = [
+                    'id'          => $parent->id,
+                    'number_task' => $row['parent_task']
+                ];
+
+                unset( $row); // Remove the processed row from the collection
+            }
+            
+            foreach ($collection as $row) {
+                if (!empty($row['child_task'])) { // => is Child
+                    ChildTaskLoc::create([
+                        'parent_id'    => $tempKey[$row['parent_task']]['id'] ?? 0,
                         'number_task'  => $row['child_task'],
                         'project_type' => $row['project_type'],
                         'status'       => $row['status'] ?? 1,
@@ -103,10 +163,9 @@ class CsvImport implements ToCollection, WithHeadingRow
                         'path'         => CsvImport::processPath($month, $valueIndexKey, $row['child_task'], $row['source_type']),
                     ]);
                 }
-
-                DB::commit();
-
             }
+
+            DB::commit();
         } catch (\Exception $e) { 
             DB::rollBack();
             \Log::error('Error occurred: ' . $e->getMessage());
