@@ -166,7 +166,8 @@ class CsvImport implements ToCollection, WithHeadingRow
             }
 
             DB::commit();
-        } catch (\Exception $e) { 
+        } catch (\Exception $e) {
+            // dd($e->getMessage());
             DB::rollBack();
             \Log::error('Error occurred: ' . $e->getMessage());
             return response()->json(['error' => 'Something went wrong, please try again later.'], 500);
