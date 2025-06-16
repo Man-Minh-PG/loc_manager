@@ -219,6 +219,7 @@ class LineOfCodeController extends Controller
     /**
      * Summary of show
      * Redirect to screen show all data with parent and child
+     * Process UI for screen ~ REPORT DATA
      * 
      * @param mixed $type
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View

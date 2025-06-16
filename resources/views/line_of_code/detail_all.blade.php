@@ -95,7 +95,7 @@
               @if(!empty($lstLocs))
                 @php $counter = 1; @endphp
                 @foreach($lstLocs as $parent)
-                  <tr class="{{$parent->id}}">
+                  <tr class="{{$parent->id}} table-warning">
                     {{-- <td><i class="ri-suitcase-2-line ri-22px text-danger me-4"></i><span>#191817</span></td> --}}
                    
                     <td> {{$counter}} </td>
