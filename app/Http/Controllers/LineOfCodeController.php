@@ -657,4 +657,43 @@ class LineOfCodeController extends Controller
             'message' => 'Something went wrong. Please try again.'
         ]);
     }
+
+    public function getModalData(Request $request){
+        $parentTaskLoc = new ParentTaskLoc();
+        $childTaskLoc  = new ChildTaskLoc();
+        $requestData   = $request->all();
+        
+         if($requestData['isParent'] == config('common.parentTable')) {
+            // Get old data       
+            $lstOldData = $parentTaskLoc->where([
+                'number_task' => $requestData['numberTask'],
+                'source_type' => $requestData['sourceType'],
+                'project_type' => $requestData['projectType'], 
+            ])->get();
+
+
+        } else {
+             // Get old data       
+             $lstOldData = $childTaskLoc->where([
+               'number_task' => $requestData['numberTask'],
+                'source_type' => $requestData['sourceType'],
+                'project_type' => $requestData['projectType'], 
+             ])->get();
+        }
+
+        if($lstOldData) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data old updated successfully!',
+                'data'    =>$lstOldData 
+            ]);
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Something went wrong. Please try again.'
+        ]);
+    }
+
+    
 }

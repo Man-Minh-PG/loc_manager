@@ -95,7 +95,7 @@
               @if(!empty($lstLocs))
                 @php $counter = 1; @endphp
                 @foreach($lstLocs as $parent)
-                  <tr class="{{$parent->id}} table-warning">
+                  <tr class="{{$parent->id}} table-warning" id="{{$parent->id}}">
                     {{-- <td><i class="ri-suitcase-2-line ri-22px text-danger me-4"></i><span>#191817</span></td> --}}
                    
                     <td> {{$counter}} </td>
@@ -121,7 +121,7 @@
                         <textarea class="form-control h-px-100" id="exampleFormControlTextarea1" name="notes" > {{$parent->notes}} </textarea>
                     </td>
                       <!-- action -->
-                    <td>
+                    <!-- <td>
                       <div class="dropdown">
                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
                           <i class="ri-more-2-line"></i>
@@ -132,6 +132,16 @@
                           <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="ri-delete-bin-6-line me-1"></i> Delete</a>
                         </div>
                       </div>
+                    </td> -->
+                    <td>
+                        <div>
+                            <!-- Gọi hàm callAjaxShowPopup với 3 tham số -->
+                              <button type="button" class="btn btn-sm btn-outline-primary"
+                                  onclick="callAjaxShowPopup('{{$parent->id}}','{{ $parent->number_task }}', 1 ,'{{  $parent->project_type }}', '{{  $parent->source_type }}')">
+                                  <i class="ri-more-2-line"></i>
+                              </button>
+
+                        </div>
                     </td>
                     <!-- action -->
 
@@ -145,7 +155,7 @@
                   {{-- if isset parent has child task render html --}}
                   @if(!empty( $parent->childTasks))
                     @foreach($parent->childTasks as $child)
-                      <tr class="child_{{$parent->id}}">
+                      <tr class="child_{{$parent->id}}" id="{{$child->id}}">
                         <td> {{$counter}} </td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" disabled value="{{$parent->number_task}}" name="parentNumber"></td>
                         <td><input type="text" class="form-control" id="basic-default-fullname" disabled value="{{$child->number_task}}" name="childNumber"></td>
@@ -170,7 +180,7 @@
                         </td>
 
                         <!-- action -->
-                        <td>
+                        <!-- <td>
                           <div class="dropdown">
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
                               <i class="ri-more-2-line"></i>
@@ -181,7 +191,19 @@
                               <a class="dropdown-item waves-effect" href="javascript:void(0);"><i class="ri-delete-bin-6-line me-1"></i> Delete</a>
                             </div>
                           </div>
+                        </td> -->
+                        <td>
+                            <div>
+                                <!-- Gọi hàm callAjaxShowPopup với 3 tham số -->
+                              <button type="button" class="btn btn-sm btn-outline-primary"
+                                  onclick="callAjaxShowPopup('{{$child->id}}','{{ $parent->number_task }}', 1 ,'{{  $parent->project_type }}', '{{  $parent->source_type }}')">
+                                  <i class="ri-more-2-line"></i>
+                              </button>
+
+                            </div>
                         </td>
+
+
                         <!-- action -->
 
                         <input type="hidden" style="display:none" name="typeUpdate" value="child">
@@ -217,6 +239,8 @@
           </div>
       </div>
     </form>  {{-- form sumary --}}
+
+  @extends('layouts/modal_common')
  
   <!--/ Hoverable Table rows -->
 
@@ -573,6 +597,106 @@ function getHistoryTask(isParent, numberTask, sourceType) {
       }
     })
   }
+
+
+function callAjaxShowPopup(rowId ,number_task, isParent, project_type, source_type) {
+  window.targetRowId = rowId;
+
+    $.ajax({
+        url: '{{ route("loc.getModal") }}',
+        type: 'POST',
+        data: {
+            numberTask: number_task,
+            isParent: isParent,
+            projectType: project_type,
+            sourceType: source_type,
+            _token: '{{ csrf_token() }}',
+        },
+        
+        success: function (response) {
+        if (!response.success || !response.data.length) {
+          mdb.Alert.getInstance(document.getElementById('ajaxErrorAlert')).show();
+          return;
+        }
+
+        // Lấy dòng mới nhất (giả sử là cuối danh sách)
+        const latest = response.data[response.data.length - 1];
+
+        // ✅ Đổ dữ liệu tóm tắt vào phần info trên modal
+        $('#getInfoList').html(`
+            <li><strong>Number Task:</strong> ${latest.number_task}</li>
+            <li><strong>Project Type:</strong> ${latest.project_type}</li>
+            <li><strong>Source Type:</strong> ${latest.source_type}</li>
+        `);
+
+        // ✅ Đổ danh sách các bản ghi vào bảng chi tiết
+        const rows = response.data.map(item => `
+          <tr>
+            <td>${item.status ?? ''}</td>
+            <td>${item.file_change ?? ''}</td>
+            <td>${item.php ?? ''}</td>
+            <td>${item.total ?? ''}</td>
+            <td>${item.notes ?? ''}</td>
+            <td>${item.run_time ?? ''}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary" onclick='copyRowDataFromModal(${JSON.stringify(item)})'>Copy</button>
+            </td>
+          </tr>
+        `).join('');
+
+        $('#detailDataTable').html(rows);
+
+        // ✅ Hiện modal
+        const modal = new bootstrap.Modal(document.getElementById('exLargeModal'));
+        modal.show();
+      },        
+      error: function () {
+            // ❌ Hiện alert nếu lỗi
+         alert("err")
+        }
+    });
+}
+
+// Optional: Copy button
+function copyRowData(btn) {
+    const row = $(btn).closest('tr');
+    const text = row.find('td:not(:last)').map(function () {
+        return $(this).text().trim();
+    }).get().join('\t');
+
+    navigator.clipboard.writeText(text);
+    alert('Đã copy: ' + text);
+}
+
+function copyRowDataFromModal(childData) {
+  // console.log('Copying data from modal:', childData);
+    const $targetRow = $('tr#' + window.targetRowId);
+
+    if (!$targetRow.length) {
+        alert('Không tìm thấy dòng để cập nhật');
+        return;
+    }
+
+    // Gán giá trị vào các input/textarea trong dòng đó
+    $targetRow.find('input[name="fileChange"]').val(childData.file_change);
+    $targetRow.find('input[name="php"]').val(childData.php);
+    $targetRow.find('input[name="js"]').val(childData.js);
+    $targetRow.find('input[name="css"]').val(childData.css);
+    $targetRow.find('input[name="tpl"]').val(childData.tpl);
+    $targetRow.find('input[name="total"]').val(childData.total);
+    $targetRow.find('textarea[name="branch"]').val(childData.branch ?? '');
+    $targetRow.find('textarea[name="notes"]').val(childData.notes ?? '');
+    $targetRow.find('select[name="status"]').val(childData.status);
+
+     // ✅ Bỏ focus khỏi nút copy trước khi đóng modal
+  document.activeElement?.blur();
+
+  // ✅ Delay 1 chút rồi đóng modal để tránh lỗi aria-hidden
+  setTimeout(() => {
+    const modalInstance = bootstrap.Modal.getInstance(document.getElementById('exLargeModal'));
+    modalInstance.hide();
+  }, 100); // 100ms là đủ
+}
 
 </script>
 @stop

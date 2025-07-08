@@ -44,4 +44,6 @@ Route::group(['prefix' => '_admin/loc', 'controller'  => LineOfCodeController::c
     Route::post('/re_edit/update/runtime', 'updateRuntime')->name('loc.reUpdateDateLoc');    // Ajax update data in screen re_edit
     Route::post('/re_edit/update/update-all', 'updateAllLoc')->name('loc.reUpdateAllLoc');    // Ajax update all data in screen re_edit
     Route::post('/update-old-data', 'update')->name('loc.updateOldData');    // Ajax update data in screen re_edit 
+
+    Route::post('/get-modal-data', 'getModalData')->name('loc.getModal'); // Ajax GET history for modal
 });
