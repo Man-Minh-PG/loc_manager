@@ -184,7 +184,7 @@
                             <div>
                                 <!-- Gọi hàm callAjaxShowPopup với 3 tham số -->
                               <button type="button" class="btn btn-sm btn-outline-primary"
-                                  onclick="callAjaxShowPopup('{{$child->id}}','{{ $parent->number_task }}', 1 ,'{{  $parent->project_type }}', '{{  $parent->source_type }}')">
+                                  onclick="callAjaxShowPopup('{{$child->id}}','{{ $child->number_task }}', 2 ,'{{  $child->project_type }}', '{{  $child->source_type }}')">
                                   <i class="ri-more-2-line"></i>
                               </button>
 
@@ -496,7 +496,7 @@
                             <td>${new Date(task.created_at).toLocaleDateString('en-GB')}</td>
                        
                             <td>
-                                <button class="btn btn-sm btn-primary" onclick="editTask(this, '${numberTask}', '${task.id}', '${sourceType}', '${isParent}', '${idTaskUpdate}')">Edit</button>
+                                <button class="btn btn-sm btn-primary" onclick="editTask('${numberTask}', '${task.id}', '${sourceType}', '${isParent}', '${idTaskUpdate}')">Edit</button>
                             </td>
                         </tr>
                     `;
@@ -651,8 +651,13 @@ function copyRowData(btn) {
         return $(this).text().trim();
     }).get().join('\t');
 
-    navigator.clipboard.writeText(text);
-    alert('Đã copy: ' + text);
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            alert('✅ Đã copy: ' + text);
+        })
+        .catch(() => {
+            alert('❌ Không thể copy dữ liệu');
+        });
 }
 
 function copyRowDataFromModal(childData) {
@@ -665,15 +670,15 @@ function copyRowDataFromModal(childData) {
     }
 
     // Gán giá trị vào các input/textarea trong dòng đó
-    $targetRow.find('input[name="fileChange"]').val(childData.file_change);
-    $targetRow.find('input[name="php"]').val(childData.php);
-    $targetRow.find('input[name="js"]').val(childData.js);
-    $targetRow.find('input[name="css"]').val(childData.css);
-    $targetRow.find('input[name="tpl"]').val(childData.tpl);
-    $targetRow.find('input[name="total"]').val(childData.total);
+    $targetRow.find('input[name="fileChange"]').val(childData.file_changes ?? '');
+    $targetRow.find('input[name="php"]').val(childData.php ?? '');
+    $targetRow.find('input[name="js"]').val(childData.js ?? '');
+    $targetRow.find('input[name="css"]').val(childData.css ?? '');
+    $targetRow.find('input[name="tpl"]').val(childData.tpl ?? '');
+    $targetRow.find('input[name="total"]').val(childData.total ?? '');
     $targetRow.find('textarea[name="branch"]').val(childData.branch ?? '');
     $targetRow.find('textarea[name="notes"]').val(childData.notes ?? '');
-    $targetRow.find('select[name="status"]').val(childData.status);
+    $targetRow.find('select[name="status"]').val(childData.status ?? '');
 
      // ✅ Bỏ focus khỏi nút copy trước khi đóng modal
   document.activeElement?.blur();

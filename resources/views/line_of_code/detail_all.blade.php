@@ -196,7 +196,7 @@
                             <div>
                                 <!-- Gọi hàm callAjaxShowPopup với 3 tham số -->
                               <button type="button" class="btn btn-sm btn-outline-primary"
-                                  onclick="callAjaxShowPopup('{{$child->id}}','{{ $parent->number_task }}', 1 ,'{{  $parent->project_type }}', '{{  $parent->source_type }}')">
+                                  onclick="callAjaxShowPopup('{{$child->id}}','{{ $child->number_task }}', 1 ,'{{  $child->project_type }}', '{{  $child->source_type }}')">
                                   <i class="ri-more-2-line"></i>
                               </button>
 
@@ -615,7 +615,7 @@ function callAjaxShowPopup(rowId ,number_task, isParent, project_type, source_ty
         
         success: function (response) {
         if (!response.success || !response.data.length) {
-          mdb.Alert.getInstance(document.getElementById('ajaxErrorAlert')).show();
+          alert("No data found or error occurred");
           return;
         }
 
