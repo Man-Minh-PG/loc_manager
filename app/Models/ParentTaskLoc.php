@@ -75,6 +75,13 @@ class ParentTaskLoc extends Model
         // -- end Use query builder --
     }
 
+    /**
+     * Summary of get_info_releated_loc
+     * @param mixed $conditions
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * 
+     * Notes: Return Collection object not return Array
+     */
     public function get_info_releated_loc($conditions = []){
         if(empty($conditions['month'])) {
             $conditions += 

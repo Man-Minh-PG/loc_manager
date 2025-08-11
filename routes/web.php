@@ -35,6 +35,8 @@ Route::group(['prefix' => '_admin/loc', 'controller'  => LineOfCodeController::c
     Route::get('/re_edit/{type}', 're_edit')->name('loc.re_edit');
     Route::get('/import-file', 'showUiCSV')->name('loc.importFile');
 
+    Route::get('/compare_data/{type}', 'compareData')->name('loc.compareData');
+
     Route::post('/cacu_total/{type}', 'updateToTal')->name('loc.cacu_total');
 
     Route::post('/getHistory', 'getHistoryOfTask')->name('loc.getHistory'); // Ajax get history data in screen re_edit

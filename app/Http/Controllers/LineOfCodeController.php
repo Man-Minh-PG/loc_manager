@@ -246,10 +246,83 @@ class LineOfCodeController extends Controller
         } // set conditions db
         $lstLocs  = $parentTaskLoc->get_info_releated_loc($conditions);
 
+
         if($type == LineOfCodeController::BEER) {
             return view('line_of_code_beer/option_all', compact('lstLocs', 'statusLabel', 'monthName'));
         }
         return view('line_of_code/option_all', compact('lstLocs', 'statusLabel','monthName'));
+    }
+
+    public function compareData($type, Request $request)
+    {
+        $parentTaskLoc = new ParentTaskLoc();
+        $searchData    = $request->all();
+        $conditions    = [
+            'type' => $type
+        ];
+
+        $date = !empty($searchData['dateSearch'])
+            ? Carbon::parse($searchData['dateSearch'])
+            : Carbon::now();
+
+        $month         = $date->month;
+        $year          = $date->year;
+        $lastMonthDate = $date->copy()->subMonth();
+
+        $lstMonthName = config('months');
+        $monthName    = $lstMonthName[$month] ?? 'Current Month';
+
+        $statusLabel   = config('common');
+
+        // Gọi dữ liệu tháng hiện tại
+        $currentData = $parentTaskLoc->get_info_releated_loc([
+            'month' => $month,
+            'year' => $year,
+            'type' => $type
+        ]);
+
+        // Gọi dữ liệu tháng trước
+        $lastData = $parentTaskLoc->get_info_releated_loc([
+            'month' => $lastMonthDate->month,
+            'year' => $lastMonthDate->year,
+            'type' => $type
+        ]);
+
+        // Map dữ liệu dễ so sánh
+        $lastMap = $lastData->keyBy('id');
+        $currentMap = $currentData->keyBy('id');
+
+        $comparedData = $currentMap->map(function ($currentParent) use ($lastMap) {
+            $lastParent = $lastMap->get($currentParent->id);
+
+            $parentDiff = $lastParent ? $lastParent->total - $currentParent->total : null;
+
+            // So sánh child
+            $currentChildren = $currentParent->childTasks->keyBy('id');
+            $lastChildren = $lastParent ? $lastParent->childTasks->keyBy('id') : collect();
+
+            $childDiffs = $currentChildren->map(function ($currentChild) use ($lastChildren) {
+                $lastChild = $lastChildren->get($currentChild->id);
+
+                return [
+                    'current_total' => $currentChild->total,
+                    'last_total' => $lastChild->total ?? null,
+                    'diff' => isset($lastChild) ? ($lastChild->total - $currentChild->total) : null
+                ];
+            });
+
+            return [
+                'parent' => $currentParent,
+                'parent_diff' => $parentDiff,
+                'child_diffs' => $childDiffs
+            ];
+        });
+
+        if ($type == LineOfCodeController::BEER) {
+            return view('line_of_code_beer/compare_all', compact('comparedData', 'statusLabel', 'monthName'));
+        }
+
+        return view('line_of_code/compare_all', compact('comparedData', 'statusLabel', 'monthName'));
     }
     
     /**
