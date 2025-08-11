@@ -670,7 +670,7 @@ function copyRowDataFromModal(childData) {
     }
 
     // Gán giá trị vào các input/textarea trong dòng đó
-    $targetRow.find('input[name="fileChange"]').val(childData.file_changes ?? '');
+    $targetRow.find('input[name="fileChange"]').val(childData.file_change ?? '');
     $targetRow.find('input[name="php"]').val(childData.php ?? '');
     $targetRow.find('input[name="js"]').val(childData.js ?? '');
     $targetRow.find('input[name="css"]').val(childData.css ?? '');

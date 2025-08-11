@@ -132,6 +132,7 @@ class CsvImport implements ToCollection, WithHeadingRow
                         'total'        => $row['total'] ?? 0,
                         'branch'       => $row['branch'] ?? 'temp',
                         'notes'        => $row['notes'] ?? 'temp',
+                        'run_time'     => Carbon::now(),
                         'path'         => CsvImport::processPath($month, $valueIndexKey, $row['parent_task'], $row['source_type']),
                     ]);
                 }
@@ -160,6 +161,7 @@ class CsvImport implements ToCollection, WithHeadingRow
                         'total'        => $row['total'] ?? 0,
                         'branch'       => $row['branch'] ?? 'temp',
                         'notes'        => $row['notes'] ?? 'temp',
+                        'run_time'     => Carbon::now(),
                         'path'         => CsvImport::processPath($month, $valueIndexKey, $row['child_task'], $row['source_type']),
                     ]);
                 }
