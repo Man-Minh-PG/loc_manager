@@ -8,183 +8,190 @@
   data-assets-path="{{asset('../assets/')}}"
   data-template="vertical-menu-template-free"
   data-style="light">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Lines of code Manager</title>
+<head>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <meta name="description" content="" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{asset('../assets/img/favicon/favicon.ico')}}" />
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
-      rel="stylesheet" />
+  <title>Lines of code Manager</title>
 
-    <link rel="stylesheet" href="{{asset('../assets/vendor/fonts/remixicon/remixicon.css')}}" />
+  <meta name="description" content="" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{{asset('../assets/img/favicon/favicon.ico')}}" />
 
-    <!-- Menu waves for no-customizer fix -->
-    <link rel="stylesheet" href="{{asset('../assets/vendor/libs/node-waves/node-waves.css')}}" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
+    rel="stylesheet" />
 
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="{{asset('../assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="{{asset('../assets/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="{{asset('../assets/css/demo.css')}}" /> <!-- my_custom css 01 -->
-    <link rel="stylesheet" href="{{asset('../assets/css/custom.css')}}" /> <!-- my_custom css 02 -->
-    <link rel="stylesheet" href="{{asset('../assets/css/menubar.css')}}" />
+  <link rel="stylesheet" href="{{asset('../assets/vendor/fonts/remixicon/remixicon.css')}}" />
 
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{asset('../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
+  <!-- Menu waves for no-customizer fix -->
+  <link rel="stylesheet" href="{{asset('../assets/vendor/libs/node-waves/node-waves.css')}}" />
 
-    <!-- Page CSS -->
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="{{asset('../assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="{{asset('../assets/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="{{asset('../assets/css/demo.css')}}" /> <!-- my_custom css 01 -->
+  <link rel="stylesheet" href="{{asset('../assets/css/custom.css')}}" /> <!-- my_custom css 02 -->
+  <link rel="stylesheet" href="{{asset('../assets/css/menubar.css')}}" />
 
-    <!-- Helpers -->
-    <script src="{{asset('../assets/vendor/js/helpers.js')}}"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{asset('../assets/js/config.js')}}"></script>
-    @yield('jsStart')
-  </head>
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" href="{{asset('../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
 
-  <body>
-    {{-- <header class="header" id="header">
+  <!-- Page CSS -->
+
+  <!-- Helpers -->
+  <script src="{{asset('../assets/vendor/js/helpers.js')}}"></script>
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script src="{{asset('../assets/js/config.js')}}"></script>
+  @yield('jsStart')
+</head>
+
+<body>
+  {{-- <header class="header" id="header">
       <div class="header_toggle"> <i class="bx bx-menu" id="header-toggle"></i> </div>
   </header> --}}
-    <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar full-screen-card">
-      <div class="layout-container card-body">
-        <!-- Menu -->
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar full-screen-card">
+    <div class="layout-container card-body">
+      <!-- Menu -->
 
-        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-          <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
-              <span class="app-brand-logo demo me-1">
-                <span style="color: var(--bs-primary)">
-                  <svg width="30" height="24" viewBox="0 0 250 196" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M12.3002 1.25469L56.655 28.6432C59.0349 30.1128 60.4839 32.711 60.4839 35.5089V160.63C60.4839 163.468 58.9941 166.097 56.5603 167.553L12.2055 194.107C8.3836 196.395 3.43136 195.15 1.14435 191.327C0.395485 190.075 0 188.643 0 187.184V8.12039C0 3.66447 3.61061 0.0522461 8.06452 0.0522461C9.56056 0.0522461 11.0271 0.468577 12.3002 1.25469Z"
-                      fill="currentColor" />
-                    <path
-                      opacity="0.077704"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M0 65.2656L60.4839 99.9629V133.979L0 65.2656Z"
-                      fill="black" />
-                    <path
-                      opacity="0.077704"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M0 65.2656L60.4839 99.0795V119.859L0 65.2656Z"
-                      fill="black" />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M237.71 1.22393L193.355 28.5207C190.97 29.9889 189.516 32.5905 189.516 35.3927V160.631C189.516 163.469 191.006 166.098 193.44 167.555L237.794 194.108C241.616 196.396 246.569 195.151 248.856 191.328C249.605 190.076 250 188.644 250 187.185V8.09597C250 3.64006 246.389 0.027832 241.935 0.027832C240.444 0.027832 238.981 0.441882 237.71 1.22393Z"
-                      fill="currentColor" />
-                    <path
-                      opacity="0.077704"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M250 65.2656L189.516 99.8897V135.006L250 65.2656Z"
-                      fill="black" />
-                    <path
-                      opacity="0.077704"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M250 65.2656L189.516 99.0497V120.886L250 65.2656Z"
-                      fill="black" />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M12.2787 1.18923L125 70.3075V136.87L0 65.2465V8.06814C0 3.61223 3.61061 0 8.06452 0C9.552 0 11.0105 0.411583 12.2787 1.18923Z"
-                      fill="currentColor" />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M12.2787 1.18923L125 70.3075V136.87L0 65.2465V8.06814C0 3.61223 3.61061 0 8.06452 0C9.552 0 11.0105 0.411583 12.2787 1.18923Z"
-                      fill="white"
-                      fill-opacity="0.15" />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
-                      fill="currentColor" />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
-                      fill="white"
-                      fill-opacity="0.3" />
-                  </svg>
-                </span>
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+          <a href="index.html" class="app-brand-link">
+            <span class="app-brand-logo demo me-1">
+              <span style="color: var(--bs-primary)">
+                <svg width="30" height="24" viewBox="0 0 250 196" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12.3002 1.25469L56.655 28.6432C59.0349 30.1128 60.4839 32.711 60.4839 35.5089V160.63C60.4839 163.468 58.9941 166.097 56.5603 167.553L12.2055 194.107C8.3836 196.395 3.43136 195.15 1.14435 191.327C0.395485 190.075 0 188.643 0 187.184V8.12039C0 3.66447 3.61061 0.0522461 8.06452 0.0522461C9.56056 0.0522461 11.0271 0.468577 12.3002 1.25469Z"
+                    fill="currentColor" />
+                  <path
+                    opacity="0.077704"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M0 65.2656L60.4839 99.9629V133.979L0 65.2656Z"
+                    fill="black" />
+                  <path
+                    opacity="0.077704"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M0 65.2656L60.4839 99.0795V119.859L0 65.2656Z"
+                    fill="black" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M237.71 1.22393L193.355 28.5207C190.97 29.9889 189.516 32.5905 189.516 35.3927V160.631C189.516 163.469 191.006 166.098 193.44 167.555L237.794 194.108C241.616 196.396 246.569 195.151 248.856 191.328C249.605 190.076 250 188.644 250 187.185V8.09597C250 3.64006 246.389 0.027832 241.935 0.027832C240.444 0.027832 238.981 0.441882 237.71 1.22393Z"
+                    fill="currentColor" />
+                  <path
+                    opacity="0.077704"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M250 65.2656L189.516 99.8897V135.006L250 65.2656Z"
+                    fill="black" />
+                  <path
+                    opacity="0.077704"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M250 65.2656L189.516 99.0497V120.886L250 65.2656Z"
+                    fill="black" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12.2787 1.18923L125 70.3075V136.87L0 65.2465V8.06814C0 3.61223 3.61061 0 8.06452 0C9.552 0 11.0105 0.411583 12.2787 1.18923Z"
+                    fill="currentColor" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12.2787 1.18923L125 70.3075V136.87L0 65.2465V8.06814C0 3.61223 3.61061 0 8.06452 0C9.552 0 11.0105 0.411583 12.2787 1.18923Z"
+                    fill="white"
+                    fill-opacity="0.15" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
+                    fill="currentColor" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
+                    fill="white"
+                    fill-opacity="0.3" />
+                </svg>
               </span>
-              <span class="app-brand-text demo menu-text fw-semibold ms-2">LineOfCode</span>
+            </span>
+            <span class="app-brand-text demo menu-text fw-semibold ms-2">LineOfCode</span>
+          </a>
+
+        </div>
+
+        <div class="menu-inner-shadow collapse" id="navbarToggleExternalContent"></div>
+
+        <ul class="menu-inner py-1">
+          <!-- Dashboards -->
+          <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons ri-home-smile-line"></i>
+              <div data-i18n="Dashboards">Dashboards PW</div>
+              {{-- <div class="badge bg-danger rounded-pill ms-auto">5</div>--}} {{-- Notifications --}}
             </a>
-
-          </div>
-
-          <div class="menu-inner-shadow collapse" id="navbarToggleExternalContent"></div>
-
-          <ul class="menu-inner py-1">
-            <!-- Dashboards -->
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ri-home-smile-line"></i>
-                <div data-i18n="Dashboards">Dashboards PW</div>
-                {{-- <div class="badge bg-danger rounded-pill ms-auto">5</div>--}} {{-- Notifications --}}
-              </a>
-              <ul class="menu-sub">
+            <ul class="menu-sub">
+              <!-- <li class="menu-item">
+                <a
+                  href="{{ Route('dashboard.index') }}"
+                  target="_blank"
+                  class="menu-link">
+                  <div data-i18n="CRM">Analytics</div>
+                  {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>{{-- Notifications --}}
+                </a>
+              </li> -->
+              <!-- <li class="menu-item">
+                <a href="{{ Route('loc.index', ['type' => config('common.PW')]) }}" class="menu-link">
+                  <div data-i18n="Analytics">Sumary</div>
+                </a>
+              </li> -->
+              <!-- <li class="menu-item">
+                <a
+                  href="{{ Route('loc.create', ['type' => config('common.PW')]) }}"
+                  target="_blank"
+                  class="menu-link">
+                  <div data-i18n="eCommerce">Add data</div>
+                  {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">CC</div> --}}
+                </a>
+              </li> -->
+              <li class="menu-item">
+                <a
+                  href="{{ Route('loc.show', ['type' => config('common.PW')]) }}"
+                  target="_blank"
+                  class="menu-link">
+                  <div data-i18n="eCommerce">Report</div>
+                  {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> --}}
+                </a>
+              </li>
+              <li class="menu-item">
+                <a
+                  href="{{ Route('loc.re_edit', ['type' => config('common.PW')]) }}"
+                  target="_blank"
+                  class="menu-link">
+                  <div data-i18n="eCommerce">Re update</div>
+                  <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                </a>
+              </li>
                 <li class="menu-item">
-                  <a
-                    href="{{ Route('dashboard.index') }}"
-                    target="_blank"
-                    class="menu-link">
-                    <div data-i18n="CRM">Analytics</div>
-                   {{--  <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>{{-- Notifications --}}
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{{ Route('loc.index', ['type' => config('common.PW')]) }}" class="menu-link">
-                    <div data-i18n="Analytics">Sumary</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="{{ Route('loc.create', ['type' => config('common.PW')]) }}"
-                    target="_blank"
-                    class="menu-link">
-                    <div data-i18n="eCommerce">Add data</div>
-                    {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">CC</div> --}}
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a 
-                    href="{{ Route('loc.show', ['type' => config('common.PW')]) }}"
-                    target="_blank"
-                    class="menu-link">
-                    <div data-i18n="eCommerce">Report</div>
-                    {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> --}}
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="{{ Route('loc.re_edit', ['type' => config('common.PW')]) }}"
-                    target="_blank"
-                    class="menu-link">
-                    <div data-i18n="eCommerce">Re update</div>
-                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
-                  </a>
-                </li>
-                {{-- <li class="menu-item">
+                <a href="{{ Route('loc.compareData', ['type' => config('common.PW')]) }}" class="menu-link">
+                  <!-- <i class="menu-icon tf-icons ri-tools-line"></i> -->
+                  <div data-i18n="Icons">Compare</div>
+                </a>
+              </li>
+              {{-- <li class="menu-item">
                   <a
                     href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-logistics-dashboard.html"
                     target="_blank"
@@ -202,11 +209,11 @@
                     <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
                   </a>
                 </li> --}}
-              </ul>
-            </li>
+            </ul>
+          </li>
 
-            <!-- Layouts -->
-            {{-- <li class="menu-item active open">
+          <!-- Layouts -->
+          {{-- <li class="menu-item active open">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-layout-2-line"></i>
                 <div data-i18n="Layouts">Layouts</div>
@@ -241,9 +248,9 @@
               </ul>
             </li> --}}
 
-       
-            <!-- Apps -->
-            {{-- <li class="menu-item">
+
+          <!-- Apps -->
+          {{-- <li class="menu-item">
               <a
                 href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-email.html"
                 target="_blank"
@@ -253,61 +260,67 @@
                 <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
               </a>
             </li> --}}
-    
-               
-            <!-- Components -->
-            {{-- <li class="menu-header mt-7"><span class="menu-header-text">Components</span></li> --}}
 
-            <li class="menu-header mt-7"><span class="menu-header-text">Beer</span></li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ri-home-smile-line"></i>
-                <div data-i18n="Dashboards">Dashboards Beer</div> 
-                {{-- <div class="badge bg-danger rounded-pill ms-auto">5</div>--}} {{-- Notifications --}}
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a
-                    href="{{ Route('dashboard.index') }}"
-                    target="_blank"
-                    class="menu-link">
-                    <div data-i18n="CRM">Analytics</div>
-                   {{--  <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>{{-- Notifications --}}
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{{ Route('loc.index', ['type' => config('common.BEER')]) }}" class="menu-link">
-                    <div data-i18n="Analytics">Sumary</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="{{ Route('loc.create', ['type' => config('common.BEER')]) }}"
-                    target="_blank"
-                    class="menu-link">
-                    <div data-i18n="eCommerce">Add data</div>
-                    {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> --}}
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="{{ Route('loc.show', ['type' => config('common.BEER')]) }}"
-                    target="_blank"
-                    class="menu-link">
-                    <div data-i18n="eCommerce">Report</div>
-                    {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> --}}
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="{{ Route('loc.re_edit', ['type' => config('common.BEER')]) }}"
-                    target="_blank"
-                    class="menu-link">
-                    <div data-i18n="eCommerce">Re update</div>
-                    <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
-                  </a>
-                </li>
-                {{-- <li class="menu-item">
+
+          <!-- Components -->
+          {{-- <li class="menu-header mt-7"><span class="menu-header-text">Components</span></li> --}}
+
+          <li class="menu-header mt-7"><span class="menu-header-text">Beer</span></li>
+          <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons ri-home-smile-line"></i>
+              <div data-i18n="Dashboards">Dashboards Beer</div>
+              {{-- <div class="badge bg-danger rounded-pill ms-auto">5</div>--}} {{-- Notifications --}}
+            </a>
+            <ul class="menu-sub">
+              <!-- <li class="menu-item">
+                <a
+                  href="{{ Route('dashboard.index') }}"
+                  target="_blank"
+                  class="menu-link">
+                  <div data-i18n="CRM">Analytics</div>
+                  {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>{{-- Notifications --}}
+                </a>
+              </li> -->
+              <!-- <li class="menu-item">
+                <a href="{{ Route('loc.index', ['type' => config('common.BEER')]) }}" class="menu-link">
+                  <div data-i18n="Analytics">Sumary</div>
+                </a>
+              </li> -->
+              <!-- <li class="menu-item">
+                <a
+                  href="{{ Route('loc.create', ['type' => config('common.BEER')]) }}"
+                  target="_blank"
+                  class="menu-link">
+                  <div data-i18n="eCommerce">Add data</div>
+                  {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> --}}
+                </a>
+              </li> -->
+              <li class="menu-item">
+                <a
+                  href="{{ Route('loc.show', ['type' => config('common.BEER')]) }}"
+                  target="_blank"
+                  class="menu-link">
+                  <div data-i18n="eCommerce">Report</div>
+                  {{-- <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div> --}}
+                </a>
+              </li>
+              <li class="menu-item">
+                <a
+                  href="{{ Route('loc.re_edit', ['type' => config('common.BEER')]) }}"
+                  target="_blank"
+                  class="menu-link">
+                  <div data-i18n="eCommerce">Re update</div>
+                  <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="{{ Route('loc.compareData', ['type' => config('common.BEER')]) }}" class="menu-link">
+                  <i class="menu-icon tf-icons ri-tools-line"></i>
+                  <div data-i18n="Icons">Compare</div>
+                </a>
+              </li>
+              {{-- <li class="menu-item">
                   <a
                     href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-logistics-dashboard.html"
                     target="_blank"
@@ -325,48 +338,48 @@
                     <div class="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
                   </a>
                 </li> --}}
-              </ul>
-            </li>
+            </ul>
+          </li>
 
 
-            <!-- Misc -->
-            <li class="menu-header mt-7"><span class="menu-header-text">Misc</span></li>
-            <li class="menu-item">
-              <a href="{{ Route('loc.importFile') }}" class="menu-link">
-                <i class="menu-icon tf-icons ri-remixicon-line"></i>
-                <div data-i18n="Icons">CSV Import</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a
-                href="https://github.com/themeselection/materio-bootstrap-html-admin-template-free/issues"
-                target="_blank"
-                class="menu-link">
-                <i class="menu-icon tf-icons ri-lifebuoy-line"></i>
-                <div data-i18n="Support">Support</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a
-                href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/documentation/"
-                target="_blank"
-                class="menu-link">
-                <i class="menu-icon tf-icons ri-article-line"></i>
-                <div data-i18n="Documentation">Documentation</div>
-              </a>
-            </li>
-          </ul>
-        </aside>
-        <!-- / Menu -->
+          <!-- Misc -->
+          <li class="menu-header mt-7"><span class="menu-header-text">Misc</span></li>
+          <li class="menu-item">
+            <a href="{{ Route('loc.importFile') }}" class="menu-link">
+              <i class="menu-icon tf-icons ri-remixicon-line"></i>
+              <div data-i18n="Icons">CSV Import</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a
+              href="https://github.com/themeselection/materio-bootstrap-html-admin-template-free/issues"
+              target="_blank"
+              class="menu-link">
+              <i class="menu-icon tf-icons ri-lifebuoy-line"></i>
+              <div data-i18n="Support">Support</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a
+              href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/documentation/"
+              target="_blank"
+              class="menu-link">
+              <i class="menu-icon tf-icons ri-article-line"></i>
+              <div data-i18n="Documentation">Documentation</div>
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!-- / Menu -->
 
-        <!-- Layout container -->
-        <div class="layout-page">
+      <!-- Layout container -->
+      <div class="layout-page">
 
-             <!-- Navbar -->
+        <!-- Navbar -->
 
-          <nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        <nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
           id="layout-navbar">
-          
+
           <div id="menu-fill-custom" class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
             <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
               <i class="ri-menu-fill ri-24px"></i>
@@ -389,14 +402,14 @@
                   class="form-control border-0 shadow-none mod-margin-bottom-11"
                   placeholder="Search..."
                   aria-label="Search..." />
-                  
+
                 <div class="form-check form-check-inline ms-2">
                   <input class="form-check-input" type="radio" name="sourceType" id="searchCheckboxParent" value="{{ config('common.parentTable') }}">
                   <label class="form-check-label" for="searchCheckboxParent">Parent</label>
                 </div>
                 <div class="form-check form-check-inline ms-2">
                   <input class="form-check-input" type="radio" name="sourceType" id="searchCheckboxChild" value="{{ config('common.childTable') }}">
-                  <label class="form-check-label" for="searchCheckboxChild">Child</label>                  
+                  <label class="form-check-label" for="searchCheckboxChild">Child</label>
                 </div>
               </div>
             </div>
@@ -461,9 +474,7 @@
                         <i class="flex-shrink-0 ri-file-text-line ri-22px me-3"></i>
                         <span class="flex-grow-1 align-middle">Billing</span>
                         <span
-                          class="flex-shrink-0 badge badge-center rounded-pill bg-danger h-px-20 d-flex align-items-center justify-content-center"
-                          >4</span
-                        >
+                          class="flex-shrink-0 badge badge-center rounded-pill bg-danger h-px-20 d-flex align-items-center justify-content-center">4</span>
                       </span>
                     </a>
                   </li>
@@ -487,17 +498,17 @@
 
         <!-- / Navbar -->
 
-            @yield('main')
-        </div>
-        <!-- / Layout page -->
+        @yield('main')
       </div>
-
-      <!-- Overlay -->
-      <div class="layout-overlay layout-menu-toggle"></div>
+      <!-- / Layout page -->
     </div>
-    <!-- / Layout wrapper -->
 
-    {{-- <div class="buy-now">
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+  </div>
+  <!-- / Layout wrapper -->
+
+  {{-- <div class="buy-now">
       <a
         href="https://themeselection.com/item/materio-bootstrap-html-admin-template/"
         target="_blank"
@@ -506,7 +517,7 @@
       >
     </div> --}}
 
-    {{-- <div class="buy-now">
+  {{-- <div class="buy-now">
       <a
         href="https://themeselection.com/item/materio-bootstrap-html-admin-template/"
         target="_blank"
@@ -515,26 +526,27 @@
       >
     </div> --}}
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="{{asset('../assets/vendor/libs/jquery/jquery.js')}}"></script>
-    <script src="{{asset('../assets/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{asset('../assets/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{asset('../assets/vendor/libs/node-waves/node-waves.js')}}"></script>
-    <script src="{{asset('../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
-    <script src="{{asset('../assets/vendor/js/menu.js')}}"></script>
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+  <script src="{{asset('../assets/vendor/libs/jquery/jquery.js')}}"></script>
+  <script src="{{asset('../assets/vendor/libs/popper/popper.js')}}"></script>
+  <script src="{{asset('../assets/vendor/js/bootstrap.js')}}"></script>
+  <script src="{{asset('../assets/vendor/libs/node-waves/node-waves.js')}}"></script>
+  <script src="{{asset('../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
+  <script src="{{asset('../assets/vendor/js/menu.js')}}"></script>
 
-    <!-- endbuild -->
+  <!-- endbuild -->
 
-    <!-- Vendors JS -->
+  <!-- Vendors JS -->
 
-    <!-- Main JS -->
-    <script src="{{asset('../assets/js/main.js')}}"></script>
-    <script src="{{asset('../assets/js/loc/menubar.js')}}"></script>
-    @yield('js')
-    <!-- Page JS -->
+  <!-- Main JS -->
+  <script src="{{asset('../assets/js/main.js')}}"></script>
+  <script src="{{asset('../assets/js/loc/menubar.js')}}"></script>
+  @yield('js')
+  <!-- Page JS -->
 
-    <!-- Place this tag before closing body tag for github widget button. -->
-    {{-- <script async defer src="https://buttons.github.io/buttons.js"></script> --}}
-  </body>
+  <!-- Place this tag before closing body tag for github widget button. -->
+  {{-- <script async defer src="https://buttons.github.io/buttons.js"></script> --}}
+</body>
+
 </html>

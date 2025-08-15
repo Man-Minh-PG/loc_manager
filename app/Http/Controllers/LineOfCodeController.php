@@ -11,11 +11,11 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 use App\Imports\CsvImport;
 
-use App\Http\Controllers\ToCollection;
-use App\Http\Controllers\WithHeadingRow;
-use App\Http\Controllers\Collection;
+// use App\Http\Controllers\ToCollection;
+// use App\Http\Controllers\WithHeadingRow;
+// use App\Http\Controllers\Collection;
 
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 
 
 class LineOfCodeController extends Controller
@@ -89,7 +89,9 @@ class LineOfCodeController extends Controller
     /**
      * Summary of create
      * Redirect to view import data for loc
+     * Notes: Use for import step by step with GUI ( system has import with CSV)
      * 
+     * Maintaince process after
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create($type)
@@ -121,7 +123,7 @@ class LineOfCodeController extends Controller
     public function importCsv(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:csv,txt|max:2048', // Kiểm tra định dạng file
+            'file' => 'required|mimes:csv,txt|max:2048',
         ]);
 
         $file = $request->file('file');
@@ -253,6 +255,15 @@ class LineOfCodeController extends Controller
         return view('line_of_code/option_all', compact('lstLocs', 'statusLabel','monthName'));
     }
 
+    /**
+     * Summary of compareData
+     * Compare data bettwen curent month with last month
+     * If last month empty data - return N/A in GUI (case: new task)
+     * 
+     * @param mixed $type
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function compareData($type, Request $request)
     {
         $parentTaskLoc = new ParentTaskLoc();
@@ -274,35 +285,35 @@ class LineOfCodeController extends Controller
 
         $statusLabel   = config('common');
 
-        // Gọi dữ liệu tháng hiện tại
+       // get data curent month
         $currentData = $parentTaskLoc->get_info_releated_loc([
             'month' => $month,
             'year' => $year,
             'type' => $type
         ]);
 
-        // Gọi dữ liệu tháng trước
+       // get data last month
         $lastData = $parentTaskLoc->get_info_releated_loc([
             'month' => $lastMonthDate->month,
             'year' => $lastMonthDate->year,
             'type' => $type
         ]);
 
-        // Map dữ liệu dễ so sánh
-        $lastMap = $lastData->keyBy('id');
-        $currentMap = $currentData->keyBy('id');
+        // Map data for easier comparison
+        $lastMap = $lastData->keyBy('number_task');
+        $currentMap = $currentData->keyBy('number_task');
 
         $comparedData = $currentMap->map(function ($currentParent) use ($lastMap) {
-            $lastParent = $lastMap->get($currentParent->id);
+            $lastParent = $lastMap->get($currentParent->number_task);
 
             $parentDiff = $lastParent ? $lastParent->total - $currentParent->total : null;
 
             // So sánh child
-            $currentChildren = $currentParent->childTasks->keyBy('id');
-            $lastChildren = $lastParent ? $lastParent->childTasks->keyBy('id') : collect();
+            $currentChildren = $currentParent->childTasks->keyBy('number_task');
+            $lastChildren = $lastParent ? $lastParent->childTasks->keyBy('number_task') : collect();
 
             $childDiffs = $currentChildren->map(function ($currentChild) use ($lastChildren) {
-                $lastChild = $lastChildren->get($currentChild->id);
+                $lastChild = $lastChildren->get($currentChild->number_task);
 
                 return [
                     'current_total' => $currentChild->total,

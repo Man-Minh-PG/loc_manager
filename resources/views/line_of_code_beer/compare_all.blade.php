@@ -114,7 +114,7 @@
                     {{-- CHILDREN --}}
                     @foreach($parent->childTasks as $child)
                     @php
-                    $childDiff = $childDiffs[$child->id] ?? null;
+                    $childDiff = $childDiffs[$child->number_task] ?? null;
                     @endphp
                     <tr class="table-primary">
                         <td>{{ $counter }}</td>
