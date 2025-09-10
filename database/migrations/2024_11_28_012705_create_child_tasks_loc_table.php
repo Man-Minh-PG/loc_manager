@@ -33,11 +33,11 @@ class CreateChildTasksLocTable extends Migration
             $table->smallInteger('status');
             $table->smallInteger('source_type');
             $table->smallInteger('file_change');
-            $table->smallInteger('php');
-            $table->smallInteger('js');
-            $table->smallInteger('css');
-            $table->smallInteger('tpl');
-            $table->smallInteger('total');
+            $table->Integer('php');
+            $table->Integer('js');
+            $table->Integer('css');
+            $table->Integer('tpl');
+            $table->Integer('total');
             $table->string('branch')->nullable(true);
             $table->string('notes', 1000)->nullable(true);
             $table->string('path')->nullable(true);
