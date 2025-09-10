@@ -306,7 +306,8 @@ class LineOfCodeController extends Controller
         $comparedData = $currentMap->map(function ($currentParent) use ($lastMap) {
             $lastParent = $lastMap->get($currentParent->number_task);
 
-            $parentDiff = $lastParent ? $lastParent->total - $currentParent->total : null;
+            // $parentDiff = $lastParent ? $lastParent->total - $currentParent->total : null;
+            $parentDiff = $lastParent ? $currentParent->total - $lastParent->total : null; // change logic
 
             // So sánh child
             $currentChildren = $currentParent->childTasks->keyBy('number_task');
@@ -317,8 +318,9 @@ class LineOfCodeController extends Controller
 
                 return [
                     'current_total' => $currentChild->total,
-                    'last_total' => $lastChild->total ?? null,
-                    'diff' => isset($lastChild) ? ($lastChild->total - $currentChild->total) : null
+                    'last_total'    => $lastChild->total ?? null,
+                    'diff'          => isset($lastChild) ? ( $currentChild->total - $lastChild->total ) : null
+                    // 'diff' => isset($lastChild) ? ($lastChild->total - $currentChild->total) : null
                 ];
             });
 
@@ -581,15 +583,25 @@ class LineOfCodeController extends Controller
                         $totalTpl    += $child->tpl ?? 0;
                         $total       += $child->total ?? 0;
                     }
-    
-                    $parent->update([
-                        'file_change' => $totalChange,
-                        'php'         => $totalPhp,
-                        'js'          => $totalJs,
-                        'css'         => $totalCss,
-                        'tpl'         => $totalTpl,
-                        'total'       => $total
-                    ]);
+
+                    if($total != 0) { // fix bug update data = 0
+                       $parent->update([
+                            'file_change' => $totalChange,
+                            'php'         => $totalPhp,
+                            'js'          => $totalJs,
+                            'css'         => $totalCss,
+                            'tpl'         => $totalTpl,
+                            'total'       => $total
+                        ]); 
+                    }                 
+                    // $parent->update([
+                    //     'file_change' => $parent->file_change + $totalChange,
+                    //     'php'         => $parent->php + $totalPhp,
+                    //     'js'          => $parent->js + $totalJs,
+                    //     'css'         => $parent->css + $totalCss,
+                    //     'tpl'         => $parent->tpl + $totalTpl,
+                    //     'total'       => $parent->total + $total
+                    // ]); // fix temp logic 
                 }
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
                 continue;

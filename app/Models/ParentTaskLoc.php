@@ -90,7 +90,14 @@ class ParentTaskLoc extends Model
                 'year'  => Carbon::now()->year
             ];
         } // default get month current
-    
+
+        // $query = ParentTaskLoc::with('childTasks')
+        //     ->whereYear('created_at', $conditions['year'])
+        //     ->whereMonth('created_at', $conditions['month'])
+        //     ->where('project_type', $conditions['type']);
+
+        // dd($query->toSql(), $query->getBindings()); // add debug SQL
+
         // use Eloquent
         return ParentTaskLoc::with('childTasks')
         ->whereYear('created_at', $conditions['year'])

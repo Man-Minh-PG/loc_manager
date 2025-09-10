@@ -205,13 +205,14 @@ class CsvImport implements ToCollection, WithHeadingRow
                             ->firstOrFail();
 
                         $parentTask->update([
-                            'file_change' => $fileChange,
-                            'php'         => $php,
-                            'js'          => $js,
-                            'css'         => $css,
-                            'tpl'         => $tpl,
-                            'total'       => $total
+                            'file_change' => (int) $fileChange,
+                            'php'         => (int) $php,
+                            'js'          => (int) $js,
+                            'css'         => (int) $css,
+                            'tpl'         => (int) $tpl,
+                            'total'       => (int) $total
                         ]);
+
                     } catch (\Exception $e) {
                         $task = $row['task'];
                         $errors[] = "Không tìm thấy bản ghi với task: $task ";
@@ -229,7 +230,7 @@ class CsvImport implements ToCollection, WithHeadingRow
                
                     try {
                         $updated = ChildTaskLoc::where('number_task', $row['task'])
-                            // ->where('source_type', $sourceType)
+                            ->where('source_type', $sourceType) // fix update number task is simular 157642 sys - ec
                             ->whereMonth('created_at',  $month) // Fix temp
                             ->firstOrFail();
                         

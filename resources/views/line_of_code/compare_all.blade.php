@@ -96,7 +96,7 @@
                         <td>{{ $parent->total }}</td>
                         <td>
                             @if($parentDiff !== null)
-                            <span class="{{ $parentDiff == 0 ? '' : ($parentDiff > 0 ? 'text-success' : 'text-danger') }}">
+                            <span class="{{ $parentDiff == 0 ? 'text-warning' : ($parentDiff > 0 ? 'text-success' : 'text-danger') }}">
                                 {{ $parentDiff > 0 ? '+' : '' }}{{ $parentDiff }}
                             </span>
                             @else
@@ -165,7 +165,7 @@
                         <td>{{ $child->total }}</td>
                         <td>
                             @if($childDiff && $childDiff['diff'] !== null)
-                            <span class="{{ $childDiff['diff'] == 0 ? '' : ($childDiff['diff'] > 0 ? 'text-success' : 'text-danger') }}">
+                            <span class="{{ $childDiff['diff'] == 0 ? 'text-warning' : ($childDiff['diff'] > 0 ? 'text-success' : 'text-danger') }}">
                                 {{ $childDiff['diff'] > 0 ? '+' : '' }}{{ $childDiff['diff'] }}
                             </span>
                             @else
