@@ -677,7 +677,7 @@ function copyRowDataFromModal(childData) {
     $targetRow.find('input[name="tpl"]').val(childData.tpl ?? '');
     $targetRow.find('input[name="total"]').val(childData.total ?? '');
     $targetRow.find('textarea[name="branch"]').val(childData.branch ?? '');
-    $targetRow.find('textarea[name="notes"]').val(childData.notes ?? '');
+    $targetRow.find('textarea[name="notes"]').val('old - ' + childData.notes ?? '');
     $targetRow.find('select[name="status"]').val(childData.status ?? '');
 
      // ✅ Bỏ focus khỏi nút copy trước khi đóng modal
