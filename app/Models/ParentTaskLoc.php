@@ -106,6 +106,33 @@ class ParentTaskLoc extends Model
         ->get();
     }
 
+    public function get_info_releated_loc_with_list_number_task($list_number_task = []) {
+        if(empty($list_number_task) || !is_array($list_number_task)) {
+            return [];
+        }
+
+        $current_month = Carbon::now()->month;
+
+        // use Eloquent
+       return ParentTaskLoc::with('childTasks')
+        ->whereIn('parent_tasks_loc.number_task', $list_number_task)
+        ->whereMonth('created_at', '<>', $current_month)
+        ->orderBy('created_at', 'ASC') // Sắp xếp theo ngày gần nhất
+        ->get();
+        // ->groupBy('number_task'); // Nhóm theo number_task sau khi truy vấn
+
+        // $query = ParentTaskLoc::with('childTasks')
+        //     ->whereIn('parent_tasks_loc.number_task', $list_number_task)
+        //     ->whereMonth('created_at', '<>', $current_month)
+        //     ->orderBy('created_at', 'desc'); // Sắp xếp theo ngày gần nhất
+
+        // // Debug SQL và các giá trị bindings
+        // dd($query->toSql(), $query->getBindings());
+
+        // // Thực hiện truy vấn và nhóm theo number_task sau khi truy vấn
+        // $results = $query->get()->groupBy('number_task');        
+    }
+
     public function get_info_releated_loc_with_parent_id($id_parent) {
         if(empty($id_parent)) {
             return [];

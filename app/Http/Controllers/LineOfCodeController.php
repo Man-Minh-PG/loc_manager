@@ -292,12 +292,17 @@ class LineOfCodeController extends Controller
             'type' => $type
         ]);
 
-       // get data last month
-        $lastData = $parentTaskLoc->get_info_releated_loc([
-            'month' => $lastMonthDate->month,
-            'year' => $lastMonthDate->year,
-            'type' => $type
-        ]);
+        // get data last month
+        // $lastData = $parentTaskLoc->get_info_releated_loc([
+        //     'month' => $lastMonthDate->month,
+        //     'year' => $lastMonthDate->year,
+        //     'type' => $type
+        // ]);
+        
+        // Update logic select old data
+        $lastData = $parentTaskLoc->get_info_releated_loc_with_list_number_task(
+            $currentData->pluck('number_task')->toArray()
+        );
 
         // Map data for easier comparison
         $lastMap = $lastData->keyBy('number_task');
